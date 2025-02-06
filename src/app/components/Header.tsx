@@ -1,17 +1,14 @@
 'use client';
 
-import { Button, Navbar, TextInput } from 'flowbite-react';
-import Link from 'next/link';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { FaMoon, FaSun } from 'react-icons/fa';
-import { usePathname } from 'next/navigation';
-import { useTheme } from 'next-themes';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
+import { Button, Navbar, TextInput } from 'flowbite-react';
+import { useTheme } from 'next-themes';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-
-const DEFAULT_THEME = 'light';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 export default function Header() {
   const path = usePathname();
@@ -65,15 +62,15 @@ export default function Header() {
           className="w-12 h-10 hidden sm:inline"
           color="gray"
           pill
-          onClick={() => setTheme(theme === 'dark' ? DEFAULT_THEME : 'dark')}
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         >
-          {theme === 'dark' ? <FaMoon /> : <FaSun />}
+          {theme === 'light' ? <FaSun /> : <FaMoon />}
         </Button>
 
         <SignedIn>
           <UserButton
             appearance={{
-              baseTheme: theme === 'dark' ? dark : undefined,
+              baseTheme: theme === 'light' ? dark : undefined,
             }}
             userProfileUrl="/dashboard?tab=profile"
           />
