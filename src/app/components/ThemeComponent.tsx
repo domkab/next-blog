@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 export default function ThemeComponent({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
-  // Ensure component only renders once mounted (prevents hydration mismatch)
   useEffect(() => {
     setMounted(true);
   }, []);
