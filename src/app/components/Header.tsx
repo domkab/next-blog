@@ -1,6 +1,6 @@
 'use client';
 
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { Button, Navbar, TextInput } from 'flowbite-react';
 import { useTheme } from 'next-themes';
@@ -70,18 +70,18 @@ export default function Header() {
         <SignedIn>
           <UserButton
             appearance={{
-              baseTheme: theme === 'light' ? dark : undefined,
+              baseTheme: theme === 'light' ? undefined : dark,
             }}
             userProfileUrl="/dashboard?tab=profile"
           />
         </SignedIn>
         <SignedOut>
-          <Link href='/sign-in'>
-            <Button gradientDuoTone='redToYellow' outline>
-              {/* you can change colour later */}
-              Sign In
-            </Button>
-          </Link>
+          <Button gradientDuoTone='redToYellow' outline>
+            {/* Sign In */}
+            <SignInButton />
+          </Button>
+          {/* <SignUpButton /> */}
+
         </SignedOut>
         <Navbar.Toggle />
       </div>
