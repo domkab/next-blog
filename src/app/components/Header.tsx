@@ -1,6 +1,6 @@
 'use client';
 
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { Button, Navbar, TextInput } from 'flowbite-react';
 import { useTheme } from 'next-themes';
@@ -76,10 +76,11 @@ export default function Header() {
           />
         </SignedIn>
         <SignedOut>
-          <Button gradientDuoTone='redToYellow' outline>
-            {/* Sign In */}
-            <SignInButton />
-          </Button>
+          <Link href='sign-in'>
+            <Button gradientDuoTone='redToYellow' outline>
+              Sign In
+            </Button>
+          </Link>
           {/* <SignUpButton /> */}
 
         </SignedOut>
