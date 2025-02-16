@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from './components/Header';
 import { ClerkProvider } from '@clerk/nextjs';
 import ThemeComponent from './components/ThemeComponent';
+import { Suspense } from 'react';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ThemeComponent>
-            <Header />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Header />
+            </Suspense>
             {children}
           </ThemeComponent>
         </body>
