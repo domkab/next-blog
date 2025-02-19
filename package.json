@@ -18,7 +18,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "svix": "^1.57.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
