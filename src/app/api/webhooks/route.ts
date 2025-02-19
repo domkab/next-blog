@@ -57,11 +57,15 @@ export async function POST(req: Request) {
   }
 
   if (evt.type === 'user.updated') {
-    console.log('user is updated:', evt.data.id, evt.data)
+    console.log('user is updated:', evt.data.id, evt.data.first_name, evt.data)
   }
 
   if (evt.type === 'user.deleted') {
     console.log('user deleted:', evt.data.id, evt.data.deleted)
+  }
+
+  if (evt.type === 'session.created') {
+    console.log('session created:', evt.type, evt.data.user_id, evt.data.object)
   }
 
   return new Response('Webhook received', { status: 200 })
