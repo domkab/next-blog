@@ -53,7 +53,7 @@ export async function POST(req: Request) {
   console.log('Webhook payload:', body)
 
   if (evt.type === 'user.created') {
-    console.log('userId:', evt.data.id)
+    console.log('created user with userId:', evt.data.id)
   }
 
   if (evt.type === 'user.updated') {
