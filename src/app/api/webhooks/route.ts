@@ -68,5 +68,9 @@ export async function POST(req: Request) {
     console.log('session created:', evt.type, evt.data.user_id, evt.data.object)
   }
 
+  if (evt.type === 'session.ended') {
+    console.log('session ended:', evt.type, evt.data.user_id, evt.data.object)
+  }
+
   return new Response('Webhook received', { status: 200 })
 }
