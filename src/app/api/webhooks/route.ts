@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
+import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
+import { CreateOrUpdateUser, deleteUser } from '@/lib/actions/user'
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
@@ -47,21 +48,65 @@ export async function POST(req: Request) {
 
   // Do something with payload
   // For this guide, log payload to console
-  const { id } = evt.data
-  const eventType = evt.type
+  const { id } = evt?.data
+  const eventType = evt?.type
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
   console.log('Webhook payload:', body)
 
-  if (evt.type === 'user.created') {
-    console.log('created user with userId:', evt.data.id)
+  if (eventType === 'user.created' || evt.type === 'user.updated') {
+    const {
+      id,
+      first_name,
+      last_name,
+      image_url,
+      email_addresses,
+      username
+    } = evt.data;
+
+    try {
+      const user = await CreateOrUpdateUser(
+        id,
+        first_name,
+        last_name,
+        image_url,
+        email_addresses,
+        username
+      );
+
+      const client = await clerkClient();
+
+      if (user && eventType === 'user.created') {
+        try {
+          await client.users.update.updateUserMetadata(id, {
+            publicMetadata: {
+              userMongoId: user._id,
+              isAdmin: user.isAdmin,
+            }
+          }
+
+          )
+        } catch (error) {
+          console.log('Error updating user metadata:', error);
+
+        }
+      }
+    } catch (error) {
+      console.log('Error creating or updatng user:', error);
+      return new Response('Error occured', { status: 400 })
+    };
   }
 
-  if (evt.type === 'user.updated') {
-    console.log('user is updated:', evt.data.id, evt.data.first_name, evt.data)
-  }
+  if (eventType === 'user.deleted') {
+    const { id } = evt.data;
 
-  if (evt.type === 'user.deleted') {
-    console.log('user deleted:', evt.data.id, evt.data.deleted)
+    if (id) {
+      try {
+        await deleteUser(id);
+      } catch (error) {
+        console.log('Error while deleting user:', error);
+        return new Response('Error occured', { status: 400 })
+      }
+    }
   }
 
   if (evt.type === 'session.created') {
