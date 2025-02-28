@@ -1,7 +1,7 @@
 import User from '../models/userModel';
 import { connect } from '../mongodb/mongoose';
 
-interface ClerkEmail {
+export interface ClerkEmail {
   email_address: string;
 }
 

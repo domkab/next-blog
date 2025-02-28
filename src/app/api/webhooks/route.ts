@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
@@ -63,37 +64,39 @@ export async function POST(req: Request) {
       username
     } = evt.data;
 
-    try {
-      const user = await CreateOrUpdateUser(
-        id,
-        first_name,
-        last_name,
-        image_url,
-        email_addresses,
-        username
-      );
+    console.log(evt.data);
 
-      const client = await clerkClient();
+    // try {
+    //   const user = await CreateOrUpdateUser(
+    //     id,
+    //     first_name,
+    //     last_name,
+    //     image_url,
+    //     email_addresses,
+    //     username
+    //   );
 
-      if (user && eventType === 'user.created') {
-        try {
-          await client.users.update.updateUserMetadata(id, {
-            publicMetadata: {
-              userMongoId: user._id,
-              isAdmin: user.isAdmin,
-            }
-          }
+    //   const client = await clerkClient();
 
-          )
-        } catch (error) {
-          console.log('Error updating user metadata:', error);
+    //   if (user && eventType === 'user.created') {
+    //     try {
+    //       await client.users.updateUserMetadata(id, {
+    //         publicMetadata: {
+    //           userMongoId: user._id,
+    //           isAdmin: user.isAdmin,
+    //         }
+    //       }
 
-        }
-      }
-    } catch (error) {
-      console.log('Error creating or updatng user:', error);
-      return new Response('Error occured', { status: 400 })
-    };
+    //       )
+    //     } catch (error) {
+    //       console.log('Error updating user metadata:', error);
+
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.log('Error creating or updatng user:', error);
+    //   return new Response('Error occured', { status: 400 })
+    // };
   }
 
   if (eventType === 'user.deleted') {
