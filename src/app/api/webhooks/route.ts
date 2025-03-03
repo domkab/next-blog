@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
-import { CreateOrUpdateUser, deleteUser } from '@/lib/actions/user'
+import { clerkClient, UserJSON, WebhookEvent } from '@clerk/nextjs/server'
+import { ClerkEmail, CreateOrUpdateUser, deleteUser } from '@/lib/actions/user'
+import { ClerkUserData } from '@/app/types/clerkUserData'
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
@@ -62,41 +63,39 @@ export async function POST(req: Request) {
       image_url,
       email_addresses,
       username
-    } = evt.data;
+    } = evt.data as ClerkUserData;
 
-    console.log(evt.data);
+    try {
+      const user = await CreateOrUpdateUser(
+        id,
+        first_name,
+        last_name,
+        image_url,
+        email_addresses,
+        username
+      );
 
-    // try {
-    //   const user = await CreateOrUpdateUser(
-    //     id,
-    //     first_name,
-    //     last_name,
-    //     image_url,
-    //     email_addresses,
-    //     username
-    //   );
+      const client = await clerkClient();
 
-    //   const client = await clerkClient();
+      if (user && eventType === 'user.created') {
+        try {
+          await client.users.updateUserMetadata(id, {
+            publicMetadata: {
+              userMongoId: user._id,
+              isAdmin: user.isAdmin,
+            }
+          }
 
-    //   if (user && eventType === 'user.created') {
-    //     try {
-    //       await client.users.updateUserMetadata(id, {
-    //         publicMetadata: {
-    //           userMongoId: user._id,
-    //           isAdmin: user.isAdmin,
-    //         }
-    //       }
+          )
+        } catch (error) {
+          console.log('Error updating user metadata:', error);
 
-    //       )
-    //     } catch (error) {
-    //       console.log('Error updating user metadata:', error);
-
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.log('Error creating or updatng user:', error);
-    //   return new Response('Error occured', { status: 400 })
-    // };
+        }
+      }
+    } catch (error) {
+      console.log('Error creating or updatng user:', error);
+      return new Response('Error occured', { status: 400 })
+    };
   }
 
   if (eventType === 'user.deleted') {
