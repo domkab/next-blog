@@ -84,12 +84,13 @@ export async function POST(req: Request) {
               userMongoId: user._id,
               isAdmin: user.isAdmin,
             }
-          }
-
-          )
+          });
         } catch (error) {
           console.log('Error updating user metadata:', error);
 
+          return new Response(
+            'Error occured while creating user', { status: 400 }
+          )
         }
       }
     } catch (error) {
