@@ -26,5 +26,4 @@ export const connect = async () => {
       throw new Error(`Database connection error: ${String(error)}`);
     }
   }
-
 }
