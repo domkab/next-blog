@@ -43,7 +43,7 @@ export default function Header() {
         </span>
         Prices
       </Link>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="hidden lg:block">
         <TextInput
           type="text"
           placeholder="Search..."
