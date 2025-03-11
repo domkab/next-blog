@@ -1,19 +1,21 @@
 "use client"
 
+import { app } from '@/firebase';
 import { useUser } from '@clerk/nextjs';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import Image from 'next/image';
-import { app } from '@/firebase';
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 import 'react-quill-new/dist/quill.snow.css';
 
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
+import { FormData, PostCategory } from '@/types';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
+import axios from 'axios';
 import {
   getDownloadURL,
   getStorage,
@@ -21,19 +23,18 @@ import {
   uploadBytesResumable
 } from 'firebase/storage';
 
-interface FormData {
-  image?: string;
-}
-
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
-
-
-
   const [file, setFile] = useState<null | File>(null);
   const [imageUploadProgress, setImageUploadProgress] = useState<string | null>(null);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>({ title: '', content: '', category: '' });
+  const [publishError, setPublishError] = useState<string | null>(null);
+
+  console.log(formData);
+  if (publishError) {
+    console.log(publishError);
+  }
 
   const handleUploadImage = async () => {
     try {
@@ -75,6 +76,33 @@ export default function CreatePostPage() {
     }
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const controller = new AbortController();
+    try {
+      const { data, status } = await axios.post('/api/post/create', {
+        ...formData,
+        userMongoId: user?.publicMetadata.userMongoId,
+      }, {
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (status !== 200) {
+        setPublishError(data.message);
+        return;
+      }
+    } catch (error: unknown) {
+      if (axios.isCancel(error)) {
+        console.log('Request canceled', error.message);
+      } else {
+        setPublishError(`Something went wrong: ${error}`);
+      }
+    }
+  }
+
   if (!isLoaded || !user) {
     return null;
   }
@@ -86,20 +114,28 @@ export default function CreatePostPage() {
           Create a post
         </h1>
 
-        <form className='flex flex-col gap-4'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
               type='text'
               placeholder='Title'
               id='title'
               className='flex-1'
+              onChange={(e) => {
+                setFormData({...formData, title: e.target.value})
+              }}
             />
 
-            <Select>
-              <option value='uncategorized'>Select a category</option>
-              <option value='javascript'>JavaScript</option>
-              <option value='reactjs'>React.js</option>
-              <option value='nextjs'>next.js</option>
+            <Select
+              onChange={(e) => {
+                setFormData({ ...formData, category: e.target.value })
+              }}
+              defaultValue={PostCategory.Uncategorized}
+            >
+              <option value={PostCategory.Uncategorized}>Select a category</option>
+              <option value={PostCategory.JavaScript}>JavaScript</option>
+              <option value={PostCategory.ReactJS}>React.js</option>
+              <option value={PostCategory.NextJS}>next.js</option>
             </Select>
           </div>
 
@@ -153,7 +189,9 @@ export default function CreatePostPage() {
             theme='snow'
             placeholder='Write something...'
             className='h-72 mb-12'
-          // required
+            onChange={(value) => {
+              setFormData({ ...formData, content: value })
+            }}
           />
 
           <Button type='submit' gradientDuoTone='purpleToPink'>
