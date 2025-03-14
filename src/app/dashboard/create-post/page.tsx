@@ -4,9 +4,8 @@ import { app } from '@/firebase';
 import { useUser } from '@clerk/nextjs';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
 import Image from 'next/image';
-
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -30,8 +29,8 @@ export default function CreatePostPage() {
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({ title: '', content: '', category: '' });
   const [publishError, setPublishError] = useState<string | null>(null);
+  const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
 
-  console.log(formData);
   if (publishError) {
     console.log(publishError);
   }
@@ -94,6 +93,16 @@ export default function CreatePostPage() {
         setPublishError(data.message);
         return;
       }
+
+      localStorage.setItem('publishSuccess', 'Post published successfully!');
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000)
+
+      setFile(null);
+      setPublishSuccess('Post published successfully!');
+
     } catch (error: unknown) {
       if (axios.isCancel(error)) {
         console.log('Request canceled', error.message);
@@ -114,6 +123,13 @@ export default function CreatePostPage() {
           Create a post
         </h1>
 
+        {publishSuccess && (
+          <Alert color='success'>{publishSuccess}</Alert>
+        )}
+        {publishError && (
+          <Alert color='failure'>{publishError}</Alert>
+        )}
+
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
@@ -121,8 +137,9 @@ export default function CreatePostPage() {
               placeholder='Title'
               id='title'
               className='flex-1'
+              value={formData.title}
               onChange={(e) => {
-                setFormData({...formData, title: e.target.value})
+                setFormData({ ...formData, title: e.target.value })
               }}
             />
 
@@ -192,6 +209,8 @@ export default function CreatePostPage() {
             onChange={(value) => {
               setFormData({ ...formData, content: value })
             }}
+            value={formData.content}
+            readOnly={!!imageUploadProgress}
           />
 
           <Button type='submit' gradientDuoTone='purpleToPink'>
