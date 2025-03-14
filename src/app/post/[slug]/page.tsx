@@ -18,20 +18,27 @@ export default async function PostPage({ params }: PostPageProps) {
   console.log('post: ', post);
   const { slug } = await params;
 
+  const controller = new AbortController();
   try {
     const { data } = await axios.post(
       `${process.env.URL}api/post/get`,
       { slug },
-      { headers: { 'Cache-control': 'no-store' } }
-    )
+      {
+        headers: { 'Cache-control': 'no-store' },
+        signal: controller.signal,
+      }
+    );
 
     console.log(data);
     post = data.posts[0];
     console.log('post from data:', post);
-
-  } catch (error) {
-    console.error('Error fetching post:', error);
-    post = { title: 'Failed to load post' }
+  } catch (error: unknown) {
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      console.error('Error fetching post:', error);
+      post = { title: 'Failed to load post' };
+    }
   }
 
   if (!post || post.title === 'Failed to load post') {
