@@ -6,13 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
 
-interface PostPageProps {
-  params: {
-    slug: string;
-  };
-}
 
-export default async function PostPage({ params }: PostPageProps) {
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   let post = null;
 
   console.log('post: ', post);
