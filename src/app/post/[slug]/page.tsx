@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import RecentPosts from '@/app/components/RecentPosts';
 
 interface PostPageProps {
   params: {
@@ -11,7 +12,7 @@ interface PostPageProps {
   };
 }
 
-export default async function PostPagePostPage({ params }: PostPageProps) {
+export default async function PostPage({ params }: PostPageProps) {
   let post = null;
 
   console.log('post: ', post);
@@ -79,6 +80,8 @@ export default async function PostPagePostPage({ params }: PostPageProps) {
       <div className='max-w-4xl mx-auto w-full'>
         <CallToAction />
       </div>
+
+      <RecentPosts limit={3} />
     </main>
   );
 }

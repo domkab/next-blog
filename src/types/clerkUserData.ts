@@ -1,6 +1,6 @@
 import { ClerkEmail } from '@/lib/actions/user';
 
-export type ClerkUserData = {
+export interface ClerkUserData {
   id: string;
   first_name: string;
   last_name: string;

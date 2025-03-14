@@ -1,5 +1,5 @@
 export interface FormData {
-  title: string
+  title: string;
   content: string;
   image?: string;
   category: string;
