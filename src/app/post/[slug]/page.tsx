@@ -8,7 +8,7 @@ import RecentPosts from '@/app/components/RecentPosts';
 
 interface PostPageProps {
   params: {
-    slug: Promise<{ slug: string }>;
+    slug: string;
   };
 }
 
