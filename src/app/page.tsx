@@ -10,7 +10,7 @@ export default async function Home() {
 
   try {
     const { data } = await axios.post(
-      `${process.env.URL}api/post/get`,
+      `${process.env.NEXT_PUBLIC_URL}api/post/get`,
       { limit: 9, order: 'desc' },
       {
         headers: { 'Cache-control': 'no-store' },

@@ -12,8 +12,8 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 
 export default function Header() {
   const path = usePathname();
-  const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const searchParams = useSearchParams();
 
@@ -27,6 +27,7 @@ export default function Header() {
   useEffect(() => {
     const urlParams = new URLSearchParams(searchParams.toString());
     const searchTermFromUrl = urlParams.get('searchTerm');
+
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
     }
@@ -81,7 +82,6 @@ export default function Header() {
               Sign In
             </Button>
           </Link>
-          {/* <SignUpButton /> */}
 
         </SignedOut>
         <Navbar.Toggle />

@@ -8,7 +8,7 @@ type postCardProps = {
     image: string,
     category: string
   }
-  limit: number;
+  limit?: number;
 }
 
 export default function PostCard({ post }: postCardProps) {
