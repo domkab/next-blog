@@ -13,7 +13,7 @@ export default async function RecentPosts({ limit }: recentPageProps) {
   try {
     const { data } = await axios.post(
       `${process.env.URL}api/post/get`,
-      { limit: 3, order: 'desc' },
+      { limit: 9, order: 'desc' },
       {
         headers: { 'Cache-control': 'no-store' },
         signal: controller.signal
