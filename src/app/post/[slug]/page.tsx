@@ -12,7 +12,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const controller = new AbortController();
   try {
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_URL}api/post/get`,
+      `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
       { slug },
       {
         headers: { 'Cache-control': 'no-store' },
