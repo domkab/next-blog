@@ -1,4 +1,3 @@
-// import CallToAction from '@/app/components/CallToAction';
 import CallToAction from '@/app/components/CallToAction';
 import axios from 'axios';
 import { Button } from 'flowbite-react';
@@ -6,17 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
 
-
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   let post = null;
-
-  console.log('post: ', post);
   const { slug } = await params;
 
   const controller = new AbortController();
   try {
     const { data } = await axios.post(
-      `${process.env.URL}api/post/get`,
+      `${process.env.NEXT_PUBLIC_URL}api/post/get`,
       { slug },
       {
         headers: { 'Cache-control': 'no-store' },

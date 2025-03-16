@@ -6,6 +6,7 @@ export interface FormData {
 }
 
 export enum PostCategory {
+  All = '',
   Uncategorized = 'uncategorized',
   JavaScript = 'javascript',
   ReactJS = 'reactjs',

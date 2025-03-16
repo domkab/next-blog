@@ -14,9 +14,7 @@ export const POST = async (req: Request) => {
 
     const posts = await Post.find({
       ...(data.userId && { userId: data.userId }),
-      ...(data.category &&
-        data.category !== 'null' &&
-        data.category !== 'undefined' && { category: data.category }),
+      ...(data.category ? { category: data.category } : {}),
       ...(data.slug && { slug: data.slug }),
       ...(data.postId && { _id: data.postId }),
       ...(data.searchTerm && {
