@@ -103,7 +103,7 @@ export default function SearchPage() {
 
     try {
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}api/post/get`,
+        `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
         {
           limit: 9,
           order: sidebarData.sort,
