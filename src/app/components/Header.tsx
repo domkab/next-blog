@@ -17,7 +17,7 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState('');
   const searchParams = useSearchParams();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(searchParams.toString());
     urlParams.set('searchTerm', searchTerm);
@@ -45,13 +45,21 @@ export default function Header() {
         Prices
       </Link>
       <form onSubmit={handleSubmit} className="hidden lg:block">
-        <TextInput
-          type="text"
-          placeholder="Search..."
-          rightIcon={AiOutlineSearch}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="relative">
+          <TextInput
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pr-10 relative"
+          />
+          <button
+            className="absolute inset-y-0 right-12 flex items-center p-2 hover:scale-105 transition-transform duration-150"
+            type="submit"
+          >
+            <AiOutlineSearch />
+          </button>
+        </div>
       </form>
 
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>

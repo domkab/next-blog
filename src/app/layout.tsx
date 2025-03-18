@@ -5,6 +5,7 @@ import Header from './components/Header';
 import { ClerkProvider } from '@clerk/nextjs';
 import ThemeComponent from './components/ThemeComponent';
 import { Suspense } from 'react';
+import Footer from './components/Footer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,8 @@ export default function RootLayout({
               <Header />
             </Suspense>
             {children}
+
+            <Footer />
           </ThemeComponent>
         </body>
       </html>
