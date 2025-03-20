@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSignInAlt, FaSun } from 'react-icons/fa';
 
 export default function Header() {
   const path = usePathname();
@@ -23,6 +23,10 @@ export default function Header() {
     urlParams.set('searchTerm', searchTerm);
     router.push(`/search?${urlParams.toString()}`);
   };
+
+  const handleMobileSearch = () => {
+    router.push(`/search`);
+  }
 
   useEffect(() => {
     const urlParams = new URLSearchParams(searchParams.toString());
@@ -39,7 +43,12 @@ export default function Header() {
         href="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
+        <span
+          className="
+          px-2 py-1 bg-gradient-to-r from-red-500 to-yellow-500
+          rounded-lg text-white
+          "
+        >
           Consumer&apos;s
         </span>
         Prices
@@ -62,7 +71,10 @@ export default function Header() {
         </div>
       </form>
 
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
+      <Button
+        className="w-12 h-10 lg:hidden" color="gray" pill
+        onClick={handleMobileSearch}
+      >
         <AiOutlineSearch />
       </Button>
 
@@ -87,7 +99,10 @@ export default function Header() {
         <SignedOut>
           <Link href='sign-in'>
             <Button gradientDuoTone='redToYellow' outline>
-              Sign In
+              <span className="hidden md:inline">Sign In</span>
+              <span className="inline md:hidden">
+                <FaSignInAlt size={20} />
+              </span>
             </Button>
           </Link>
 
@@ -108,6 +123,11 @@ export default function Header() {
         <Link href='/projects'>
           <Navbar.Link active={path === '/projects'} as={'div'}>
             Projects
+          </Navbar.Link>
+        </Link>
+        <Link href='/search'>
+          <Navbar.Link active={path === '/search'} as={'div'}>
+            Search
           </Navbar.Link>
         </Link>
       </Navbar.Collapse>
