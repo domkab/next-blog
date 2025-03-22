@@ -1,0 +1,11 @@
+/* Override Clerk internal container width */
+.cl-profilePage,
+.cl-profilePage * {
+}
+
+.cl-navbar,
+.cl-footer,
+.cl-scrollBox {
+  max-width: none ;
+  width: 100%;
+}
