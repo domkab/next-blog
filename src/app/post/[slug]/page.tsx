@@ -20,9 +20,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       }
     );
 
-    console.log(data);
     post = data.posts[0];
-    console.log('post from data:', post);
   } catch (error: unknown) {
     if (axios.isCancel(error)) {
       console.log('Request canceled', error.message);
