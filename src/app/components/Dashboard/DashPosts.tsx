@@ -5,9 +5,8 @@ import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import axios from 'axios';
-import { PostType } from '@/types/post';
 import { HiChevronUpDown } from 'react-icons/hi2';
-
+import { PostType } from '@/types';
 
 export default function DashPosts() {
   const { user } = useUser();

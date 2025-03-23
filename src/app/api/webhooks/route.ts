@@ -3,7 +3,7 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { clerkClient, UserJSON, WebhookEvent } from '@clerk/nextjs/server'
 import { ClerkEmail, CreateOrUpdateUser, deleteUser } from '@/lib/actions/user'
-import { ClerkUserData } from '@/types/clerkUserData'
+import { ClerkUserData } from '@/types'
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET

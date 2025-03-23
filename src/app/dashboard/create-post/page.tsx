@@ -14,7 +14,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
 import Link from 'next/link';
-import usePostForm from '@/hooks/usePostForm';
+import usePostForm from '@/app/hooks/usePostForm';
 
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();

@@ -1,6 +1,6 @@
 'use client';
 
-import usePostForm from '@/hooks/usePostForm';
+import usePostForm from '@/app/hooks/usePostForm';
 import { PostCategory } from '@/types';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';

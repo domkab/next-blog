@@ -1,6 +1,6 @@
 import axios from 'axios';
 import PostCard from './PostCard';
-import { PostType } from '../../types/post';
+import { PostType } from '../../types/Post';
 
 interface recentPageProps {
   limit: number;

@@ -1,14 +1,5 @@
-export interface FormData {
-  title: string;
-  content: string;
-  image?: string;
-  category: string;
-}
-
-export enum PostCategory {
-  All = '',
-  Uncategorized = 'uncategorized',
-  JavaScript = 'javascript',
-  ReactJS = 'reactjs',
-  NextJS = 'nextjs'
-}
+export * from './ClerkUserData';
+export * from './Post';
+export * from './FormData';
+export * from './PostCategory';
+export * from './DBUser';
