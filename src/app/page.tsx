@@ -1,33 +1,31 @@
 import Link from 'next/link';
 import CallToAction from './components/CallToAction';
 import RecentPosts from './components/RecentPosts';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default async function Home() {
-  let posts = null;
+  // let posts = null;
 
-  const controller = new AbortController();
+  // const controller = new AbortController();
 
-  try {
-    const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
-      { limit: 9, order: 'desc' },
-      {
-        headers: { 'Cache-control': 'no-store' },
-        signal: controller.signal
-      },
+  // try {
+  //   const { data } = await axios.post(
+  //     `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+  //     { limit: 9, order: 'desc' },
+  //     {
+  //       headers: { 'Cache-control': 'no-store' },
+  //       signal: controller.signal
+  //     },
 
-    )
-    posts = data.posts;
-    console.log(posts);
+  //   )
     
-  } catch (error) {
-    if (axios.isCancel(error)) {
-      console.log('Request canceled,', error.message);
-    }
+  // } catch (error) {
+  //   if (axios.isCancel(error)) {
+  //     console.log('Request canceled,', error.message);
+  //   }
 
-    console.log('Error getting post:', error);
-  }
+  //   console.log('Error getting post:', error);
+  // }
 
   return (
     <div className='flex flex-col justify-center items-center'>

@@ -13,7 +13,6 @@ import { useSearchParams } from 'next/navigation';
 import { SignOutButton } from '@clerk/nextjs';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import styles from './Sidebar.module.scss';
 
 type PublicMetadata = {
   isAdmin?: boolean;
@@ -41,9 +40,9 @@ export default function DashSidebar() {
 
   return (
     <Sidebar
-      className={`${styles.sidebarOverride} w-full mdW56`}
+      className="w-full mdW56"
     >
-      <Sidebar.Items className={`${styles.sidebarItems} flex flex-col gap-1`}>
+      <Sidebar.Items className="flex flex-col gap-1">
         <Sidebar.ItemGroup className='flex flex-col gap-1'>
           {isAdmin && (
             <Link href='/dashboard?tab=dash'>
