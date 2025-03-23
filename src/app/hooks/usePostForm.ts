@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '@/firebase';
-import { FormData } from '@/types/FormData';
+import { FormData } from '@/app/types/FormData';
 
 export default function usePostForm(initialFormData: FormData) {
   const [formData, setFormData] = useState<FormData>(initialFormData);

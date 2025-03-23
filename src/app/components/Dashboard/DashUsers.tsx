@@ -7,7 +7,7 @@ import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import useTableSort from '@/app/hooks/useTableSort';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import { DBUser } from '@/types/DBUser';
+import { DBUser } from '@/app/types/DBUser';
 
 export default function DashUsers() {
   const { user, isLoaded } = useUser();
