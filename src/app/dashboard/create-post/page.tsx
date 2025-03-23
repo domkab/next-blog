@@ -21,6 +21,7 @@ import {
   ref,
   uploadBytesResumable
 } from 'firebase/storage';
+import Link from 'next/link';
 
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -119,6 +120,9 @@ export default function CreatePostPage() {
   if (isSignedIn && user.publicMetadata.isAdmin) {
     return (
       <div className="p-3 max-w-3xl mx-auto min-h-screen">
+        <Link  href="/dashboard?tab=posts">
+          <Button>Back to Posts</Button>
+        </Link>
         <h1 className='text-center text-3xl my-7 font-semibold'>
           Create a post
         </h1>
