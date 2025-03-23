@@ -5,7 +5,7 @@ import { TextInput, Select, Button } from 'flowbite-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
-import { PostType } from '@/types';
+import { PostType } from '@/types/Post';
 
 export default function SearchPageContent() {
   const router = useRouter();

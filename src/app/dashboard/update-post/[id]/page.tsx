@@ -1,7 +1,7 @@
 'use client';
 
 import usePostForm from '@/app/hooks/usePostForm';
-import { PostCategory } from '@/types';
+import { PostCategory } from '@/types/PostCategory';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';

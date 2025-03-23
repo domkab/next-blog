@@ -6,12 +6,12 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import 'react-quill-new/dist/quill.snow.css';
-import { PostCategory } from '@/types';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
 import Link from 'next/link';
 import usePostForm from '@/app/hooks/usePostForm';
+import { PostCategory } from '@/types/PostCategory';
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 export default function CreatePostPage() {

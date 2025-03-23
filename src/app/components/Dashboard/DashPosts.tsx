@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import { PostType } from '@/types';
+import { PostType } from '@/types/Post';
 
 export default function DashPosts() {
   const { user } = useUser();
