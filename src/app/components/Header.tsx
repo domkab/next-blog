@@ -9,6 +9,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSignInAlt, FaSun } from 'react-icons/fa';
+import Logo from './Logo';
 
 export default function Header() {
   const path = usePathname();
@@ -39,20 +40,7 @@ export default function Header() {
 
   return (
     <Navbar className="border-b-2">
-      <Link
-        href="/"
-        className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
-      >
-        <span
-          className="
-          px-2 py-1 bg-gradient-to-r from-red-500 to-yellow-500
-          rounded-lg text-white
-          "
-        >
-          Consumer&apos;s
-        </span>
-        Prices
-      </Link>
+      <Logo />
       <form onSubmit={handleSubmit} className="hidden lg:block">
         <div className="relative">
           <TextInput

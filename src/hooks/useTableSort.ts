@@ -1,6 +1,10 @@
 import { useState, useMemo } from 'react';
 
-export default function useTableSort<T>(data: T[], defaultSortField?: keyof T, defaultSortOrder: 'asc' | 'desc' = 'asc') {
+export default function useTableSort<T>(
+  data: T[],
+  defaultSortField?: keyof T,
+  defaultSortOrder: 'asc' | 'desc' = 'asc'
+) {
   const [sortField, setSortField] = useState<keyof T | null>(defaultSortField ?? null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(defaultSortOrder);
 

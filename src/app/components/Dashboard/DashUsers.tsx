@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
-import useTableSort from '@/app/hooks/useTableSort';
+import useTableSort from '@/hooks/useTableSort';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import { DBUser } from '@/app/types/DBUser';
+import { DBUser } from '@/types/DBUser';
 
 export default function DashUsers() {
   const { user, isLoaded } = useUser();

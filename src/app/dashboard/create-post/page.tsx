@@ -10,8 +10,8 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
 import Link from 'next/link';
-import usePostForm from '@/app/hooks/usePostForm';
-import { PostCategory } from '@/app/types/PostCategory';
+import usePostForm from '@/hooks/usePostForm';
+import { PostCategory } from '@/types/PostCategory';
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 export default function CreatePostPage() {
