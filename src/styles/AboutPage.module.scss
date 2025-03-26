@@ -1,0 +1,32 @@
+.about-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+
+  &__container {
+    max-width: 700px;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: 1rem;
+    color: #555;
+  }
+
+  &__paragraph {
+    line-height: 1.6;
+  }
+}
