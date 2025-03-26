@@ -10,7 +10,8 @@
     "dev:debug": "node --inspect-brk node_modules/next/dist/bin/next dev"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.11.1",
+    "@clerk/clerk-react": "^5.25.4",
+    "@clerk/nextjs": "^6.12.11",
     "@clerk/themes": "^2.2.16",
     "axios": "^1.8.2",
     "firebase": "^11.4.0",
