@@ -1,8 +1,9 @@
 @use './components/Dashboard//DashProfile.module.scss';
+@use '../styles/ReactQuil.scss';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 :root {
   --background: #ffffff;

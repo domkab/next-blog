@@ -1,0 +1,16 @@
+.dark .ql-toolbar .ql-stroke {
+  stroke: #fff;
+}
+
+.dark .ql-toolbar .ql-fill {
+  fill: #fff
+}
+
+.dark .ql-snow .ql-picker.ql-header .ql-picker-label:not(.ql-selected)::before,
+.dark .ql-snow .ql-picker.ql-header .ql-picker-item:not(.ql-selected)::before {
+  color: #fff;
+}
+
+  .dark .ql-picker-item:not(.ql-selected)::before {
+  color: initial !important;
+}

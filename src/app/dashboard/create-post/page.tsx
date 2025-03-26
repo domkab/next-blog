@@ -121,7 +121,7 @@ export default function CreatePostPage() {
             gradientDuoTone='purpleToBlue'
             size='sm'
             outline
-            onClick={handleUploadImage}
+            onClick={() => handleUploadImage('main')}
             disabled={!!imageUploadProgress}
           >
             {imageUploadProgress ? (

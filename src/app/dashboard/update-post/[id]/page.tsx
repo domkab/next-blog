@@ -1,11 +1,11 @@
 'use client';
 
+import PostEditor from '@/app/components/PostEditor';
 import usePostForm from '@/hooks/usePostForm';
 import { PostCategory } from '@/types/PostCategory';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,6 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import 'react-quill-new/dist/quill.snow.css';
 
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 export default function UpdatePost() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -121,7 +120,7 @@ export default function UpdatePost() {
             gradientDuoTone="purpleToBlue"
             size="sm"
             outline
-            onClick={handleUploadImage}
+            onClick={() => handleUploadImage('main')}
             disabled={!!imageUploadProgress}
           >
             {imageUploadProgress ? (
@@ -142,12 +141,10 @@ export default function UpdatePost() {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
         )}
-        <ReactQuill
-          theme="snow"
-          placeholder="Write something..."
-          className="h-72 mb-12"
-          value={formData.content}
-          onChange={(value) => setFormData({ ...formData, content: value })}
+        <PostEditor
+          formData={formData}
+          setFormData={setFormData}
+          imageUploadProgress={imageUploadProgress}
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Update
