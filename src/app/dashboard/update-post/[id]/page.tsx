@@ -27,7 +27,17 @@ export default function UpdatePost() {
     imageUploadProgress,
     imageUploadError,
     handleUploadImage,
-  } = usePostForm({ title: '', content: '', category: '', image: '' });
+  } = usePostForm({
+    title: '',
+    content: '',
+    category: '',
+    images: {
+      main: {
+        url: '',
+      },
+      inline: [],
+    },
+  });
 
   const [publishError, setPublishError] = useState<string | null>(null);
 
@@ -72,6 +82,11 @@ export default function UpdatePost() {
       setPublishError('Something went wrong');
     }
   };
+
+  console.log(formData);
+  
+  console.log('form title',formData.title);
+  
 
   if (!isLoaded) return null;
   if (!(isSignedIn && user.publicMetadata.isAdmin))
@@ -137,14 +152,14 @@ export default function UpdatePost() {
         </div>
 
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        {formData.image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
+        {formData.images && formData.images.main && formData.images.main.url && (
+          <img src={formData.images.main.url} alt="upload" className="w-full h-72 object-cover" />
         )}
         <PostEditor
           formData={formData}
           setFormData={setFormData}
           imageUploadProgress={imageUploadProgress}
+          handleUploadImage={handleUploadImage} // Ensure this is provided
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Update
