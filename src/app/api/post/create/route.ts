@@ -8,7 +8,7 @@ export const POST = async (req: Request) => {
   try {
     await connect();
     const data = await req.json();
-    console.log('req data:',data);
+    console.log('req data:', data);
     // auth middleware
     if (
       !user ||
@@ -30,10 +30,20 @@ export const POST = async (req: Request) => {
       userId: user.publicMetadata.userMongoId,
       content: data.content,
       title: data.title,
-      image: data.image,
+      images: {
+        main: {
+          url: data.image,
+          meta: data.imageMeta || {},
+        },
+        inline: (data.inlineImages || []).map((url: string, index: number) => ({
+          url,
+          meta: data.inlineImagesMeta
+            && data.inlineImagesMeta[index] ? data.inlineImagesMeta[index] : {},
+        })),
+      },
       category: data.category,
       slug,
-    })
+    });
 
     await newPost.save();
 

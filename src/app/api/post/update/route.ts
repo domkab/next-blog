@@ -26,7 +26,17 @@ export const PUT = async (req: Request) => {
           title: data.title,
           content: data.content,
           category: data.category,
-          image: data.image,
+          images: {
+            main: {
+              url: data.image,
+              meta: data.imageMeta || {},
+            },
+            inline: (data.inlineImages || []).map((url: string, index: number) => ({
+              url,
+              meta: data.inlineImagesMeta
+                && data.inlineImagesMeta[index] ? data.inlineImagesMeta[index] : {},
+            })),
+          },
         },
       },
       { new: true }
