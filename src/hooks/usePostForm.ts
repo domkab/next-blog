@@ -3,18 +3,11 @@
 import { useState } from 'react';
 import { FormData } from '@/types/FormData';
 import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
-
-const generateSlug = (text: string): string =>
-  text
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-
-// type UploadTarget = 'main' | 'inline';
+import { generateSlug } from '@/utils/generateSlug';
 
 export default function usePostForm(initialFormData: FormData) {
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+  console.log('rendering usePost form')
+  const [formData, setFormData] = useState<FormData>(() => initialFormData);
   const [file, setFile] = useState<null | File>(null);
   const [imageUploadProgress, setImageUploadProgress] = useState<string | null>(null);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
@@ -31,6 +24,7 @@ export default function usePostForm(initialFormData: FormData) {
   ) => {
     if (!formData.title || !file) {
       setImageUploadError('Please create a post title and upload an image first!');
+
       return;
     }
 
@@ -44,8 +38,16 @@ export default function usePostForm(initialFormData: FormData) {
       (url) => {
         setImageUploadProgress(null);
         setImageUploadError(null);
+
         if (target === 'main') {
-          setFormData((prev) => ({ ...prev, image: url }));
+          setFormData((prev) => ({
+            ...prev,
+            images: {
+              ...prev.images,
+              main: { url },
+            },
+          }));
+
         } else if (target === 'inline' && onSuccessInline) {
           onSuccessInline(url);
         }

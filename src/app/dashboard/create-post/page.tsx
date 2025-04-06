@@ -26,7 +26,20 @@ export default function CreatePostPage() {
     imageUploadProgress,
     imageUploadError,
     handleUploadImage,
-  } = usePostForm({ title: '', content: '', category: '', image: '' });
+  } = usePostForm(
+    {
+      title: '',
+      content: '',
+      category: '',
+      slug: '',
+      images: {
+        main: {
+          url: '',
+        },
+        inline: [],
+      },
+    }
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +55,8 @@ export default function CreatePostPage() {
         }
       );
 
+      console.log('form data in submit:', data);
+
       if (status !== 200) {
         setPublishError(data.message);
         return;
@@ -49,7 +64,7 @@ export default function CreatePostPage() {
 
       localStorage.setItem('publishSuccess', 'Post published successfully!');
       setPublishSuccess('Post published successfully!');
-      // Optionally redirect after a short delay
+
       setTimeout(() => window.location.reload(), 2000);
     } catch (error: unknown) {
       setPublishError(`Something went wrong: ${error}`);
@@ -141,10 +156,10 @@ export default function CreatePostPage() {
           <Alert color='failure'>{imageUploadError}</Alert>
         )}
 
-        {formData.image && (
+        {formData.images.main.url && (
           <div style={{ position: 'relative', width: '100%', height: '400px' }}>
             <Image
-              src={formData.image}
+              src={formData.images.main.url}
               alt="Uploaded image"
               fill
               className="object-cover"

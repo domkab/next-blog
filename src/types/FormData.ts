@@ -1,13 +1,7 @@
-// export interface FormData {
-//   title: string;
-//   content: string;
-//   image?: string;
-//   category: string;
-// }
-
 export interface FormData {
   title: string;
   content: string;
+  slug: string;
   images: {
     main: {
       url: string;

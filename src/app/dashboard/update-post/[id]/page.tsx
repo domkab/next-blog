@@ -13,7 +13,6 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import 'react-quill-new/dist/quill.snow.css';
 
-
 export default function UpdatePost() {
   const { isSignedIn, user, isLoaded } = useUser();
   const router = useRouter();
@@ -27,39 +26,51 @@ export default function UpdatePost() {
     imageUploadProgress,
     imageUploadError,
     handleUploadImage,
-  } = usePostForm({
-    title: '',
-    content: '',
-    category: '',
-    images: {
-      main: {
-        url: '',
+  } = usePostForm(
+    {
+      title: '',
+      content: '',
+      category: '',
+      slug: '',
+      images: {
+        main: {
+          url: '',
+        },
+        inline: [],
       },
-      inline: [],
-    },
-  });
+    }
+  );
+
+  useEffect(() => {
+    console.log('in use effect form data:', formData);
+  }, [formData])
+
 
   const [publishError, setPublishError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch('/api/post/get', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ postId }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-          setFormData(data.posts[0]);
-        }
+        const { data } = await axios.post(
+          '/api/post/get',
+          { postId },
+          {
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
+
+        setFormData(data.posts[0]);
+
+        console.log('raw data posts:', data.posts[0]);
       } catch (error) {
         console.error(error);
       }
     };
+
     if (isSignedIn && user?.publicMetadata?.isAdmin) {
       fetchPost();
     }
+
   }, [postId, user?.publicMetadata?.isAdmin, isSignedIn, setFormData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,6 +87,9 @@ export default function UpdatePost() {
           headers: { 'Content-Type': 'application/json' },
         }
       );
+
+      console.log('form data on submit:', formData);
+
       router.push(`/post/${data.slug}`);
     } catch (error) {
       console.error('Error updating Post:', error);
@@ -83,18 +97,15 @@ export default function UpdatePost() {
     }
   };
 
-  console.log(formData);
-  
-  console.log('form title',formData.title);
-  
 
   if (!isLoaded) return null;
-  if (!(isSignedIn && user.publicMetadata.isAdmin))
+  if (!(isSignedIn && user.publicMetadata.isAdmin)) {
     return (
       <h1 className="text-center text-3xl my-7 font-semibold min-h-screen">
         You need to be an admin to update a post
       </h1>
     );
+  }
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">

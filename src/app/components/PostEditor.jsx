@@ -3,10 +3,16 @@
 import dynamic from 'next/dynamic';
 import React, { useRef, useEffect } from 'react';
 import 'react-quill-new/dist/quill.snow.css';
+import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
+import { generateSlug } from '@/utils/generateSlug';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
-const PostEditor = ({ formData, setFormData, handleUploadImage, imageUploadProgress }) => {
+const PostEditor = ({ 
+  formData, setFormData, handleUploadImage, imageUploadProgress 
+}) => {
+  console.log('rendering post editor')
+  
   const quillRef = useRef(null);
 
   const imageHandler = () => {
@@ -18,7 +24,7 @@ const PostEditor = ({ formData, setFormData, handleUploadImage, imageUploadProgr
     input.onchange = async () => {
       const file = input.files ? input.files[0] : null;
       if (file) {
-        const slug = 'your-generated-slug';
+        const slug = generateSlug(formData.title);
         await uploadImageToFirebase(
           file,
           'inline',
