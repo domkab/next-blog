@@ -6,7 +6,6 @@ import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
 import { generateSlug } from '@/utils/generateSlug';
 
 export default function usePostForm(initialFormData: FormData) {
-  console.log('rendering usePost form')
   const [formData, setFormData] = useState<FormData>(() => initialFormData);
   const [file, setFile] = useState<null | File>(null);
   const [imageUploadProgress, setImageUploadProgress] = useState<string | null>(null);
