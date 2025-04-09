@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import ThemeComponent from './components/ThemeComponent';
 import "./globals.scss";
+import ReduxProvider from '@/redux/ReduxProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,14 +30,15 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <ThemeComponent>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Header />
-            </Suspense>
-            {children}
-
-            <Footer />
-          </ThemeComponent>
+          <ReduxProvider>
+            <ThemeComponent>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Header />
+              </Suspense>
+              {children}
+              <Footer />
+            </ThemeComponent>
+          </ReduxProvider>
         </body>
       </html>
     </ClerkProvider>

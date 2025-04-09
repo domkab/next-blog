@@ -4,33 +4,36 @@ import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
+import { PostType } from '@/types/Post';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  let post = null;
   const { slug } = await params;
 
   const controller = new AbortController();
-  try {
-    const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
-      { slug },
-      {
-        headers: { 'Cache-control': 'no-store' },
-        signal: controller.signal,
+  const post: PostType | null = await (async () => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+        { slug },
+        {
+          headers: { 'Cache-control': 'no-store' },
+          signal: controller.signal,
+        }
+      );
+
+      return data.posts[0];
+    } catch (error: unknown) {
+      if (axios.isCancel(error)) {
+        console.log('Request canceled', error.message);
+      } else {
+        console.error('Error fetching post:', error);
       }
-    );
 
-    post = data.posts[0];
-  } catch (error: unknown) {
-    if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
-    } else {
-      console.error('Error fetching post:', error);
-      post = { title: 'Failed to load post' };
+      return null;
     }
-  }
+  })();
 
-  if (!post || post.title === 'Failed to load post') {
+  if (!post) {
     return (
       <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
         <h2 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>
@@ -56,7 +59,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <div
       >
         <Image
-          src={post && post.image}
+          src={post && post.images.main.url}
           alt={post && post.title}
           width={800}
           height={400}

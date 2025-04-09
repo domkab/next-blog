@@ -2,6 +2,7 @@ export interface FormData {
   title: string;
   content: string;
   slug: string;
+  category: string;
   images: {
     main: {
       url: string;
@@ -20,5 +21,4 @@ export interface FormData {
       };
     }>;
   };
-  category: string;
 }
