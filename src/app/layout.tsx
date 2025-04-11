@@ -1,3 +1,4 @@
+import ReduxProvider from '@/redux/ReduxProvider';
 import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -6,7 +7,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import ThemeComponent from './components/ThemeComponent';
 import "./globals.scss";
-import ReduxProvider from '@/redux/ReduxProvider';
+import NavigationLoader from './components/Navigation/NavigationLoader';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
               <Suspense fallback={<div>Loading...</div>}>
                 <Header />
               </Suspense>
+              <NavigationLoader />
               {children}
               <Footer />
             </ThemeComponent>
