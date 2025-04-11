@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
         hostname: 'firebasestorage.googleapis.com',
       },
     ],
+    domains: ['www.hostinger.com'],
   },
 } 
 export default nextConfig;

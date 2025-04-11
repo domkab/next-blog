@@ -59,8 +59,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <div
       >
         <Image
-          src={post && post.images.main.url}
-          alt={post && post.title}
+          src={post.images.main.url}
+          alt={post.title}
           width={800}
           height={400}
           className='mt-10 p-3 max-h-[600px] w-full object-cover'
