@@ -1,11 +1,13 @@
 'use client';
 
 import PostEditor from '@/app/components/PostEditor';
-import usePostForm from '@/hooks/usePostForm';
+import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
+import { setFormData } from '@/redux/slices/postFormSlice';
 import { PostCategory } from '@/types/Post';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -17,35 +19,15 @@ export default function UpdatePost() {
   const { isSignedIn, user, isLoaded } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+
   const postId = pathname.split('/').pop() || '';
 
-  const {
-    formData,
-    setFormData,
-    setFile,
-    imageUploadProgress,
-    imageUploadError,
-    handleUploadImage,
-  } = usePostForm(
-    {
-      title: '',
-      content: '',
-      category: '',
-      slug: '',
-      images: {
-        main: {
-          url: '',
-        },
-        inline: [],
-      },
-    }
-  );
+  const formData = useAppSelector((state) => state.postForm);
+  const imageUploadProgress = useAppSelector((state) => state.postForm.imageUploadProgress);
+  const imageUploadError = useAppSelector((state) => state.postForm.imageUploadError);
 
-  useEffect(() => {
-    console.log('in use effect form data:', formData);
-  }, [formData])
-
-
+  const [file, setFile] = useState<File | null>(null);
   const [publishError, setPublishError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -59,7 +41,7 @@ export default function UpdatePost() {
           }
         );
 
-        setFormData(data.posts[0]);
+        dispatch(setFormData(data.posts[0]));
 
         console.log('raw data posts:', data.posts[0]);
       } catch (error) {
@@ -71,7 +53,13 @@ export default function UpdatePost() {
       fetchPost();
     }
 
-  }, [postId, user?.publicMetadata?.isAdmin, isSignedIn, setFormData]);
+  }, [postId, user?.publicMetadata?.isAdmin, isSignedIn, dispatch]);
+
+  const handleUploadImage = (file: File, target: 'main' | 'inline') => {
+    if (file) {
+      dispatch(uploadPostImage({ file, target }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +87,7 @@ export default function UpdatePost() {
 
 
   if (!isLoaded) return null;
+
   if (!(isSignedIn && user.publicMetadata.isAdmin)) {
     return (
       <h1 className="text-center text-3xl my-7 font-semibold min-h-screen">
@@ -109,6 +98,14 @@ export default function UpdatePost() {
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
+      {/* {publishSuccess && (
+        <Alert color='success'>{publishSuccess}</Alert>
+      )} */}
+
+      {publishError && (
+        <Alert color='failure'>{publishError}</Alert>
+      )}
+
       <Link href="/dashboard?tab=posts">
         <Button>Back to Posts</Button>
       </Link>
@@ -146,7 +143,13 @@ export default function UpdatePost() {
             gradientDuoTone="purpleToBlue"
             size="sm"
             outline
-            onClick={() => handleUploadImage('main')}
+            onClick={() => {
+              if (file) {
+                handleUploadImage(file, 'main');
+              } else {
+                alert('No file selected');
+              }
+            }}
             disabled={!!imageUploadProgress}
           >
             {imageUploadProgress ? (
@@ -163,8 +166,15 @@ export default function UpdatePost() {
         </div>
 
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        {formData.images && formData.images.main && formData.images.main.url && (
-          <img src={formData.images.main.url} alt="upload" className="w-full h-72 object-cover" />
+        {formData.images.main.url && (
+          <div style={{ position: 'relative', width: '100%', height: '400px' }}>
+            <Image
+              src={formData.images.main.url}
+              alt="Uploaded image"
+              fill
+              className="object-cover"
+            />
+          </div>
         )}
         <PostEditor
           formData={formData}
@@ -179,3 +189,7 @@ export default function UpdatePost() {
     </div>
   );
 }
+
+// useEffect(() => {
+//   console.log('in use effect form data:', formData);
+// }, [formData])

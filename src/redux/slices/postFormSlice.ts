@@ -55,7 +55,7 @@ const postFormSlice = createSlice({
         } else {
           state.images.inline.push({ url: action.payload.url });
         }
-        state.imageUploadProgress = '100';
+        state.imageUploadProgress = null;
       })
       .addCase(uploadPostImage.rejected, (state) => {
         state.imageUploadProgress = null;

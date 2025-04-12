@@ -64,10 +64,41 @@ export default function CreatePostPage() {
     dispatch(setFormData({ category: e.target.value }));
   };
 
-  const handleUploadImage = (file: File, target: 'main' | 'inline') => {
+  const handleMainImageUpload = (file: File) => {
     if (file) {
-      dispatch(uploadPostImage({ file, target }));
+      dispatch(uploadPostImage({ file, target: 'main' }));
     }
+  };
+
+  // const prevInlineCount = useRef(formData.images.inline.length);
+
+  const handleInlineImageUpload = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      try {
+        dispatch(uploadPostImage({ file, target: 'inline' }));
+  
+        // Track the previous length of the inline images array to detect new additions
+        const prevInlineCount = formData.images.inline.length;
+  
+        const checkForImage = setInterval(() => {
+          const currentInlineImages = formData.images.inline;
+          // If the length has increased, we assume the image was successfully added
+          if (currentInlineImages.length > prevInlineCount) {
+            const newImage = currentInlineImages[currentInlineImages.length - 1];
+            clearInterval(checkForImage); // Stop checking
+            resolve(newImage.url); // Return the image URL
+          }
+        }, 300); // Check every 300ms
+  
+        // Set a timeout for the operation
+        setTimeout(() => {
+          clearInterval(checkForImage);
+          reject('Image upload timeout');
+        }, 10000); // Timeout after 10 seconds
+      } catch (err) {
+        reject(`Inline image upload failed: ${err}`);
+      }
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +170,7 @@ export default function CreatePostPage() {
             outline
             onClick={() => {
               if (file) {
-                handleUploadImage(file, 'main');
+                handleMainImageUpload(file);
               } else {
                 alert('No file selected');
               }
@@ -178,7 +209,7 @@ export default function CreatePostPage() {
           formData={formData}
           setFormData={(data) => dispatch(setFormData(data))}
           imageUploadProgress={imageUploadProgress}
-          handleUploadImage={handleUploadImage}
+          handleUploadImage={handleInlineImageUpload}
         />
         <Button type='submit' gradientDuoTone='purpleToPink'>
           Publish

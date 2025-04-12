@@ -208,7 +208,12 @@ export default function DashPosts() {
           </Table>
         </>
       ) : (
-        <p>You have no posts yet!</p>
+        <div className='flex flex-col items-center justify-center h-full w-full py-7'>
+          <p>You have no posts yet!</p>
+          <Link href="/dashboard/create-post">
+            <Button className="mb-5">Create Post</Button>
+          </Link>
+        </div>
       )}
       <Modal
         show={showModal}

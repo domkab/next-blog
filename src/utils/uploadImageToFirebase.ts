@@ -1,4 +1,9 @@
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable
+} from 'firebase/storage';
 import { app } from '@/firebase';
 
 export async function uploadImageToFirebase(
@@ -33,7 +38,7 @@ export async function uploadImageToFirebase(
       }
     );
   } catch (error) {
-    onError('Image upload failed');
+    onError(`Image upload failed ${error}`);
     console.error(error);
   }
 }

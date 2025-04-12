@@ -1,27 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* @ts-nocheck */
-
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { useRef } from 'react';
+import React from 'react';
 import 'react-quill-new/dist/quill.snow.css';
 import { PostFormState } from '@/redux/slices/postFormSlice';
-import type ReactQuillType from 'react-quill-new';
+import { uploadPostImage, useAppDispatch } from '@/redux';
 
-const ReactQuill = dynamic(
-  async () => {
-    const mod = await import('react-quill-new');
-    return mod.default;
-  },
-  { ssr: false }
-) as unknown as React.ForwardRefExoticComponent<any>;
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 interface PostEditorProps {
   formData: PostFormState;
   setFormData: (data: Partial<PostFormState>) => void;
   imageUploadProgress: string | null;
-  handleUploadImage: (file: File) => Promise<string>; // returns image URL
+  handleUploadImage: (file: File, target: 'main' | 'inline') => void;
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
@@ -30,40 +21,25 @@ const PostEditor: React.FC<PostEditorProps> = ({
   imageUploadProgress,
   handleUploadImage,
 }) => {
+  console.log('rendering post editor')
   const { content } = formData;
-  const quillRef = useRef<ReactQuillType | null>(null);
+  const dispatch = useAppDispatch();
 
   const handleContentChange = (value: string) => {
     setFormData({ content: value });
   };
 
-  const imageHandler = async () => {
+  const imageHandler = () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
 
-    input.onchange = async () => {
+    input.onchange = () => {
       const file = input.files?.[0];
       if (file) {
-        try {
-          const imageUrl = await handleUploadImage(file);
-
-          const quill = quillRef.current?.getEditor();
-          if (quill) {
-            const range = quill?.getSelection(true);
-
-            if (range) {
-              quill.insertEmbed(range.index, 'image', imageUrl);
-              quill.setSelection(range.index + 1);
-
-              const html = quill.root.innerHTML;
-              setFormData({ content: html });
-            }
-          }
-        } catch (error) {
-          console.error('Image upload failed:', error);
-        }
+        dispatch(uploadPostImage({ file, target: 'inline' }));
+        handleUploadImage(file, 'inline');
       }
     };
   };
@@ -86,7 +62,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
   return (
     <div>
       <ReactQuill
-        ref={quillRef}
         theme="snow"
         placeholder="Write something..."
         className="h-72 mb-12"

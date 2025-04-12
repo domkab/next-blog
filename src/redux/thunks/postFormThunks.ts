@@ -20,9 +20,10 @@ export const uploadPostImage = createAsyncThunk<
     dispatch(setImageUploadError(null));
 
     const state = getState();
-    const { title, slug: currentSlug, images } = state.postForm;
+    const { title, slug: currentSlug } = state.postForm;
 
     const slug = currentSlug || generateSlug(title);
+
     if (!currentSlug) {
       dispatch(setFormData({ slug }));
     }
@@ -41,29 +42,6 @@ export const uploadPostImage = createAsyncThunk<
             reject(error);
           },
           (url: string) => {
-            if (target === 'main') {
-              dispatch(
-                setFormData({
-                  images: {
-                    ...images,
-                    main: {
-                      ...images.main,
-                      url,
-                    },
-                  },
-                })
-              );
-            } else {
-              dispatch(
-                setFormData({
-                  images: {
-                    ...images,
-                    inline: [...images.inline, { url }],
-                  },
-                })
-              );
-            }
-
             dispatch(setImageUploadProgress(null));
             resolve({ url, target });
           }
@@ -72,6 +50,7 @@ export const uploadPostImage = createAsyncThunk<
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       dispatch(setImageUploadError(errorMessage));
+      console.log('Error uploading image:', error);
       throw error;
     }
   }

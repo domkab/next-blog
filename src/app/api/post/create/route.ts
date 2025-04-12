@@ -9,6 +9,7 @@ export const POST = async (req: Request) => {
     await connect();
     const data = await req.json();
     console.log('req data:', data);
+    console.log('inline images', data.images.inline);
     // auth middleware
     if (
       !user ||
@@ -32,7 +33,7 @@ export const POST = async (req: Request) => {
       title: data.title,
       images: {
         main: {
-          url: data.image,
+          url: data.images.main.url,
           meta: data.imageMeta || {},
         },
         inline: (data.inlineImages || []).map((url: string, index: number) => ({
