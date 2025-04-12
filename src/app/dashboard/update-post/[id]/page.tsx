@@ -2,7 +2,7 @@
 
 import PostEditor from '@/app/components/PostEditor';
 import usePostForm from '@/hooks/usePostForm';
-import { PostCategory } from '@/types/PostCategory';
+import { PostCategory } from '@/types/Post';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';

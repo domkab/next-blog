@@ -3,7 +3,7 @@
 import PostEditor from '@/app/components/PostEditor';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
-import { PostCategory } from '@/types/PostCategory';
+import { PostCategory } from '@/types/Post';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';

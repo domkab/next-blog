@@ -170,7 +170,7 @@ export default function DashboardComp() {
                     <Table.Cell>
                       {/*eslint-disable-next-line @next/next/no-img-element*/}
                       <img
-                        src={post.image}
+                        src={post.images.main.url}
                         alt='user'
                         className='w-14 h-10 rounded-md bg-gray-500'
                       />

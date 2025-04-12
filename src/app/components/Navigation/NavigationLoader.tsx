@@ -22,3 +22,5 @@ export default function NavigationLoader() {
 
   return null;
 }
+
+//  padarytas del vaizdo dbr

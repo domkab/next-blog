@@ -1,4 +1,4 @@
-import { PostCategory } from '@/types/PostCategory';
+import { PostCategory } from '@/types/Post';
 import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema(

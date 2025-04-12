@@ -25,3 +25,5 @@ export default function SmartLink({ href, children, className }: SmartLinkProps)
     </a>
   );
 }
+
+//  currently not used

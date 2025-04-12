@@ -8,13 +8,15 @@ import axios from 'axios';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import { PostType } from '@/types/Post';
 
+type SortablePostField = 'title' | 'updatedAt' | 'category';
+
 export default function DashPosts() {
   const { user } = useUser();
   const [userPosts, setUserPosts] = useState<PostType[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
 
-  const [sortField, setSortField] = useState<keyof PostType | ''>('');
+  const [sortField, setSortField] = useState<SortablePostField | ''>('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
@@ -63,7 +65,7 @@ export default function DashPosts() {
     }
   }
 
-  const handleSort = (field: keyof PostType | '') => {
+  const handleSort = (field: SortablePostField | '') => {
     let order = 'asc';
     if (sortField === field && sortOrder === 'asc') {
       order = 'desc';
@@ -90,6 +92,7 @@ export default function DashPosts() {
   };
 
   const sortedPosts = [...userPosts];
+
   if (sortField) {
     sortedPosts.sort((a, b) => {
       if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
@@ -165,7 +168,7 @@ export default function DashPosts() {
                     <Link href={`/post/${post.slug}`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={post.image}
+                        src={post.images.main.url}
                         alt={post.title}
                         className="w-20 h-10 object-cover bg-gray-500"
                       />

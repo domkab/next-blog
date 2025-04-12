@@ -1,5 +1,3 @@
-import { PostCategory } from './PostCategory';
-
 export interface ImageMeta {
   author?: string;
   link?: string;
@@ -9,6 +7,14 @@ export interface ImageMeta {
 export interface PostImage {
   url: string;
   meta?: ImageMeta;
+}
+
+export enum PostCategory {
+  All = '',
+  Uncategorized = 'uncategorized',
+  JavaScript = 'javascript',
+  ReactJS = 'reactjs',
+  NextJS = 'nextjs'
 }
 
 export interface PostType {
