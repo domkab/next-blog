@@ -1,0 +1,29 @@
+.custom-image-blot {
+  position: relative;
+  border: 1px solid #eee;
+  padding: 8px;
+  margin: 8px 0;
+}
+
+.custom-image-blot img.custom-image {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.custom-image-blot .image-meta {
+  margin-top: 4px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.custom-image-blot .custom-image-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: red;
+}

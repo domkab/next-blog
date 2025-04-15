@@ -1,6 +1,6 @@
 'use client';
 
-import PostEditor from '@/app/components/PostEditor';
+import PostEditor from '@/app/components/PostEditor/PostEditor';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
 import { PostCategory } from '@/types/Post';

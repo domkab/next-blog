@@ -1,6 +1,6 @@
 "use client"
 
-import PostEditor from '@/app/components/PostEditor';
+import PostEditor from '@/app/components/PostEditor/PostEditor';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
 import { PostCategory } from '@/types/Post';
@@ -73,32 +73,18 @@ export default function CreatePostPage() {
   // const prevInlineCount = useRef(formData.images.inline.length);
 
   const handleInlineImageUpload = async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      try {
-        dispatch(uploadPostImage({ file, target: 'inline' }));
-  
-        // Track the previous length of the inline images array to detect new additions
-        const prevInlineCount = formData.images.inline.length;
-  
-        const checkForImage = setInterval(() => {
-          const currentInlineImages = formData.images.inline;
-          // If the length has increased, we assume the image was successfully added
-          if (currentInlineImages.length > prevInlineCount) {
-            const newImage = currentInlineImages[currentInlineImages.length - 1];
-            clearInterval(checkForImage); // Stop checking
-            resolve(newImage.url); // Return the image URL
-          }
-        }, 300); // Check every 300ms
-  
-        // Set a timeout for the operation
-        setTimeout(() => {
-          clearInterval(checkForImage);
-          reject('Image upload timeout');
-        }, 10000); // Timeout after 10 seconds
-      } catch (err) {
-        reject(`Inline image upload failed: ${err}`);
+    try {
+      const resultAction = await dispatch(uploadPostImage({ file, target: 'inline' }));
+
+      if (uploadPostImage.fulfilled.match(resultAction)) {
+        const imageUrl = resultAction.payload.url;
+        return imageUrl;
+      } else {
+        throw new Error('Image upload failed');
       }
-    });
+    } catch (err) {
+      throw new Error(`Inline image upload failed: ${err}`);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
