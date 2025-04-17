@@ -1,7 +1,6 @@
 export interface ImageMeta {
+  description: string;
   author?: string;
-  link?: string;
-  license?: string;
 }
 
 export interface PostImage {

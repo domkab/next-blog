@@ -2,6 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FormData } from '@/types/FormData';
 import { uploadPostImage } from '../thunks/postFormThunks';
 
+export interface ImageMeta {
+  author?: string
+  description?: string
+}
+
+export interface ImageData {
+  url: string
+  meta?: ImageMeta
+}
+
 export interface PostFormState extends FormData {
   fileUrl: string | null;
   imageUploadProgress: string | null;
@@ -16,7 +26,7 @@ const initialState: PostFormState = {
   images: {
     main: {
       url: '',
-      meta: undefined
+      meta: {},
     },
     inline: []
   },
