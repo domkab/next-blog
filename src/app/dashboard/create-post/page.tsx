@@ -59,18 +59,14 @@ export default function CreatePostPage() {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setFormData({ title: e.target.value }));
   };
-
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setFormData({ category: e.target.value }));
   };
-
   const handleMainImageUpload = (file: File) => {
     if (file) {
       dispatch(uploadPostImage({ file, target: 'main' }));
     }
   };
-
-  // const prevInlineCount = useRef(formData.images.inline.length);
 
   const handleInlineImageUpload = async (file: File): Promise<string> => {
     try {

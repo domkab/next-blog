@@ -12,18 +12,27 @@ class CustomImageBlot extends BlockEmbed {
   static create(value: {
     url: string;
     meta?: { author?: string; link?: string; license?: string };
+    expanded?: boolean;
   }) {
     const node = super.create();
     node.classList.add('custom-image-container');
+
+    // Create the image element.
     const image = document.createElement('img');
     image.setAttribute('src', value.url);
     image.classList.add('custom-image');
     node.appendChild(image);
 
-    if (value.meta) {
-      const metaContainer = document.createElement('div');
-      metaContainer.classList.add('image-meta');
+    // Create metadata container.
+    const metaContainer = document.createElement('div');
+    metaContainer.classList.add('image-meta');
+    // Initially, hide the metadata container (if not expanded).
+    if (!value.expanded) {
+      metaContainer.style.display = 'none';
+    }
 
+    // Populate metadata if provided.
+    if (value.meta) {
       if (value.meta.author) {
         const authorSpan = document.createElement('span');
         authorSpan.textContent = `Author: ${value.meta.author}`;
@@ -40,27 +49,26 @@ class CustomImageBlot extends BlockEmbed {
         licenseSpan.textContent = `License: ${value.meta.license}`;
         metaContainer.appendChild(licenseSpan);
       }
-
-      node.appendChild(metaContainer);
     }
+    node.appendChild(metaContainer);
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.classList.add('custom-image-delete');
-    deleteBtn.onclick = (e: Event) => {
+    // Create a toggle button for showing/hiding metadata.
+    const toggleBtn = document.createElement('button');
+    toggleBtn.textContent = 'Edit metadata';
+    toggleBtn.classList.add('meta-toggle-btn');
+    toggleBtn.onclick = (e: Event) => {
       e.preventDefault();
       e.stopPropagation();
-      const quillInstance = Quill.find(node);
-      if (
-        quillInstance &&
-        typeof (quillInstance as any).getIndex === 'function' &&
-        typeof (quillInstance as any).deleteText === 'function'
-      ) {
-        const index = (quillInstance as any).getIndex(node);
-        (quillInstance as any).deleteText(index, 1);
+      // Toggle the display style.
+      if (metaContainer.style.display === 'none') {
+        metaContainer.style.display = 'block';
+        toggleBtn.textContent = 'Hide metadata';
+      } else {
+        metaContainer.style.display = 'none';
+        toggleBtn.textContent = 'Edit metadata';
       }
     };
-    node.appendChild(deleteBtn);
+    node.appendChild(toggleBtn);
 
     return node;
   }
@@ -70,6 +78,7 @@ class CustomImageBlot extends BlockEmbed {
     const metaContainer = node.querySelector('.image-meta');
     const meta: any = {};
     if (metaContainer) {
+      // You can later change how to read metadata (e.g., read from input fields)
       const authorSpan = metaContainer.querySelector('span');
       const linkAnchor = metaContainer.querySelector('a');
       const licenseSpan = metaContainer.querySelector('span:last-child');
