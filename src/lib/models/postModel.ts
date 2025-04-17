@@ -24,8 +24,7 @@ const postSchema = new mongoose.Schema(
         },
         meta: {
           author: { type: String, default: '' },
-          link: { type: String, default: '' },
-          license: { type: String, default: '' }
+          description: { type: String, default: '' },
         },
       },
       inline: [
@@ -33,8 +32,7 @@ const postSchema = new mongoose.Schema(
           url: String,
           meta: {
             author: { type: String, default: '' },
-            link: { type: String, default: '' },
-            license: { type: String, default: '' },
+            description: { type: String, default: '' },
           },
         },
       ],
@@ -52,4 +50,5 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
+
 export default Post;
