@@ -7,17 +7,16 @@ export interface FormData {
     main: {
       url: string;
       meta?: {
-        author?: string;
-        link?: string;
-        license?: string;
+        author?: string
+        description?: string
       };
     };
     inline: Array<{
+      id: string;
       url: string;
       meta?: {
-        author?: string;
-        link?: string;
-        license?: string;
+        author?: string
+        description?: string
       };
     }>;
   };

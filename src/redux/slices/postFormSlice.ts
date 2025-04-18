@@ -8,6 +8,7 @@ export interface ImageMeta {
 }
 
 export interface ImageData {
+  id: string,
   url: string
   meta?: ImageMeta
 }
@@ -42,6 +43,13 @@ const postFormSlice = createSlice({
     setFormData: (state, action: PayloadAction<Partial<PostFormState>>) => {
       return { ...state, ...action.payload };
     },
+    addInlineImage: (state, action: PayloadAction<ImageData>) => {
+      state.images.inline.push(action.payload);
+    },
+    updateInlineImageMeta: (state, action: PayloadAction<{ id: string; meta: ImageMeta }>) => {
+      const img = state.images.inline.find(i => i.id === action.payload.id);
+      if (img) img.meta = action.payload.meta;
+    },
     setFile: (state, action: PayloadAction<string | null>) => {
       state.fileUrl = action.payload;
     },
@@ -62,8 +70,6 @@ const postFormSlice = createSlice({
       .addCase(uploadPostImage.fulfilled, (state, action) => {
         if (action.payload.target === 'main') {
           state.images.main.url = action.payload.url;
-        } else {
-          state.images.inline.push({ url: action.payload.url });
         }
         state.imageUploadProgress = null;
       })
@@ -76,6 +82,8 @@ const postFormSlice = createSlice({
 
 export const {
   setFormData,
+  addInlineImage, 
+  updateInlineImageMeta,
   setFile,
   setImageUploadProgress,
   setImageUploadError,
