@@ -1,0 +1,26 @@
+.post-content {
+  // overall wrapper
+}
+
+.post-content__figure {
+  // margin: 2rem 0;
+  text-align: center;
+}
+
+.post-content__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.post-content__caption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #555;
+
+  &--author {
+    font-style: italic;
+    margin-left: 0.25rem;
+  }
+}

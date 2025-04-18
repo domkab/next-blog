@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
 import { PostType } from '@/types/Post';
+import PostContent from '@/app/components/Post/PostContent';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -72,10 +73,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           {post && (post?.content?.length / 1000).toFixed(0)} mins read
         </span>
       </div>
-      <div
-        className='p-3 max-w-2xl mx-auto w-full post-content'
-        dangerouslySetInnerHTML={{ __html: post?.content }}
-      ></div>
+
+      <div className='p-3 max-w-2xl mx-auto w-full'>
+        <PostContent post={post} />
+      </div>
+
       <div className='max-w-4xl mx-auto w-full'>
         <CallToAction />
       </div>

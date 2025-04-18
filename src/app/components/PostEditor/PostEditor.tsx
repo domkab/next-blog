@@ -1,35 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* @ts-nocheck */
 'use client';
 
-import dynamic from 'next/dynamic';
-import React, { useRef } from 'react';
-import 'react-quill-new/dist/quill.snow.css';
-import { PostFormState } from '@/redux/slices/postFormSlice';
+import React, { useCallback, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  addInlineImage,
+  PostFormState,
+} from '@/redux/slices/postFormSlice';
+import { v4 as uuidv4 } from 'uuid';
 import type ReactQuillType from 'react-quill-new';
-
-const FallbackQuill: React.FC = () => null;
-FallbackQuill.displayName = 'FallbackQuill';
-let ReactQuill: React.ForwardRefExoticComponent<any>;
-
-if (typeof window !== 'undefined') {
-  ReactQuill = dynamic(async () => {
-    const { default: Quill } = await import('quill');
-    const { default: CustomImageBlot } = await import('./CustomImageBlot');
-    Quill.register(CustomImageBlot);
-
-    const mod = await import('react-quill-new');
-    return mod.default;
-  }, { ssr: false }) as unknown as React.ForwardRefExoticComponent<any>;
-} else {
-  ReactQuill = FallbackQuill as unknown as React.ForwardRefExoticComponent<any>;
-}
+import QuillNoSSRWrapper from './QuillNoSSRWrapper';
+import 'react-quill-new/dist/quill.snow.css';
 
 interface PostEditorProps {
   formData: PostFormState;
   setFormData: (data: Partial<PostFormState>) => void;
   imageUploadProgress: string | null;
-  handleUploadImage: (file: File) => Promise<string>; // returns image URL
+  handleUploadImage: (file: File) => Promise<string>;
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
@@ -38,77 +25,77 @@ const PostEditor: React.FC<PostEditorProps> = ({
   imageUploadProgress,
   handleUploadImage,
 }) => {
-  const { content } = formData;
   const quillRef = useRef<ReactQuillType | null>(null);
+  const dispatch = useDispatch();
 
-  const handleContentChange = (value: string) => {
-    setFormData({ content: value });
-  };
+  const handleContentChange = useCallback(
+    (value: string) => setFormData({ content: value }),
+    [setFormData],
+  );
 
-  const imageHandler = async () => {
+  const imageHandler = useCallback(() => {
+    if (typeof window === 'undefined') return;
+
     const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+    input.type = 'file';
+    input.accept = 'image/*';
     input.click();
 
     input.onchange = async () => {
       const file = input.files?.[0];
-      if (file) {
-        try {
-          // For now, we can hardcode sample metadata or trigger a modal.
-          const metadata = {
-            author: 'John Doe',
-            link: 'https://example.com',
-            license: 'CC BY-SA'
-          };
+      if (!file) return;
 
-          const imageUrl = await handleUploadImage(file);
+      try {
+        const imageUrl = await handleUploadImage(file);
+        const imageId = uuidv4();
 
-          const quill = quillRef.current?.getEditor();
-          if (quill) {
-            const range = quill.getSelection(true);
-            if (range) {
-              quill.insertEmbed(range.index, 'customImage', { url: imageUrl, meta: metadata });
-              quill.setSelection(range.index + 1);
-              const html = quill.root.innerHTML;
-              setFormData({ content: html });
-            }
-          }
-        } catch (error) {
-          console.error('Image upload failed:', error);
-        }
+        dispatch(
+          addInlineImage({
+            id: imageId,
+            url: imageUrl,
+            meta: { author: '', description: '' },
+          }),
+        );
+
+        const quill = quillRef.current?.getEditor();
+        if (!quill) return;
+
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range?.index ?? 0, 'image', imageUrl, 'user');
+        quill.formatText(range?.index ?? 0, 1, { imageId });
+        quill.setSelection((range?.index ?? 0) + 1);
+
+        setFormData({ content: quill.root.innerHTML });
+      } catch (err) {
+        console.error('Image upload failed', err);
       }
     };
-  };
+  }, [handleUploadImage, dispatch, setFormData]);
 
   const modules = {
     toolbar: {
       container: [
-        [{ header: [1, 2, 3, false] }],
+        [{ header: [1, 2, false] }],
         ['bold', 'italic', 'underline'],
+        ['link', 'image'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image', 'code-block'],
         ['clean'],
       ],
-      handlers: {
-        image: imageHandler,
-      },
+      handlers: { image: imageHandler },
     },
   };
 
   return (
-    <div>
-      <ReactQuill
-        ref={quillRef}
-        theme="snow"
-        placeholder="Write something..."
-        className="mb-12"
-        value={content}
-        onChange={handleContentChange}
-        modules={modules}
-        readOnly={!!imageUploadProgress}
-      />
-    </div>
+    <QuillNoSSRWrapper
+      ref={quillRef}
+      value={formData.content}
+      onChange={handleContentChange}
+      modules={modules}
+      readOnly={Boolean(imageUploadProgress)}
+      theme="snow"
+      placeholder="Write something…"
+      className="mb-12"
+    />
   );
 };
 

@@ -4,6 +4,7 @@ export interface ImageMeta {
 }
 
 export interface PostImage {
+  id: string
   url: string;
   meta?: ImageMeta;
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import InlineImageEditor from '@/app/components/PostEditor/InlineImageEditor';
 import PostEditor from '@/app/components/PostEditor/PostEditor';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
@@ -50,7 +51,7 @@ export default function CreatePostPage() {
       localStorage.setItem('publishSuccess', 'Post published successfully!');
       setPublishSuccess('Post published successfully!');
 
-      setTimeout(() => window.location.reload(), 2000);
+      // setTimeout(() => window.location.reload(), 2000);
     } catch (error: unknown) {
       setPublishError(`Something went wrong: ${error}`);
     }
@@ -193,6 +194,7 @@ export default function CreatePostPage() {
           imageUploadProgress={imageUploadProgress}
           handleUploadImage={handleInlineImageUpload}
         />
+        <InlineImageEditor />
         <Button type='submit' gradientDuoTone='purpleToPink'>
           Publish
         </Button>
