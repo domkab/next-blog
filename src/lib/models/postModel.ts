@@ -1,6 +1,28 @@
 import { PostCategory } from '@/types/Post';
 import mongoose from 'mongoose';
 
+const InlineImageSchema = new mongoose.Schema(
+  {
+    id: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
+    },
+    meta: {
+      author: { type: String, default: '' },
+      description: { type: String, default: '' }
+    }
+  },
+  {
+    _id: false,
+    id: false,
+    strict: true
+  }
+);
+
 const postSchema = new mongoose.Schema(
   {
     userId: {
@@ -27,15 +49,10 @@ const postSchema = new mongoose.Schema(
           description: { type: String, default: '' },
         },
       },
-      inline: [
-        {
-          url: String,
-          meta: {
-            author: { type: String, default: '' },
-            description: { type: String, default: '' },
-          },
-        },
-      ],
+      inline: {
+        type: [InlineImageSchema],
+        default: []
+      }
     },
     category: {
       type: String,

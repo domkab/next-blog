@@ -46,9 +46,21 @@ const postFormSlice = createSlice({
     addInlineImage: (state, action: PayloadAction<ImageData>) => {
       state.images.inline.push(action.payload);
     },
-    updateInlineImageMeta: (state, action: PayloadAction<{ id: string; meta: ImageMeta }>) => {
+    removeInlineImage: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.images.inline =
+        state.images.inline.filter(img => img.id !== action.payload);
+    },
+    updateInlineImageMeta: (
+      state,
+      action: PayloadAction<{ id: string; meta: ImageMeta }>
+    ) => {
       const img = state.images.inline.find(i => i.id === action.payload.id);
-      if (img) img.meta = action.payload.meta;
+      if (img) {
+        img.meta = { ...img.meta, ...action.payload.meta };
+      }
     },
     setFile: (state, action: PayloadAction<string | null>) => {
       state.fileUrl = action.payload;
@@ -82,7 +94,8 @@ const postFormSlice = createSlice({
 
 export const {
   setFormData,
-  addInlineImage, 
+  addInlineImage,
+  removeInlineImage,
   updateInlineImageMeta,
   setFile,
   setImageUploadProgress,
