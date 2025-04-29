@@ -6,6 +6,7 @@ import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
 import { PostType } from '@/types/Post';
 import PostContent from '@/app/components/Post/PostContent';
+import styles from '../../components/Post/PostContent.module.scss';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -57,15 +58,25 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           {post && post.category}
         </Button>
       </Link>
-      <div
-      >
-        <Image
-          src={post.images.main.url}
-          alt={post.title}
-          width={800}
-          height={400}
-          className='mt-10 p-3 max-h-[600px] w-full object-cover'
-        />
+      <div>
+        {post.images.main.url && (
+          <figure className={styles['post-content__figure']}>
+            <Image
+              src={post.images.main.url}
+              alt={post.images.main.meta?.description || "Main Image"}
+              width={800}
+              height={450}
+              className={styles['post-content__image']}
+            />
+            {(post.images.main.meta?.description || post.images.main.meta?.author) && (
+              <figcaption className={styles['post-content__caption']}>
+                {post.images.main.meta?.author
+                  ? `${post.images.main.meta?.description} — ${post.images.main.meta?.author}`
+                  : post.images.main.meta?.description}
+              </figcaption>
+            )}
+          </figure>
+        )}
       </div>
       <div className='flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>

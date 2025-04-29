@@ -56,7 +56,6 @@ export default function CreatePostPage() {
       setPublishError(`Something went wrong: ${error}`);
     }
   };
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setFormData({ title: e.target.value }));
   };
@@ -178,14 +177,70 @@ export default function CreatePostPage() {
         )}
 
         {formData.images.main.url && (
-          <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-            <Image
-              src={formData.images.main.url}
-              alt="Uploaded image"
-              fill
-              className="object-cover"
-            />
-          </div>
+          <>
+            <div style={{ position: 'relative', width: '100%', height: '400px' }}>
+              <Image
+                src={formData.images.main.url}
+                alt={formData.images.main.meta?.description || "Uploaded image"}
+                fill
+                className="object-cover"
+              />
+            </div>
+
+            <div className="flex flex-col gap-4 mt-6">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="main-image-author" className="text-sm font-medium">
+                  Image Author
+                </label>
+                <TextInput
+                  id="main-image-author"
+                  type="text"
+                  placeholder="Author"
+                  value={formData.images.main.meta?.author || ''}
+                  onChange={(e) =>
+                    dispatch(setFormData({
+                      images: {
+                        ...formData.images,
+                        main: {
+                          ...formData.images.main,
+                          meta: {
+                            ...formData.images.main.meta,
+                            author: e.target.value,
+                          },
+                        },
+                      },
+                    }))
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="main-image-description" className="text-sm font-medium">
+                  Image Description
+                </label>
+                <TextInput
+                  id="main-image-description"
+                  type="text"
+                  placeholder="Description"
+                  value={formData.images.main.meta?.description || ''}
+                  onChange={(e) =>
+                    dispatch(setFormData({
+                      images: {
+                        ...formData.images,
+                        main: {
+                          ...formData.images.main,
+                          meta: {
+                            ...formData.images.main.meta,
+                            description: e.target.value,
+                          },
+                        },
+                      },
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          </>
         )}
 
         <PostEditor
@@ -194,7 +249,9 @@ export default function CreatePostPage() {
           imageUploadProgress={imageUploadProgress}
           handleUploadImage={handleInlineImageUpload}
         />
+
         <InlineImageEditor />
+
         <Button type='submit' gradientDuoTone='purpleToPink'>
           Publish
         </Button>

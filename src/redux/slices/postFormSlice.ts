@@ -53,6 +53,12 @@ const postFormSlice = createSlice({
       state.images.inline =
         state.images.inline.filter(img => img.id !== action.payload);
     },
+    updateMainImageMeta: (state, action: PayloadAction<{ meta: Partial<ImageMeta> }>) => {
+      state.images.main.meta = {
+        ...state.images.main.meta,
+        ...action.payload.meta,
+      };
+    },
     updateInlineImageMeta: (
       state,
       action: PayloadAction<{ id: string; meta: ImageMeta }>
@@ -96,6 +102,7 @@ export const {
   setFormData,
   addInlineImage,
   removeInlineImage,
+  updateMainImageMeta,
   updateInlineImageMeta,
   setFile,
   setImageUploadProgress,
