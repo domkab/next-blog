@@ -1,4 +1,3 @@
-// app/components/PostContent.tsx
 import React from 'react';
 import parse, {
   HTMLReactParserOptions,
@@ -45,12 +44,11 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
               />
               {hasCaption && (
                 <figcaption className={styles['post-content__caption']}>
-                  {meta?.description}
-                  {meta?.author && (
-                    <span className={styles['post-content__caption--author']}>
-                      &nbsp;—&nbsp;{meta?.author}
-                    </span>
-                  )}
+                  {meta?.author
+                    ? `${meta?.description} — ${meta?.author}`
+                    : meta?.description !== alt
+                      ? meta?.description
+                      : null}
                 </figcaption>
               )}
             </figure>
@@ -58,7 +56,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
         }
 
         const allText = p.children.every(
-          c => c.type === 'text' && !( (c as DomText).data.trim() )
+          c => c.type === 'text' && !((c as DomText).data.trim())
         );
         if (allText) {
           return <React.Fragment key={index} />;

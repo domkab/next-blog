@@ -7,8 +7,12 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.hostinger.com',
+      },
     ],
-    domains: ['www.hostinger.com'],
   },
-} 
+};
+
 export default nextConfig;
