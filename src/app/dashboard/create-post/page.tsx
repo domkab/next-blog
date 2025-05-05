@@ -89,12 +89,13 @@ export default function CreatePostPage() {
 
   if (!isLoaded || !user) return null;
 
-  if (!(isSignedIn && user.publicMetadata.isAdmin))
+  if (!(isSignedIn && user.publicMetadata.isAdmin)) {
     return (
-      <h1 className="text-center text-3xl my-7 font-semibold">
-        You are not authorized to view this page
+      <h1 className="text-center text-3xl my-7 font-semibold min-h-screen">
+        You need to be an admin to update a post
       </h1>
     );
+  }
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">

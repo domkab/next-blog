@@ -35,6 +35,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     }
   })();
 
+  console.log('Post fetched:', post);
+
   if (!post) {
     return (
       <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>

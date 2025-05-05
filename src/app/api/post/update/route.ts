@@ -29,14 +29,10 @@ export const PUT = async (req: Request) => {
           images: {
             main: {
               url: data.images.main.url,
-              meta: data.imageMeta || {},
+              meta: data.images.main.meta || {},
             },
-            inline: (data.inlineImages || []).map((url: string, index: number) => ({
-              url,
-              meta: data.inlineImagesMeta
-                && data.inlineImagesMeta[index] ? data.inlineImagesMeta[index] : {},
-            })),
-          },
+            inline: data.images.inline || [],
+          }
         },
       },
       { new: true }
