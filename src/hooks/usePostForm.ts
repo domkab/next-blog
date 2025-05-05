@@ -1,21 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { app } from '@/firebase';
 import { FormData } from '@/types/FormData';
-
-const generateSlug = (text: string): string =>
-  text
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-
-type UploadTarget = 'main' | 'inline';
+import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
+import { generateSlug } from '@/utils/generateSlug';
 
 export default function usePostForm(initialFormData: FormData) {
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [formData, setFormData] = useState<FormData>(() => initialFormData);
   const [file, setFile] = useState<null | File>(null);
   const [imageUploadProgress, setImageUploadProgress] = useState<string | null>(null);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
@@ -27,57 +18,40 @@ export default function usePostForm(initialFormData: FormData) {
    * If 'inline', you could call a callback with the URL to insert into the editor.
    */
   const handleUploadImage = async (
-    target: UploadTarget = 'main',
+    target: 'main' | 'inline',
     onSuccessInline?: (url: string) => void
   ) => {
-    try {
-      if (!formData.title) {
-        setImageUploadError('Please create a post title first!');
-        return;
-      }
+    if (!formData.title || !file) {
+      setImageUploadError('Please create a post title and upload an image first!');
 
-      if (!file) {
-        setImageUploadError('Please upload an image!');
-        return;
-      }
-
-      setImageUploadError(null);
-      const storage = getStorage(app);
-      const slug = generateSlug(formData.title);
-      const folderPath = `posts/${slug}`;
-      const prefix = target === 'main' ? 'main' : 'inline';
-      const fileName = `${prefix}-${new Date().getTime()}-${file.name}`;
-      const storageRef = ref(storage, `${folderPath}/${fileName}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageUploadError(`Image upload failed: ${error}`);
-          setImageUploadProgress(null);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-
-            if (target === 'main') {
-              setFormData((prev) => ({ ...prev, image: downloadURL }));
-            } else if (target === 'inline' && onSuccessInline) {
-              onSuccessInline(downloadURL);
-            }
-          });
-        }
-      );
-    } catch (error) {
-      setImageUploadError('Image upload failed');
-      setImageUploadProgress(null);
-      console.error(error);
+      return;
     }
+
+    const slug = generateSlug(formData.title);
+    await uploadImageToFirebase(
+      file,
+      target,
+      slug,
+      (progress) => setImageUploadProgress(progress),
+      (error) => setImageUploadError(error),
+      (url) => {
+        setImageUploadProgress(null);
+        setImageUploadError(null);
+
+        if (target === 'main') {
+          setFormData((prev) => ({
+            ...prev,
+            images: {
+              ...prev.images,
+              main: { url },
+            },
+          }));
+
+        } else if (target === 'inline' && onSuccessInline) {
+          onSuccessInline(url);
+        }
+      }
+    );
   };
 
   return {

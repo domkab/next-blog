@@ -26,7 +26,13 @@ export const PUT = async (req: Request) => {
           title: data.title,
           content: data.content,
           category: data.category,
-          image: data.image,
+          images: {
+            main: {
+              url: data.images.main.url,
+              meta: data.images.main.meta || {},
+            },
+            inline: data.images.inline || [],
+          }
         },
       },
       { new: true }

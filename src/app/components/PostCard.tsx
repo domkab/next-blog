@@ -1,23 +1,19 @@
 import Link from 'next/link';
 import NextImage from 'next/image';
+import { PostType } from '@/types/Post';
 
-type postCardProps = {
-  post: {
-    title: string,
-    slug: string,
-    image: string,
-    category: string
-  }
+type PostCardProps = {
+  post: PostType;
   limit?: number;
-}
+};
 
-export default function PostCard({ post }: postCardProps) {
+export default function PostCard({ post }: PostCardProps) {
   return (
     <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
       <Link href={`/post/${post.slug}`}>
         <div className="relative w-full h-[260px] group-hover:h-[200px] transition-all duration-300">
           <NextImage
-            src={post.image}
+            src={post.images.main.url}
             alt="post cover"
             fill
             className="object-cover z-20"
