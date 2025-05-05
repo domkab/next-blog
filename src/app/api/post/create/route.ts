@@ -8,7 +8,8 @@ export const POST = async (req: Request) => {
   try {
     await connect();
     const data = await req.json();
-    console.log('req data:',data);
+    console.log('req data:', data);
+    console.log('inline images', data.images.inline);
     // auth middleware
     if (
       !user ||
@@ -30,10 +31,16 @@ export const POST = async (req: Request) => {
       userId: user.publicMetadata.userMongoId,
       content: data.content,
       title: data.title,
-      image: data.image,
+      images: {
+        main: {
+          url: data.images.main.url,
+          meta: data.images.main.meta || {},
+        },
+        inline: data.images.inline || [],
+      },
       category: data.category,
       slug,
-    })
+    });
 
     await newPost.save();
 
