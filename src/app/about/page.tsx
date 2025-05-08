@@ -1,29 +1,49 @@
+import Link from 'next/link';
 import styles from '../../styles/AboutPage.module.scss';
 
 export default function AboutPage() {
   return (
     <main
-      className={`${styles['about-page']} 
-      min-h-screen flex items-center justify-center
-      `
-      }
+      className={`${styles['about-page']} min-h-screen`}
     >
+      <section className={`${styles['about-page__content']} gap-6 max-w-6xl mx-auto my-7 p-8`}>
+        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to my Blog</h1>
+        <p className='text-gray-500 text-sm sm:text-base'>
+          Discover a variety of articles and tutorials on topics such as web
+          development, software engineering, and programming languages, all
+          brought to you through a blog built with Next.js and{' '}
+          <a
+            href='https://go.clerk.com/fgJHKlt'
+            className='text-teal-500 hover:underline'
+            target='_blank'
+          >
+            Clerk
+          </a>
+          .
+        </p>
+        <Link
+          href='/search'
+          className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'
+        >
+          View all posts
+        </Link>
+      </section>
 
       <section
         className={`${styles['about-page__container']} 
-        max-w-2xl mx-auto p-3 text-center
+        max-w-2xl mx-auto text-center
         `
         }
       >
-
-        <h1
-          className={`${styles['about-page__title']} 
+        <h2
+          className=
+          {`${styles['about-page__title']} 
           text-3xl font font-semibold text-center my-7
           `
           }
         >
           About Consumer Review
-        </h1>
+        </h2>
 
         <div className={styles['about-page__content']}>
           <p className={styles['about-page__paragraph']}>
@@ -66,7 +86,6 @@ export default function AboutPage() {
             decisions—one post at a time.
           </p>
         </div>
-
       </section>
     </main >
   )

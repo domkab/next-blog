@@ -1,0 +1,57 @@
+@mixin onMobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin onTablet {
+  @media (min-width: 767px) {
+    @content;
+  }
+}
+
+@mixin onLaptop {
+  @media (min-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin onLaptopL {
+  @media (min-width: 1439px) {
+    @content;
+  }
+}
+
+@mixin useGrid($columnsCount, $gap) {
+  display: grid;
+  grid-template-columns: repeat($columnsCount, 1fr);
+  gap: $gap;
+  grid-row-gap: 0;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition-effect($properties,
+  $duration: $transition-duration,
+  $timing-function: ease-in-out) {
+  $transitions: ();
+
+  @each $property in $properties {
+    $transitions: append($transitions, $property $duration $timing-function, comma);
+  }
+
+  transition: $transitions;
+}
+
+@mixin heading-($size, $weight, $color) {
+  font-family: $font-family;
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: 150%;
+  color: $color;
+}
