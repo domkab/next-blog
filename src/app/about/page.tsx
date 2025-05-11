@@ -33,7 +33,7 @@ export default function AboutPage() {
         </Link>
 
         <Image
-          src="/blog-desktop-1.png"
+          src="/images/blog-desktop-1.png"
           alt="Illustration of a desktop with tech content"
           width={800}
           height={450}
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
           <div style={{ position: 'relative', width: '100%', height: '350px' }}>
             <Image
-              src="/cat-on-laptop-transparent-2-redacted.png"
+              src="/images/cat-on-laptop-transparent-2-redacted.png"
               alt=""
               fill
               style={{ objectFit: 'contain' }}
