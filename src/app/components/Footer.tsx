@@ -30,11 +30,14 @@ export default function FooterCom() {
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
+
             <div>
-              <Footer.Title title='Follow us' />
+              <Footer.Title title='Contact' />
               <Footer.LinkGroup col>
+                <Footer.Link href='/contact'>Contact Us</Footer.Link>
               </Footer.LinkGroup>
             </div>
+
             <div>
               <Footer.Title title='Legal' />
               <Footer.LinkGroup col>

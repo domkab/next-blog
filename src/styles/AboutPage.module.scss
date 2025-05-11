@@ -1,7 +1,6 @@
 @use '../styles/mixins' as *;
 
 .about-page {
-  min-height: 100vh;
   display: flex;
   flex-direction: row;
 
@@ -29,7 +28,21 @@
     font-size: 1rem;
   }
 
+  &__heading {
+    @include onMobile {
+      align-self: center;
+    }
+
+    &--last {
+      align-self: center;
+    }
+  }
+
   &__paragraph {
     line-height: 1.6;
+
+    &--next {
+      // text-align: start;
+    }
   }
 }
