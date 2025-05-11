@@ -33,12 +33,14 @@ export default function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ReduxProvider>
             <ThemeComponent>
-              <Suspense fallback={<div>Loading...</div>}>
-                <Header />
-              </Suspense>
-              <NavigationLoader />
-              {children}
-              <Footer />
+              <div className="flex min-h-screen flex-col">
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Header />
+                </Suspense>
+                <NavigationLoader />
+                {children}
+                <Footer />
+              </div>
             </ThemeComponent>
           </ReduxProvider>
         </body>
