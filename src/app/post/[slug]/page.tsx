@@ -7,6 +7,7 @@ import RecentPosts from '@/app/components/RecentPosts';
 import { PostType } from '@/types/Post';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
+import NotFound from '@/app/not-found/page';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -38,13 +39,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   console.log('Post fetched:', post);
 
   if (!post) {
-    return (
-      <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
-        <h2 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>
-          Post not found
-        </h2>
-      </main>
-    );
+    return <NotFound />;
   }
 
   return (
