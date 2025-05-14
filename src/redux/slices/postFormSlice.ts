@@ -21,6 +21,7 @@ export interface PostFormState extends FormData {
 
 const initialState: PostFormState = {
   title: '',
+  description: '',
   content: '',
   slug: '',
   category: '',

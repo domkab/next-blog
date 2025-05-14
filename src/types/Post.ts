@@ -22,6 +22,7 @@ export interface PostType {
   userId: string;
   content: string;
   title: string;
+  description: string;
   images: {
     main: PostImage;
     inline: PostImage[];
