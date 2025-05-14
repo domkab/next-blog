@@ -24,6 +24,7 @@ export const PUT = async (req: Request) => {
       {
         $set: {
           title: data.title,
+          description: data.description,
           content: data.content,
           category: data.category,
           images: {

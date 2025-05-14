@@ -29,8 +29,10 @@ export const POST = async (req: Request) => {
 
     const newPost = await Post.create({
       userId: user.publicMetadata.userMongoId,
-      content: data.content,
       title: data.title,
+      description: data.description,
+      content: data.content,
+      category: data.category,
       images: {
         main: {
           url: data.images.main.url,
@@ -38,7 +40,6 @@ export const POST = async (req: Request) => {
         },
         inline: data.images.inline || [],
       },
-      category: data.category,
       slug,
     });
 
