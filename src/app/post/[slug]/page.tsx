@@ -1,4 +1,3 @@
-import CallToAction from '@/app/components/CallToAction';
 import axios from 'axios';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
@@ -7,7 +6,8 @@ import RecentPosts from '@/app/components/RecentPosts';
 import { PostType } from '@/types/Post';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
-import NotFound from '@/app/not-found/page';
+import NotFound from '@/app/not-found';
+import CallToAction from '@/app/components/CallToAction2';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -86,9 +86,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <PostContent post={post} />
       </div>
 
-      <div className='max-w-4xl mx-auto w-full'>
+      {/* <div className='max-w-4xl mx-auto w-full'> */}
         <CallToAction />
-      </div>
+      {/* </div> */}
 
       <RecentPosts limit={3} />
     </main>
