@@ -1,7 +1,9 @@
+import Link from 'next/link';
+
 export default function FeaturedPost() {
   return (
     <>
-      <div className="max-w-7xl max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-2xl font-semibold mb-4">Featured Post</h2>
 
         <div className="flex flex-col bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
@@ -25,12 +27,12 @@ export default function FeaturedPost() {
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
               Short summary or excerpt from the post to give users a preview of the content. Keep it concise and compelling.
             </p>
-            <a
+            <Link
               href="/post/sample-slug"
               className="text-teal-500 hover:underline text-sm font-medium self-start"
             >
               Read More →
-            </a>
+            </Link>
           </div>
         </div>
       </div>
