@@ -59,6 +59,9 @@ export default function CreatePostPage() {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setFormData({ title: e.target.value }));
   };
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setFormData({ description: e.target.value }));
+  };
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setFormData({ category: e.target.value }));
   };
@@ -98,7 +101,7 @@ export default function CreatePostPage() {
   }
 
   return (
-    <div className="p-3 max-w-3xl mx-auto min-h-screen">
+    <div className="p-3 mx-5 min-h-screen">
       {publishSuccess && (
         <Alert color='success'>{publishSuccess}</Alert>
       )}
@@ -135,6 +138,18 @@ export default function CreatePostPage() {
             <option value={PostCategory.ReactJS}>React.js</option>
             <option value={PostCategory.NextJS}>next.js</option>
           </Select>
+        </div>
+
+        <div className="description flex flex-col gap-4 sm:flex-row ">
+          <TextInput
+            type='text'
+            placeholder='Description'
+            id='description'
+            className='flex-1'
+            value={formData.description}
+            onChange={handleDescriptionChange}
+            maxLength={187}
+          />
         </div>
 
         <div className="
