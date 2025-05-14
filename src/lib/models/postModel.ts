@@ -38,6 +38,10 @@ const postSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
     images: {
       main: {
         url: {
@@ -66,6 +70,7 @@ const postSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
 
 export default Post;
