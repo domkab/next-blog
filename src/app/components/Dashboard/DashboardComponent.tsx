@@ -6,7 +6,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
 } from 'react-icons/hi';
-import { Button, Table } from 'flowbite-react';
+import { Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import axios from 'axios';
@@ -127,25 +127,25 @@ export default function DashboardComp() {
             </Button>
           </div>
           <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>User image</Table.HeadCell>
-              <Table.HeadCell>Username</Table.HeadCell>
-            </Table.Head>
+            <TableHead>
+              <TableHeadCell>User image</TableHeadCell>
+              <TableHeadCell>Username</TableHeadCell>
+            </TableHead>
             {users &&
               users.map((user) => (
-                <Table.Body key={user._id} className='divide-y'>
-                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                    <Table.Cell>
+                <TableBody key={user._id} className='divide-y'>
+                  <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                    <TableCell>
                       {/*eslint-disable-next-line @next/next/no-img-element*/}
                       <img
                         src={user.profilePicture}
                         alt='user'
                         className='w-10 h-10 rounded-full bg-gray-500'
                       />
-                    </Table.Cell>
-                    <Table.Cell>{user.username}</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
+                    </TableCell>
+                    <TableCell>{user.username}</TableCell>
+                  </TableRow>
+                </TableBody>
               ))}
           </Table>
         </div>
@@ -158,27 +158,27 @@ export default function DashboardComp() {
             </Button>
           </div>
           <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>Post image</Table.HeadCell>
-              <Table.HeadCell>Post Title</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
-            </Table.Head>
+            <TableHead>
+              <TableHeadCell>Post image</TableHeadCell>
+              <TableHeadCell>Post Title</TableHeadCell>
+              <TableHeadCell>Category</TableHeadCell>
+            </TableHead>
             {posts &&
               posts.map((post) => (
-                <Table.Body key={post._id} className='divide-y'>
-                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                    <Table.Cell>
+                <TableBody key={post._id} className='divide-y'>
+                  <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                    <TableCell>
                       {/*eslint-disable-next-line @next/next/no-img-element*/}
                       <img
                         src={post.images.main.url}
                         alt='user'
                         className='w-14 h-10 rounded-md bg-gray-500'
                       />
-                    </Table.Cell>
-                    <Table.Cell className='w-96'>{post.title}</Table.Cell>
-                    <Table.Cell className='w-5'>{post.category}</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
+                    </TableCell>
+                    <TableCell className='w-96'>{post.title}</TableCell>
+                    <TableCell className='w-5'>{post.category}</TableCell>
+                  </TableRow>
+                </TableBody>
               ))}
           </Table>
         </div>
