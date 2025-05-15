@@ -2,7 +2,7 @@
 
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import { Button, Navbar, TextInput } from 'flowbite-react';
+import { Button, Navbar, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from 'flowbite-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -95,25 +95,25 @@ export default function Header() {
           </Link>
 
         </SignedOut>
-        <Navbar.Toggle />
+        <NavbarToggle />
       </div>
-      <Navbar.Collapse>
+      <NavbarCollapse>
         <Link href='/'>
-          <Navbar.Link active={path === '/'} as={'div'}>
+          <NavbarLink active={path === '/'} as={'div'}>
             Home
-          </Navbar.Link>
+          </NavbarLink>
         </Link>
         <Link href='/about'>
-          <Navbar.Link active={path === '/about'} as={'div'}>
+          <NavbarLink active={path === '/about'} as={'div'}>
             About
-          </Navbar.Link>
+          </NavbarLink>
         </Link>
         <Link href='/search'>
-          <Navbar.Link active={path === '/search'} as={'div'}>
+          <NavbarLink active={path === '/search'} as={'div'}>
             Search
-          </Navbar.Link>
+          </NavbarLink>
         </Link>
-      </Navbar.Collapse>
+      </NavbarCollapse>
     </Navbar>
   );
 }
