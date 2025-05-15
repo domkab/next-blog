@@ -1,12 +1,11 @@
 import type { Config } from "tailwindcss";
-import { content, plugin } from "flowbite-react/tailwind";
+import plugin from "flowbite/plugin";
 
 export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    content()
   ],
   theme: {
     extend: {
@@ -16,5 +15,5 @@ export default {
       },
     },
   },
-  plugins: [plugin()],
+  plugins: [plugin],
 } satisfies Config;
