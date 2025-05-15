@@ -1,6 +1,14 @@
 'use client';
 
-import { Footer } from 'flowbite-react';
+import {
+  Footer,
+  FooterCopyright,
+  FooterDivider,
+  FooterIcon,
+  FooterLink,
+  FooterLinkGroup,
+  FooterTitle,
+} from 'flowbite-react';
 import {
   BsFacebook,
   BsInstagram,
@@ -19,50 +27,50 @@ export default function FooterCom() {
           </div>
           <div className='grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6'>
             <div>
-              <Footer.Title title='About' />
-              <Footer.LinkGroup col>
-                <Footer.Link
+              <FooterTitle title='About' />
+              <FooterLinkGroup col>
+                <FooterLink
                   href='/about'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
                   Consumer&apos;s Prices
-                </Footer.Link>
-              </Footer.LinkGroup>
+                </FooterLink>
+              </FooterLinkGroup>
             </div>
 
             <div>
-              <Footer.Title title='Contact' />
-              <Footer.LinkGroup col>
-                <Footer.Link href='/contact'>Contact Us</Footer.Link>
-              </Footer.LinkGroup>
+              <FooterTitle title='Contact' />
+              <FooterLinkGroup col>
+                <FooterLink href='/contact'>Contact Us</FooterLink>
+              </FooterLinkGroup>
             </div>
 
             <div>
-              <Footer.Title title='Legal' />
-              <Footer.LinkGroup col>
-                <Footer.Link href='#'>Privacy Policy</Footer.Link>
-                <Footer.Link href='#'>Terms &amp; Conditions</Footer.Link>
-              </Footer.LinkGroup>
+              <FooterTitle title='Legal' />
+              <FooterLinkGroup col>
+                <FooterLink href='#'>Privacy Policy</FooterLink>
+                <FooterLink href='#'>Terms &amp; Conditions</FooterLink>
+              </FooterLinkGroup>
             </div>
           </div>
         </div>
-        <Footer.Divider />
+        <FooterDivider />
         <div className='w-full sm:flex sm:items-center sm:justify-between'>
-          <Footer.Copyright
+          <FooterCopyright
             href='#'
             by="Consumer's Prices"
             year={new Date().getFullYear()}
           />
           <div className='flex gap-6 sm:mt-0 mt-4 sm:justify-center'>
-            <Footer.Icon href='#' icon={BsFacebook} />
-            <Footer.Icon href='#' icon={BsInstagram} />
-            <Footer.Icon href='#' icon={BsTwitter} />
-            <Footer.Icon
+            <FooterIcon href='#' icon={BsFacebook} />
+            <FooterIcon href='#' icon={BsInstagram} />
+            <FooterIcon href='#' icon={BsTwitter} />
+            <FooterIcon
               href='https://github.com/sahandghavidel'
               icon={BsGithub}
             />
-            <Footer.Icon href='#' icon={BsDribbble} />
+            <FooterIcon href='#' icon={BsDribbble} />
           </div>
         </div>
       </div>

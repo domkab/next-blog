@@ -1,3 +1,5 @@
+import "./globals.css";
+import "./globals.scss";
 import ReduxProvider from '@/redux/ReduxProvider';
 import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from "next";
@@ -6,7 +8,6 @@ import { Suspense } from 'react';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import ThemeComponent from './components/ThemeComponent';
-import "./globals.scss";
 import NavigationLoader from './components/Navigation/NavigationLoader';
 
 const geistSans = Geist({
@@ -33,7 +34,7 @@ export default function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ReduxProvider>
             <ThemeComponent>
-              <div className="flex min-h-screen flex-col">
+              <div className="flex min-h-screen flex-col bg-red-500">
                 <Suspense fallback={<div>Loading...</div>}>
                   <Header />
                 </Suspense>

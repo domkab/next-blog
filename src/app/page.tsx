@@ -29,6 +29,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col justify-center items-center">
+      <div className="bg-red-500 text-white p-4">Tailwind test</div>
       <section className='w-full' aria-label="Featured Post">
         <FeaturedPost />
       </section>
