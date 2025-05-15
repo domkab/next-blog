@@ -1,6 +1,6 @@
 'use client';
 
-import { Table } from 'flowbite-react';
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useUser } from '@clerk/nextjs';
@@ -49,38 +49,38 @@ export default function DashUsers() {
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.publicMetadata?.isAdmin && users.length > 0 ? (
         <Table hoverable className="shadow-md">
-          <Table.Head>
-            <Table.HeadCell onClick={() => handleSort('createdAt')} className="cursor-pointer">
+          <TableHead>
+            <TableHeadCell onClick={() => handleSort('createdAt')} className="cursor-pointer">
               Date created <HiChevronUpDown className="inline ml-2" />
-            </Table.HeadCell>
-            <Table.HeadCell> User image</Table.HeadCell>
-            <Table.HeadCell>Username</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('email')} className="cursor-pointer">
+            </TableHeadCell>
+            <TableHeadCell> User image</TableHeadCell>
+            <TableHeadCell>Username</TableHeadCell>
+            <TableHeadCell onClick={() => handleSort('email')} className="cursor-pointer">
               Email <HiChevronUpDown className="inline ml-2" />
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('isAdmin')} className="cursor-pointer">
+            </TableHeadCell>
+            <TableHeadCell onClick={() => handleSort('isAdmin')} className="cursor-pointer">
               Admin <HiChevronUpDown className="inline ml-2" />
-            </Table.HeadCell>
-          </Table.Head>
+            </TableHeadCell>
+          </TableHead>
           {sortedUsers.map((user) => (
-            <Table.Body key={user._id} className="divide-y">
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell>{new Date(user.createdAt).toLocaleDateString()}</Table.Cell>
-                <Table.Cell>
+            <TableBody key={user._id} className="divide-y">
+              <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={user.profilePicture}
                     alt={user.username}
                     className="w-10 h-10 object-cover bg-gray-500 rounded-full"
                   />
-                </Table.Cell>
-                <Table.Cell>{user.username}</Table.Cell>
-                <Table.Cell>{user.email}</Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
                   {user.isAdmin ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                </Table.Cell>
-              </Table.Row>
-            </Table.Body>
+                </TableCell>
+              </TableRow>
+            </TableBody>
           ))}
         </Table>
       ) : (

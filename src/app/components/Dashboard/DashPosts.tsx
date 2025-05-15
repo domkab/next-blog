@@ -1,5 +1,17 @@
 
-import { Button, Checkbox, Modal, Table } from 'flowbite-react';
+import {
+  Button,
+  Checkbox,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
@@ -111,7 +123,6 @@ export default function DashPosts() {
   }
 
   return (
-
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.publicMetadata?.isAdmin && userPosts.length > 0 ? (
 
@@ -120,51 +131,51 @@ export default function DashPosts() {
             <Button className="mb-5">Create Post</Button>
           </Link>
           <Table hoverable className="shadow-md">
-            <Table.Head>
-              <Table.HeadCell>
+            <TableHead>
+              <TableHeadCell>
                 <Checkbox
                   onChange={handleSelectAll}
                   checked={selectedPosts.length === userPosts.length}
                 />
-              </Table.HeadCell>
-              <Table.HeadCell
+              </TableHeadCell>
+              <TableHeadCell
                 className="cursor-pointer"
                 onClick={() => handleSort('updatedAt')}
               >
                 Date updated <HiChevronUpDown className="inline ml-2" />
-              </Table.HeadCell>
-              <Table.HeadCell>Post image</Table.HeadCell>
-              <Table.HeadCell
+              </TableHeadCell>
+              <TableHeadCell>Post image</TableHeadCell>
+              <TableHeadCell
                 className="cursor-pointer"
                 onClick={() => handleSort('title')}
               >
                 Post title <HiChevronUpDown className="inline ml-2" />
-              </Table.HeadCell>
-              <Table.HeadCell
+              </TableHeadCell>
+              <TableHeadCell
                 className="cursor-pointer"
                 onClick={() => handleSort('category')}
               >
                 Category <HiChevronUpDown className="inline ml-2" />
-              </Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell>Edit</Table.HeadCell>
-            </Table.Head>
-            <Table.Body className="divide-y">
+              </TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
+              <TableHeadCell>Edit</TableHeadCell>
+            </TableHead>
+            <TableBody className="divide-y">
               {sortedPosts.map((post) => (
-                <Table.Row
+                <TableRow
                   key={post._id}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 >
-                  <Table.Cell>
+                  <TableCell>
                     <Checkbox
                       checked={selectedPosts.includes(post._id)}
                       onChange={() => handleSelectRow(post._id)}
                     />
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     {new Date(post.updatedAt).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <Link href={`/post/${post.slug}`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -173,17 +184,17 @@ export default function DashPosts() {
                         className="w-20 h-10 object-cover bg-gray-500"
                       />
                     </Link>
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <Link
                       className="font-medium text-gray-900 dark:text-white"
                       href={`/post/${post.slug}`}
                     >
                       {post.title}
                     </Link>
-                  </Table.Cell>
-                  <Table.Cell>{post.category}</Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>{post.category}</TableCell>
+                  <TableCell>
                     <span
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                       onClick={() => {
@@ -193,18 +204,18 @@ export default function DashPosts() {
                     >
                       Delete
                     </span>
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <Link
                       className="text-teal-500 hover:underline"
                       href={`/dashboard/update-post/${post._id}`}
                     >
                       Edit
                     </Link>
-                  </Table.Cell>
-                </Table.Row>
+                  </TableCell>
+                </TableRow>
               ))}
-            </Table.Body>
+            </TableBody>
           </Table>
         </>
       ) : (
@@ -221,8 +232,8 @@ export default function DashPosts() {
         popup
         size="md"
       >
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
@@ -237,7 +248,7 @@ export default function DashPosts() {
               </Button>
             </div>
           </div>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </div>
   );

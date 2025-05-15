@@ -1,6 +1,6 @@
 'use client';
 
-import { Sidebar } from 'flowbite-react';
+import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react';
 import {
   HiUser,
   HiArrowSmRight,
@@ -42,22 +42,22 @@ export default function DashSidebar() {
     <Sidebar
       className="w-full mdW56"
     >
-      <Sidebar.Items className="flex flex-col gap-1">
-        <Sidebar.ItemGroup className='flex flex-col gap-1'>
+      <SidebarItems className="flex flex-col gap-1">
+        <SidebarItemGroup className='flex flex-col gap-1'>
           {isAdmin && (
             <Link href='/dashboard?tab=dash'>
-              <Sidebar.Item
+              <SidebarItem
                 active={tab === 'dash' || !tab}
                 icon={HiChartPie}
                 as='div'
               >
                 Dashboard
-              </Sidebar.Item>
+              </SidebarItem>
             </Link>
           )}
 
           <Link href='/dashboard?tab=profile'>
-            <Sidebar.Item
+            <SidebarItem
               active={tab === 'profile'}
               icon={HiUser}
               label={isAdmin ? 'Admin' : 'User'}
@@ -65,41 +65,40 @@ export default function DashSidebar() {
               as='div'
             >
               Profile
-            </Sidebar.Item>
+            </SidebarItem>
           </Link>
 
           {isAdmin && (
             <Link href='/dashboard?tab=posts'>
-              <Sidebar.Item
+              <SidebarItem
                 active={tab === 'posts'}
                 icon={HiDocumentText}
                 as='div'
               >
                 Posts
-              </Sidebar.Item>
+              </SidebarItem>
             </Link>
           )}
 
           {isAdmin && (
             <Link href='/dashboard?tab=users'>
-              <Sidebar.Item
+              <SidebarItem
                 active={tab === 'users'}
                 icon={HiOutlineUserGroup}
                 as='div'
               >
                 Users
-              </Sidebar.Item>
+              </SidebarItem>
             </Link>
           )}
 
-          <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer'>
+          <SidebarItem icon={HiArrowSmRight} className='cursor-pointer'>
             <SignOutButton />
-          </Sidebar.Item>
+          </SidebarItem>
 
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
+        </SidebarItemGroup>
+      </SidebarItems>
     </Sidebar>
-
-  )
+  );
 
 }
