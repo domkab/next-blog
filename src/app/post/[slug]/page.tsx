@@ -1,41 +1,44 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
-import { PostType } from '@/types/Post';
+// import { PostType } from '@/types/Post';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
 import CallToAction from '@/app/components/CallToAction2';
+// import { get } from 'http';
+import { getPostBySlug } from '@/lib/postService';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  const controller = new AbortController();
-  const post: PostType | null = await (async () => {
-    try {
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
-        { slug },
-        {
-          headers: { 'Cache-control': 'no-store' },
-          signal: controller.signal,
-        }
-      );
+  // const controller = new AbortController();
+  // const post: PostType | null = await (async () => {
+  //   try {
+  //     const { data } = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+  //       { slug },
+  //       {
+  //         headers: { 'Cache-control': 'no-store' },
+  //         signal: controller.signal,
+  //       }
+  //     );
 
-      return data.posts[0];
-    } catch (error: unknown) {
-      if (axios.isCancel(error)) {
-        console.log('Request canceled', error.message);
-      } else {
-        console.error('Error fetching post:', error);
-      }
+  //     return data.posts[0];
+  //   } catch (error: unknown) {
+  //     if (axios.isCancel(error)) {
+  //       console.log('Request canceled', error.message);
+  //     } else {
+  //       console.error('Error fetching post:', error);
+  //     }
 
-      return null;
-    }
-  })();
+  //     return null;
+  //   }
+  // })();
 
+  const post = await getPostBySlug(slug);
   console.log('Post fetched:', post);
 
   if (!post) {
@@ -64,7 +67,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               width={800}
               height={450}
               className={styles['post-content__image']}
+              unoptimized
             />
+
             {(post.images.main.meta?.description || post.images.main.meta?.author) && (
               <figcaption className={styles['post-content__caption']}>
                 {post.images.main.meta?.author
@@ -87,7 +92,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       </div>
 
       {/* <div className='max-w-4xl mx-auto w-full'> */}
-        <CallToAction />
+      <CallToAction />
       {/* </div> */}
 
       <RecentPosts limit={3} />

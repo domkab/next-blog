@@ -11,8 +11,9 @@ export async function getRecentPosts(limit = 9, order = 'desc'): Promise<PostTyp
   return posts as PostType[]
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string): Promise<PostType> {
   await connect();
+  const post = await Post.findOne({ slug }).lean()
 
-  return await Post.findOne({ slug }).lean();
+  return post as PostType;
 }
