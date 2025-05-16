@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "next-blog-acbbc.firebaseapp.com",
   projectId: "next-blog-acbbc",
-  storageBucket: "next-blog-acbbc.firebasestorage.app",
+  storageBucket: "next-blog-acbbc.appspot.com",
   messagingSenderId: "747614347281",
   appId: "1:747614347281:web:bf168be2a99bc06aee51b0",
   measurementId: "G-KL3MM058ZJ"
