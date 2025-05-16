@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.9.0",
     "firebase": "^11.7.3",
+    "firebase-admin": "^13.4.0",
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.10.2",
     "html-react-parser": "^5.2.5",
