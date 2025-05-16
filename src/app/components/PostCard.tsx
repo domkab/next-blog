@@ -17,6 +17,7 @@ export default function PostCard({ post }: PostCardProps) {
             alt="post cover"
             fill
             className="object-cover z-20"
+            unoptimized
           />
         </div>
       </Link>
