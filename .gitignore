@@ -43,7 +43,7 @@ yarn-error.log*
 next-env.d.ts
 
 # firebase
-src/firebase/firebaseReadAccount.json
+**/firebase/firebaseReadAccount.json
 # clerk configuration (can include secrets)
 /.clerk/
 
