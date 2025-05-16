@@ -41,6 +41,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
                 width={800}
                 height={450}
                 className={styles['post-content__image']}
+                unoptimized
               />
               {hasCaption && (
                 <figcaption className={styles['post-content__caption']}>
