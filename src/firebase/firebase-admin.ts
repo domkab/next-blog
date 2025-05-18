@@ -4,7 +4,7 @@ import { getStorage } from 'firebase-admin/storage';
 if (!getApps().length) {
   initializeApp({
     credential: applicationDefault(),
-    storageBucket: 'next-blog-acbbc.appspot.com',
+    storageBucket: 'next-blog-acbbc.firebasestorage.app',
   });
 }
 
