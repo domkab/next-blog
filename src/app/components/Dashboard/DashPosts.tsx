@@ -36,7 +36,7 @@ export default function DashPosts() {
     const fetchPosts = async () => {
       try {
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+          `/api/post/get`,
           {
             userId: user?.publicMetadata?.userMongoId,
           }
