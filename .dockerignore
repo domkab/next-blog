@@ -1,6 +1,7 @@
 node_modules
 .next
 Dockerfile
+.git
 .dockerignore
 .env.local
 src/firebase/firebaseReadAccount.json

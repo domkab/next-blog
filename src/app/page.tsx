@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import RecentPosts from './components/RecentPosts';
 import CallToAction from './components/CallToAction2';
-import FeaturedPost from './components/FeaturedPost';
+// import FeaturedPost from './components/FeaturedPost';
+import FeaturedPost2 from './components/FeaturedPost2';
 
 export default async function Home() {
   // let posts = null;
@@ -30,7 +31,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col justify-center items-center">
       <section className='w-full' aria-label="Featured Post">
-        <FeaturedPost />
+        <FeaturedPost2 />
       </section>
 
       <section aria-label="Subscribe to Newsletter">
