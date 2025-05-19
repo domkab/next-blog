@@ -233,6 +233,7 @@ export default function UpdatePost() {
                 src={formData.images.main.url}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
+                unoptimized
                 className="object-cover"
               />
             </div>

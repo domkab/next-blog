@@ -52,7 +52,7 @@ export default function DashboardComp() {
     const fetchPosts = async () => {
       try {
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+          `/api/post/get`,
           { limit: 5 },
           { signal: controller.signal }
         );

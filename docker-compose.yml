@@ -1,0 +1,35 @@
+services:
+  # Production
+  nextblog:
+    container_name: nextblog
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.production
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/src/firebase/firebaseReadAccount.json
+    volumes:
+      - ./src/firebase/firebaseReadAccount.json:/app/src/firebase/firebaseReadAccount.json
+    restart: unless-stopped
+
+  # Development
+  nextblog-dev:
+    container_name: nextblog-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3000"
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./src/firebase/firebaseReadAccount.json:/app/src/firebase/firebaseReadAccount.json
+    environment:
+      - NODE_ENV=development
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/src/firebase/firebaseReadAccount.json
+    command: npm run dev

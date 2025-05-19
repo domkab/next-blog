@@ -4,7 +4,7 @@ import {
   ref,
   uploadBytesResumable
 } from 'firebase/storage';
-import { app } from '@/firebase';
+import { app } from '@/firebase/firebase';
 
 export async function uploadImageToFirebase(
   file: File,
