@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setImageUploadProgress, setImageUploadError, setFormData } from '../slices/postFormSlice';
-import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
 import { generateSlug } from '@/utils/generateSlug';
 import { RootState } from '../store';
+import { uploadImageViaApi } from '@/utils/uploadImageViaApi';
+// import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
 
 interface UploadImageResponse {
   url: string;
@@ -30,7 +31,7 @@ export const uploadPostImage = createAsyncThunk<
 
     try {
       return new Promise<UploadImageResponse>((resolve, reject) => {
-        uploadImageToFirebase(
+        uploadImageViaApi(
           file,
           target,
           slug,

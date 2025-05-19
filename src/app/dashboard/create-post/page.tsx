@@ -200,6 +200,7 @@ export default function CreatePostPage() {
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
                 className="object-cover"
+                unoptimized
               />
             </div>
 

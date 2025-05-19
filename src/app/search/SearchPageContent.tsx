@@ -29,7 +29,7 @@ export default function SearchPageContent() {
       setLoading(true);
       try {
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+          `/api/post/get`,
           {
             limit: 9,
             order: sortFromUrl,
