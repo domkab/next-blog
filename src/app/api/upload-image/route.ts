@@ -14,8 +14,6 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
-  console.log('upload image endpoint hit');
-
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
     const folderPath = `posts/${slug}`;
