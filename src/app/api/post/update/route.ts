@@ -1,52 +1,36 @@
+import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import Post from '@/lib/models/postModel';
 import { connect } from '@/lib/mongodb/mongoose';
-import { currentUser } from '@clerk/nextjs/server'
+import { PostUpdateInput } from '@/types/Post';
 
-export const PUT = async (req: Request) => {
-  const user = await currentUser();
+export const PUT = withAdminAuth<PostUpdateInput>(async (user, body) => {
+  await connect();
 
   try {
-    await connect();
-    const data = await req.json();
-
-    if (
-      !user ||
-      user.publicMetadata.userMongoId !== data.userMongoId ||
-      user.publicMetadata.isAdmin !== true
-    ) {
-      return new Response('Unauthorized', {
-        status: 401,
-      });
-    }
-
     const updatedPost = await Post.findByIdAndUpdate(
-      data.postId,
+      body.postId,
       {
         $set: {
-          title: data.title,
-          description: data.description,
-          content: data.content,
-          category: data.category,
+          title: body.title,
+          description: body.description,
+          content: body.content,
+          category: body.category,
           images: {
             main: {
-              url: data.images.main.url,
-              meta: data.images.main.meta || {},
+              url: body.images.main.url,
+              meta: body.images.main.meta || {},
             },
-            inline: data.images.inline || [],
-          }
+            inline: body.images.inline || [],
+          },
         },
       },
       { new: true }
     );
 
-    return new Response(JSON.stringify(updatedPost), {
-      status: 200,
-    });
-
+    return new Response(JSON.stringify(updatedPost), { status: 200 });
   } catch (error) {
-    console.log('Error creating post:', error);
-    return new Response('Error creating post', {
-      status: 500,
-    });
+    console.error('Error updating post:', error);
+
+    return new Response('Error updating post', { status: 500 });
   }
-}
+});

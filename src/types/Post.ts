@@ -33,3 +33,28 @@ export interface PostType {
   updatedAt: string;
   __v?: number;
 }
+
+export interface PostCreateInput {
+  userMongoId: string;
+  title: string;
+  description: string;
+  content: string;
+  category: PostCategory;
+  images: {
+    main: PostImage;
+    inline?: PostImage[];
+  };
+}
+
+export interface PostUpdateInput {
+  postId: string;
+  userMongoId: string;
+  title: string;
+  description: string;
+  content: string;
+  category: string;
+  images: {
+    main: PostImage;
+    inline?: PostImage[];
+  };
+};

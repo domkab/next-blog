@@ -56,7 +56,7 @@ export default function DashPosts() {
 
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_URL}/api/post/delete`,
+        `/api/post/delete`,
         {
           data: {
             postId: postIdToDelete,
