@@ -7,9 +7,11 @@ export const GET = async () => {
 
   try {
     const featuredPosts = await FeaturedPost.find().sort({ priority: -1 }).populate('postId').lean();
+
     return new Response(JSON.stringify(featuredPosts), { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_GET_ERROR]', error);
+
     return new Response('Error fetching featured posts', { status: 500 });
   }
 };
@@ -30,6 +32,7 @@ export const POST = async (req: NextRequest) => {
     return new Response('Featured post saved', { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_SAVE_ERROR]', error);
+
     return new Response('Error saving featured post', { status: 500 });
   }
 };
@@ -44,9 +47,11 @@ export const DELETE = async (req: NextRequest) => {
 
   try {
     await FeaturedPost.deleteOne({ postId });
+
     return new Response('Featured post deleted', { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_DELETE_ERROR]', error);
+
     return new Response('Error deleting featured post', { status: 500 });
   }
 };

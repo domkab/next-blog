@@ -1,18 +1,25 @@
 import { currentUser } from '@clerk/nextjs/server';
 import type { User } from '@clerk/nextjs/server';
 
-export function withAdminAuth<T = null>(
+export function withAdminAuth<T = Request | null>(
   handler: (user: User, body: T) => Promise<Response>
-){
+) {
   return async (req: Request): Promise<Response> => {
     try {
       const user = await currentUser();
-      const body = req.method !== 'GET' ? await req.json() : null;
+
+      const contentType = req.headers.get('content-type') || '';
+      const isJson = contentType.includes('application/json');
+      const body = req.method !== 'GET' && isJson ? await req.json() : req;
+
+      const maybeHasUserMongoId = body as { userMongoId?: string };
 
       if (
         !user ||
         user.publicMetadata?.isAdmin !== true ||
-        (body?.userMongoId && user.publicMetadata?.userMongoId !== body.userMongoId)
+        (isJson &&
+          maybeHasUserMongoId.userMongoId &&
+          user.publicMetadata?.userMongoId !== maybeHasUserMongoId.userMongoId)
       ) {
         return new Response('Unauthorized', { status: 401 });
       }

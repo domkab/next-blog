@@ -1,9 +1,10 @@
 // app/api/upload/route.ts
+import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import { NextRequest, NextResponse } from 'next/server';
 import { adminStorage } from '@/firebase/firebase-admin';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function POST(req: NextRequest) {
+export const POST = withAdminAuth(async (_user, req: NextRequest) => {
   const formData = await req.formData();
   const file = formData.get('file') as File;
   const slug = formData.get('slug') as string;
@@ -21,8 +22,7 @@ export async function POST(req: NextRequest) {
     const prefix = target === 'main' ? 'main' : 'inline';
     const fileName = `${prefix}-${Date.now()}-${file.name}`;
     const bucket = adminStorage.bucket();
-    console.log('bucket: ', bucket.name);
-    
+
     const fileRef = bucket.file(`${folderPath}/${fileName}`);
 
     await fileRef.save(buffer, {
@@ -42,4 +42,4 @@ export async function POST(req: NextRequest) {
     console.error('Upload failed:', error);
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
-}
+});
