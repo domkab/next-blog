@@ -11,7 +11,8 @@ services:
       - .env.production
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/src/firebase/firebaseReadAccount.json
-    # volumes:
+    volumes:
+      - ./src/firebase/firebaseReadAccount.json:/app/src/firebase/firebaseReadAccount.json
     restart: unless-stopped
 
   # Development
@@ -27,6 +28,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - ./src/firebase/firebaseReadAccount.json:/app/src/firebase/firebaseReadAccount.json
     environment:
       - NODE_ENV=development
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/src/firebase/firebaseReadAccount.json
     command: npm run dev
