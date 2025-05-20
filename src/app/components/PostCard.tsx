@@ -30,9 +30,6 @@ export default function PostCard({ post }: PostCardProps) {
           <span className='italic text-sm/4'>{post && new Date(post.createdAt).toLocaleDateString()}</span>
         </div>
 
-        {/* <p className='text-sm'>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod saepe voluptates adipisci commodi fugit quisquam nam provident dolor consequuntur molestias?
-        </p> */}
         <p className='text-sm'>{post.description}</p>
         <Link
           href={`/post/${post.slug}`}
