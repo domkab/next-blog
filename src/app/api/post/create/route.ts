@@ -1,27 +1,16 @@
+import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import Post from '@/lib/models/postModel';
 import { connect } from '@/lib/mongodb/mongoose';
-import { currentUser } from '@clerk/nextjs/server';
+import { PostCreateInput } from '@/types/Post';
 
-export const POST = async (req: Request) => {
-  const user = await currentUser();
+export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
+  await connect();
 
   try {
-    await connect();
-    const data = await req.json();
-    console.log('req data:', data);
-    console.log('inline images', data.images.inline);
-    // auth middleware
-    if (
-      !user ||
-      user.publicMetadata.userMongoId !== data.userMongoId ||
-      user.publicMetadata.isAdmin !== true
-    ) {
-      return new Response('Unauthorized', {
-        status: 401
-      });
-    }
+    console.log('req data:', body);
+    console.log('inline images', body.images.inline);
 
-    const slug = data.title
+    const slug = body.title
       .split(' ')
       .join('-')
       .toLowerCase()
@@ -29,16 +18,16 @@ export const POST = async (req: Request) => {
 
     const newPost = await Post.create({
       userId: user.publicMetadata.userMongoId,
-      title: data.title,
-      description: data.description,
-      content: data.content,
-      category: data.category,
+      title: body.title,
+      description: body.description,
+      content: body.content,
+      category: body.category,
       images: {
         main: {
-          url: data.images.main.url,
-          meta: data.images.main.meta || {},
+          url: body.images.main.url,
+          meta: body.images.main.meta || {},
         },
-        inline: data.images.inline || [],
+        inline: body.images.inline || [],
       },
       slug,
     });
@@ -47,13 +36,10 @@ export const POST = async (req: Request) => {
 
     return new Response(JSON.stringify(newPost), {
       status: 200,
-    })
+    });
+  } catch (err) {
+    console.error('Error creating post:', err);
 
-  } catch (error) {
-    console.log('Error creating post:', error);
-
-    return new Response('Error creating post', {
-      status: 500
-    })
-  };
-};
+    return new Response('Error creating post', { status: 500 });
+  }
+});
