@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import RecentPosts from './components/RecentPosts';
 import CallToAction from './components/CallToAction2';
-// import FeaturedPost from './components/FeaturedPost';
-import FeaturedPost2 from './components/FeaturedPost2';
+import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 
 export default async function Home() {
   // let posts = null;
@@ -31,11 +30,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col justify-center items-center">
       <section className='w-full' aria-label="Featured Post">
-        <FeaturedPost2 />
-      </section>
-
-      <section aria-label="Subscribe to Newsletter">
-        <CallToAction />
+        <FeaturedPost />
       </section>
 
       <section className="p-3 flex flex-col gap-8 py-7" aria-label="Recent Articles">
@@ -46,6 +41,10 @@ export default async function Home() {
         >
           View all posts
         </Link>
+      </section>
+
+      <section aria-label="Subscribe to Newsletter">
+        <CallToAction />
       </section>
     </main>
   );

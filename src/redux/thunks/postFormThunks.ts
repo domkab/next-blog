@@ -3,7 +3,6 @@ import { setImageUploadProgress, setImageUploadError, setFormData } from '../sli
 import { generateSlug } from '@/utils/generateSlug';
 import { RootState } from '../store';
 import { uploadImageViaApi } from '@/utils/uploadImageViaApi';
-// import { uploadImageToFirebase } from '@/utils/uploadImageToFirebase';
 
 interface UploadImageResponse {
   url: string;
