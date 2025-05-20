@@ -1,23 +1,3 @@
-// interface FeaturedPostState {
-//   selectedPostId: string | null;
-//   overrideSummary: string;
-//   overrideImage: string;
-// }
-
-// const initialState: FeaturedPostState = {
-//   selectedPostId: null,
-//   overrideSummary: '',
-//   overrideImage: '',
-// };
-
-
-// •	setFeaturedPostId
-// •	setOverrideSummary
-// •	setOverrideImage
-// •	resetFeaturedPostData
-
-// bybis
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface FeaturedPost {

@@ -7,6 +7,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
   HiChartPie,
+  HiStar,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -76,6 +77,18 @@ export default function DashSidebar() {
                 as='div'
               >
                 Posts
+              </SidebarItem>
+            </Link>
+          )}
+
+          {isAdmin && (
+            <Link href='/dashboard?tab=featured-posts'>
+              <SidebarItem
+                active={tab === 'featured-posts'}
+                icon={HiStar}
+                as='div'
+              >
+                Featured Posts
               </SidebarItem>
             </Link>
           )}
