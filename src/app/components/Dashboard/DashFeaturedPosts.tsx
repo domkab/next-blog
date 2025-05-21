@@ -1,13 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Image from 'next/image';
-import {
-  addFeaturedPost,
-  removeFeaturedPost,
-} from '@/redux/slices/featuredPostSlice';
 
 import {
   Button,
@@ -20,10 +16,14 @@ import {
 import { useUser } from '@clerk/clerk-react';
 import axios from 'axios';
 import { PostType } from '@/types/Post';
+import { deleteFeaturedPost, fetchFeaturedPosts, saveFeaturedPost } from '@/redux/thunks/featuredPostThunks';
+import { useAppDispatch } from '@/redux';
 
 export default function FeaturedPostAdminPage() {
   const { user } = useUser();
-  const dispatch = useDispatch();
+  const userMongoId = user?.publicMetadata?.userMongoId as string;
+
+  const dispatch = useAppDispatch();
   const featured = useSelector((state: RootState) => state.featuredPost.featured);
 
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -42,24 +42,33 @@ export default function FeaturedPostAdminPage() {
         );
 
         setPosts(data.posts)
+        await dispatch(fetchFeaturedPosts());
+
+        console.log(data.posts);
+
 
       } catch (error) {
         console.error(error);
       }
     }
     fetchPosts();
-  }, [user?.publicMetadata?.isAdmin, user?.publicMetadata?.userMongoId])
 
-  const handleSave = () => {
+  }, [dispatch, user?.publicMetadata.isAdmin, user?.publicMetadata?.userMongoId])
+
+  const handleSave = async () => {
     if (!selectedPostId) return;
 
-    dispatch(
-      addFeaturedPost({
+    await dispatch(
+      saveFeaturedPost({
         postId: selectedPostId,
-        overrideSummary: overrideSummary.trim() || undefined,
-        overrideImage: overrideImage.trim() || undefined,
+        overrideSummary,
+        overrideImage,
+        userMongoId,
       })
     );
+
+    await dispatch(fetchFeaturedPosts());
+    console.log('featured:', featured);
 
     setSelectedPostId('');
     setOverrideSummary('');
@@ -155,7 +164,7 @@ export default function FeaturedPostAdminPage() {
                     <Button
                       size="xs"
                       color="failure"
-                      onClick={() => dispatch(removeFeaturedPost(f.postId))}
+                      onClick={() => dispatch(deleteFeaturedPost({ postId: f.postId, userMongoId }))}
                       className="mt-3 w-fit self-end"
                     >
                       Remove

@@ -1,24 +1,33 @@
-import { NextRequest } from 'next/server';
 import { connect } from '@/lib/mongodb/mongoose';
 import FeaturedPost from '@/lib/models/featuredPostModel';
+import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 
 export const GET = async () => {
   await connect();
 
   try {
-    const featuredPosts = await FeaturedPost.find().sort({ priority: -1 }).populate('postId').lean();
+    const featuredPosts = await FeaturedPost.find()
+      .sort({ priority: -1 })
+      .populate('postId')
+      .lean();
 
     return new Response(JSON.stringify(featuredPosts), { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_GET_ERROR]', error);
-
     return new Response('Error fetching featured posts', { status: 500 });
   }
 };
 
-export const POST = async (req: NextRequest) => {
+type FeaturedPostPayload = {
+  postId: string;
+  overrideSummary?: string;
+  overrideImage?: string;
+  priority?: number;
+  userMongoId: string;
+};
+
+export const POST = withAdminAuth<FeaturedPostPayload>(async (user, body) => {
   await connect();
-  const body = await req.json();
 
   try {
     const existing = await FeaturedPost.findOne({ postId: body.postId });
@@ -35,23 +44,25 @@ export const POST = async (req: NextRequest) => {
 
     return new Response('Error saving featured post', { status: 500 });
   }
+});
+
+type DeletePayload = {
+  postId: string;
+  userMongoId: string;
 };
 
-export const DELETE = async (req: NextRequest) => {
+export const DELETE = withAdminAuth<DeletePayload>(async (_user, body) => {
   await connect();
-  const { postId } = await req.json();
 
-  if (!postId) {
+  if (!body.postId) {
     return new Response('Missing postId', { status: 400 });
   }
 
   try {
-    await FeaturedPost.deleteOne({ postId });
-
+    await FeaturedPost.deleteOne({ postId: body.postId });
     return new Response('Featured post deleted', { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_DELETE_ERROR]', error);
-
     return new Response('Error deleting featured post', { status: 500 });
   }
-};
+});
