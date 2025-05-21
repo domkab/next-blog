@@ -25,6 +25,10 @@ export default function FeaturedPostAdminPage() {
   const { user } = useUser();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [toast, setToast] = useState<{
+    type: 'success' | 'error';
+    message: string
+  } | null>(null);
   const userMongoId = user?.publicMetadata?.userMongoId as string;
   const featuredPosts = useSelector((state: RootState) => state.featuredPost.featured);
 
@@ -32,6 +36,13 @@ export default function FeaturedPostAdminPage() {
   const [selectedPostId, setSelectedPostId] = useState('');
   const [overrideSummary, setOverrideSummary] = useState('');
   const [overrideImage, setOverrideImage] = useState('');
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -85,15 +96,30 @@ export default function FeaturedPostAdminPage() {
         console.log('Uploading override image:', progress + '%')
       );
       setOverrideImage(url);
+      setToast({ type: 'success', message: 'Image uploaded successfully!' });
     } catch {
-      alert('Upload failed. Please try again.');
+      setToast({ type: 'error', message: 'Upload failed. Please try again.' });
     }
   };
 
   const getPostById = (id: string) => posts.find((p) => p._id === id);
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <div className="w-[50%] max-w-7xl mx-auto p-6">
+
+      {toast && (
+        <div className="fixed top-4 right-4 z-50">
+          <div
+            className={
+              `p-4 rounded-lg shadow-md text-white 
+              ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'}`
+            }
+          >
+            {toast.message}
+          </div>
+        </div>
+      )}
+
       <h1 className="text-2xl font-bold mb-6">📝 Manage Featured Posts</h1>
 
       <div className="space-y-4 mb-10">
@@ -204,12 +230,12 @@ export default function FeaturedPostAdminPage() {
                 <Card
                   key={f.post._id}
                   className="relative cursor-pointer hover:ring-2 hover:ring-teal-500 transition-all"
-                  onClick={() => router.push(`/post/${post?.slug}`)} // navigate manually
                 >
                   <div className="w-full h-40 relative mb-2">
                     <Image
                       src={f.overrideImage || post?.images?.main?.url || '/placeholder.jpg'}
                       alt={post?.title || 'Post image'}
+                      onClick={() => router.push(`/post/${post?.slug}`)}
                       fill
                       className="object-cover rounded-md"
                       unoptimized
@@ -227,7 +253,7 @@ export default function FeaturedPostAdminPage() {
                     <Button
                       size="xs"
                       color="failure"
-                      onClick={() => {handleDelete(f.post._id)}}
+                      onClick={() => { handleDelete(f.post._id) }}
                       className="mt-3 w-fit self-end"
                     >
                       Remove
