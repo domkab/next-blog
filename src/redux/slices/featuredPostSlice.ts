@@ -1,53 +1,51 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { deleteFeaturedPost, fetchFeaturedPosts } from '../thunks/featuredPostThunks';
 
-interface FeaturedPost {
+export interface FeaturedPost {
   postId: string;
   overrideSummary?: string;
   overrideImage?: string;
 }
 
-interface FeaturedPostState {
-  featured: FeaturedPost[]; // even if it's 1 now, scalable to more later
+interface FeaturedPostsState {
+  featured: FeaturedPost[];
+  loading: boolean;
+  error: string | null;
 }
 
-const initialState: FeaturedPostState = {
+const initialState: FeaturedPostsState = {
   featured: [],
+  loading: false,
+  error: null,
 };
 
-const featuredPostSlice = createSlice({
+const featuredPostsSlice = createSlice({
   name: 'featuredPost',
   initialState,
   reducers: {
-    addFeaturedPost: (state, action: PayloadAction<FeaturedPost>) => {
-      state.featured.push(action.payload);
-    },
-    updateFeaturedPost: (
-      state,
-      action: PayloadAction<{ postId: string; data: Partial<FeaturedPost> }>
-    ) => {
-      const index = state.featured.findIndex(f => f.postId === action.payload.postId);
-      if (index !== -1) {
-        state.featured[index] = { ...state.featured[index], ...action.payload.data };
-      }
-    },
-    removeFeaturedPost: (state, action: PayloadAction<string>) => {
-      state.featured = state.featured.filter(f => f.postId !== action.payload);
-    },
-    setFeaturedPosts: (state, action: PayloadAction<FeaturedPost[]>) => {
-      state.featured = action.payload;
-    },
-    resetFeaturedPosts: (state) => {
+    clearFeaturedPosts: (state) => {
       state.featured = [];
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchFeaturedPosts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchFeaturedPosts.fulfilled, (state, action: PayloadAction<FeaturedPost[]>) => {
+        state.loading = false;
+        state.featured = action.payload;
+      })
+      .addCase(fetchFeaturedPosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Failed to fetch featured posts';
+      })
+      .addCase(deleteFeaturedPost.fulfilled, (state, action: PayloadAction<string>) => {
+        state.featured = state.featured.filter((f) => f.postId !== action.payload);
+      });
+  },
 });
 
-export const {
-  addFeaturedPost,
-  updateFeaturedPost,
-  removeFeaturedPost,
-  setFeaturedPosts,
-  resetFeaturedPosts,
-} = featuredPostSlice.actions;
-
-export default featuredPostSlice.reducer;
+export const { clearFeaturedPosts } = featuredPostsSlice.actions;
+export default featuredPostsSlice.reducer;
