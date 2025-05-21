@@ -11,7 +11,12 @@ export const GET = async () => {
       .populate('postId')
       .lean();
 
-    return new Response(JSON.stringify(featuredPosts), { status: 200 });
+    const normalized = featuredPosts.map((item) => ({
+      ...item,
+      post: item.postId,
+    }));
+
+    return new Response(JSON.stringify(normalized), { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_GET_ERROR]', error);
     return new Response('Error fetching featured posts', { status: 500 });
@@ -26,7 +31,7 @@ type FeaturedPostPayload = {
   userMongoId: string;
 };
 
-export const POST = withAdminAuth<FeaturedPostPayload>(async (user, body) => {
+export const POST = withAdminAuth<FeaturedPostPayload>(async (_user, body) => {
   await connect();
 
   try {
