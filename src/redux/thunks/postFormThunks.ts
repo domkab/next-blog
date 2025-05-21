@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setImageUploadProgress, setImageUploadError, setFormData } from '../slices/postFormSlice';
 import { generateSlug } from '@/utils/generateSlug';
 import { RootState } from '../store';
-import { uploadImageViaApi } from '@/utils/uploadImageViaApi';
+import { uploadImageViaApi } from '@/firebase/uploadImageViaApi';
 
 interface UploadImageResponse {
   url: string;
