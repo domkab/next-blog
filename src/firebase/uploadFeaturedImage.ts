@@ -10,7 +10,7 @@ export async function uploadFeaturedImage(
     formData.append('slug', 'featured-override');
     formData.append('target', 'main'); // reuse 'main' for featured override
 
-    const { data } = await axios.post('/api/upload-image', formData, {
+    const { data } = await axios.post('/api/image/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: (progressEvent) => {
         const percent = (progressEvent.loaded / (progressEvent.total || 1)) * 100;
