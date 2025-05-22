@@ -24,11 +24,10 @@ export async function getPostBySlug(slug: string): Promise<PostType> {
 
 type FeaturedWithPost = {
   _id?: string | Types.ObjectId;
-  postId?: PostType; // ✅ now it's optional
+  postId?: PostType;
   overrideSummary?: string;
   overrideImage?: string;
 };
-
 
 export async function getFeaturedPosts(): Promise<{
   post: PostType;
