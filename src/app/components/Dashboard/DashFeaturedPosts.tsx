@@ -92,9 +92,13 @@ export default function FeaturedPostAdminPage() {
 
   const handleUploadOverrideImage = async (file: File) => {
     try {
-      const url = await uploadFeaturedImage(file, (progress) =>
+      const post = getPostById(selectedPostId);
+      if (!post?.slug) throw new Error('Slug not found for selected post.');
+
+      const url = await uploadFeaturedImage(file, post.slug, (progress) =>
         console.log('Uploading override image:', progress + '%')
       );
+
       setOverrideImage(url);
       setToast({ type: 'success', message: 'Image uploaded successfully!' });
     } catch {
