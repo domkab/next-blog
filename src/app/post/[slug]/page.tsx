@@ -3,41 +3,14 @@ import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
-// import { PostType } from '@/types/Post';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
 import CallToAction from '@/app/components/CallToAction2';
-// import { get } from 'http';
-import { getPostBySlug } from '@/lib/postService';
+import { getPostBySlug } from '@/lib/services/postService';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-
-  // const controller = new AbortController();
-  // const post: PostType | null = await (async () => {
-  //   try {
-  //     const { data } = await axios.post(
-  //       `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
-  //       { slug },
-  //       {
-  //         headers: { 'Cache-control': 'no-store' },
-  //         signal: controller.signal,
-  //       }
-  //     );
-
-  //     return data.posts[0];
-  //   } catch (error: unknown) {
-  //     if (axios.isCancel(error)) {
-  //       console.log('Request canceled', error.message);
-  //     } else {
-  //       console.error('Error fetching post:', error);
-  //     }
-
-  //     return null;
-  //   }
-  // })();
-
   const post = await getPostBySlug(slug);
   console.log('Post fetched:', post);
 
