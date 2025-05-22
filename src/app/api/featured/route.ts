@@ -9,11 +9,12 @@ export const GET = async () => {
     const featuredPosts = await FeaturedPost.find()
       .sort({ priority: -1 })
       .populate('postId')
-      .lean();
 
     const normalized = featuredPosts.map((item) => ({
-      ...item,
+      _id: item._id.toString(),
       post: item.postId,
+      overrideSummary: item.overrideSummary,
+      overrideImage: item.overrideImage,
     }));
 
     return new Response(JSON.stringify(normalized), { status: 200 });
