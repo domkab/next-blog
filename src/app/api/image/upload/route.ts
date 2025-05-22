@@ -1,4 +1,3 @@
-// app/api/upload/route.ts
 import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import { NextRequest, NextResponse } from 'next/server';
 import { adminStorage } from '@/firebase/firebase-admin';
