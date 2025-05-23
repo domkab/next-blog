@@ -9,9 +9,15 @@ export const GET = async () => {
     const featuredPosts = await FeaturedPost.find()
       .sort({ priority: -1 })
       .populate('postId')
-      .lean();
 
-    return new Response(JSON.stringify(featuredPosts), { status: 200 });
+    const normalized = featuredPosts.map((item) => ({
+      _id: item._id.toString(),
+      post: item.postId,
+      overrideSummary: item.overrideSummary,
+      overrideImage: item.overrideImage,
+    }));
+
+    return new Response(JSON.stringify(normalized), { status: 200 });
   } catch (error) {
     console.error('[FEATURED_POST_GET_ERROR]', error);
     return new Response('Error fetching featured posts', { status: 500 });
@@ -26,7 +32,7 @@ type FeaturedPostPayload = {
   userMongoId: string;
 };
 
-export const POST = withAdminAuth<FeaturedPostPayload>(async (user, body) => {
+export const POST = withAdminAuth<FeaturedPostPayload>(async (_user, body) => {
   await connect();
 
   try {

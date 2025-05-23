@@ -11,6 +11,8 @@ import {
 } from '@/redux/slices/postFormSlice';
 
 import styles from './InlineImageEditor.module.scss';
+import { Button } from 'flowbite-react';
+import axios from 'axios';
 
 const InlineImageEditor: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,22 @@ const InlineImageEditor: React.FC = () => {
         meta: { [field]: e.target.value },
       }),
     );
+  };
+
+  const handleDeleteInlineImage = async (id: string) => {
+    const img = inlineImages.find((img) => img.id === id);
+    if (!img?.url) return;
+
+    try {
+      await axios.delete('/api/image/delete', {
+        data: { url: img.url },
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      dispatch(removeInlineImage(id));
+    } catch (err) {
+      console.error('Failed to delete image via API:', err);
+    }
   };
 
   return (
@@ -68,13 +86,14 @@ const InlineImageEditor: React.FC = () => {
               />
             </label>
 
-            <button
-              type="button"
+            <Button
+              color="failure"
+              size="xs"
+              onClick={() => handleDeleteInlineImage(id)}
               className={styles['inline-img-editor__delete']}
-              onClick={() => dispatch(removeInlineImage(id))}
             >
               Delete
-            </button>
+            </Button>
           </div>
         </article>
       ))}

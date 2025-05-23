@@ -1,4 +1,6 @@
+import { deleteFeaturedImage, deletePostImages } from '@/firebase/deleteImages';
 import { withAdminAuth } from '@/lib/auth/withAdminAuth';
+import FeaturedPost from '@/lib/models/featuredPostModel';
 import Post from '@/lib/models/postModel';
 import { connect } from '@/lib/mongodb/mongoose';
 
@@ -15,7 +17,19 @@ export const DELETE = withAdminAuth<PostDeleteInput>(async (user, body) => {
   }
 
   try {
+    const post = await Post.findById(body.postId);
+
+    if (!post) {
+      return new Response('Post not found', { status: 404 });
+    }
+
+    const slug = post.slug;
+
     await Post.findByIdAndDelete(body.postId);
+    await deletePostImages(slug);
+
+    await FeaturedPost.deleteOne({ postId: post._id });
+    await deleteFeaturedImage(slug);
 
     return new Response('Post deleted', { status: 200 });
   } catch (error) {
