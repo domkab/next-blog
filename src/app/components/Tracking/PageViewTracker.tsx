@@ -10,7 +10,6 @@ export default function PageViewTracker() {
 
   useEffect(() => {
     if (analytics) {
-      console.log('Logging page_view:', pathname);
       logEvent(analytics, 'page_view', {
         page_path: pathname,
       });
