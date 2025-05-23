@@ -1,13 +1,13 @@
 'use client';
 
+import CategorySelect from '@/app/components/Dashboard/Categories/CategorySelect';
 import InlineImageEditor from '@/app/components/PostEditor/InlineImageEditor';
 import PostEditor from '@/app/components/PostEditor/PostEditor';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
-import { PostCategory } from '@/types/Post';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import { Alert, Button, FileInput, TextInput } from 'flowbite-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -27,7 +27,6 @@ export default function UpdatePost() {
   const imageUploadProgress = useAppSelector((state) => state.postForm.imageUploadProgress);
   const imageUploadError = useAppSelector((state) => state.postForm.imageUploadError);
 
-  // get path for post.
   const router = useRouter();
   const pathname = usePathname();
   const postId = pathname.split('/').pop() || '';
@@ -165,15 +164,10 @@ export default function UpdatePost() {
             onChange={handleTitleChange}
           />
 
-          <Select
+          <CategorySelect
+            value={formData.category}
             onChange={handleCategoryChange}
-            value={formData.category || PostCategory.Uncategorized}
-          >
-            <option value={PostCategory.Uncategorized}>Select a category</option>
-            <option value={PostCategory.JavaScript}>JavaScript</option>
-            <option value={PostCategory.ReactJS}>React.js</option>
-            <option value={PostCategory.NextJS}>Next.js</option>
-          </Select>
+          />
         </div>
 
         <div className="description flex flex-col gap-4 sm:flex-row ">

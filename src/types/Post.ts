@@ -27,7 +27,7 @@ export interface PostType {
     main: PostImage;
     inline: PostImage[];
   };
-  category: PostCategory;
+  category: string;
   slug: string;
   createdAt: string;
   updatedAt: string;
