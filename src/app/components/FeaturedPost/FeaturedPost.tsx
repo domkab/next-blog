@@ -1,6 +1,6 @@
 import { getFeaturedPosts } from '@/lib/services/postService';
-import Link from 'next/link';
 import Image from 'next/image';
+import LinkTracker from '../Tracking/LinkTracker';
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
@@ -14,7 +14,16 @@ export default async function FeaturedPost() {
     <div className="max-w-7xl mx-auto px-4">
       <h2 className="text-2xl font-semibold mb-4">Featured Post</h2>
 
-      <Link href={`/post/${post.slug}`} className="block">
+      <LinkTracker
+        href={`/post/${post.slug}`}
+        eventName="featured_post_click"
+        eventData={{
+          slug: post.slug,
+          title: post.title,
+          category: post.category || 'uncategorized',
+        }}
+        className="block"
+      >
         <article className="
           flex flex-col bg-white dark:bg-slate-800 rounded-lg shadow-md border border-teal-300 
           hover:shadow-lg hover:translate-y-[-1px] transition-all duration-300
@@ -32,10 +41,7 @@ export default async function FeaturedPost() {
             <h3 className="text-xl font-bold mb-2">{post.title}</h3>
 
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 italic">
-              {post.category && (
-                <span>{post.category}</span>
-              )}
-
+              {post.category && <span>{post.category}</span>}
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
 
@@ -48,7 +54,7 @@ export default async function FeaturedPost() {
             </span>
           </div>
         </article>
-      </Link>
+      </LinkTracker>
     </div>
   );
 }

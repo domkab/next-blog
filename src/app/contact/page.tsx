@@ -28,7 +28,7 @@ export default function ContactPage() {
             id="name"
             name="name"
             required
-            // className="border-0 border-b border-gray-400 bg-transparent rounded-none focus:ring-0 focus:border-teal-500 text-gray-800 dark:text-gray-100"
+          // className="border-0 border-b border-gray-400 bg-transparent rounded-none focus:ring-0 focus:border-teal-500 text-gray-800 dark:text-gray-100"
           />
         </div>
 
@@ -56,7 +56,7 @@ export default function ContactPage() {
           type="submit"
           className='bg-white text-teal-600 border border-teal-500 
           hover:bg-teal-500 hover:text-white transition-all 
-            duration-300 text-center p-2 rounded-md m-2'
+            duration-300 text-center p-2 rounded-md'
         >
           Send Message
         </Button>
