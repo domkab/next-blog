@@ -8,6 +8,7 @@ import DashPosts from './DashPosts';
 import DashUsers from './DashUsers';
 import DashboardComponent from './DashboardComponent';
 import DashFeaturedPosts from './DashFeaturedPosts';
+import DashCategories from './DashCategories';
 
 export default function DashboardContent() {
   const searchParams = useSearchParams();
@@ -29,6 +30,7 @@ export default function DashboardContent() {
       {tab === 'profile' && <DashProfile />}
       {tab === 'posts' && <DashPosts />}
       {tab === 'featured-posts' && <DashFeaturedPosts />}
+      {tab === 'categories' && <DashCategories />}
       {tab === 'users' && <DashUsers />}
       {tab === 'dash' && <DashboardComponent />}
     </div>

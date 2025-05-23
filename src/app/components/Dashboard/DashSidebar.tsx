@@ -9,6 +9,7 @@ import {
   HiChartPie,
   HiStar,
 } from 'react-icons/hi';
+import { FiFolder } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SignOutButton } from '@clerk/nextjs';
@@ -89,6 +90,18 @@ export default function DashSidebar() {
                 as='div'
               >
                 Featured Posts
+              </SidebarItem>
+            </Link>
+          )}
+
+          {isAdmin && (
+            <Link href='/dashboard?tab=categories'>
+              <SidebarItem
+                active={tab === 'categories'}
+                icon={FiFolder}
+                as='div'
+              >
+                Categories
               </SidebarItem>
             </Link>
           )}
