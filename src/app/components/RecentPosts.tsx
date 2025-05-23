@@ -1,6 +1,6 @@
 import PostCard from './PostCard';
 import { PostType } from '../../types/Post';
-import { getRecentPosts } from '@/lib/postService';
+import { getRecentPosts } from '@/lib/services/postService';
 
 interface recentPageProps {
   limit: number;

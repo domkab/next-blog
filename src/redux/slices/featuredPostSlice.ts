@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deleteFeaturedPost, fetchFeaturedPosts } from '../thunks/featuredPostThunks';
+import { PostType } from '@/types/Post';
 
 export interface FeaturedPost {
-  postId: string;
+  _id?: string;
+  post: PostType;
   overrideSummary?: string;
   overrideImage?: string;
 }
@@ -42,7 +44,7 @@ const featuredPostsSlice = createSlice({
         state.error = action.error.message ?? 'Failed to fetch featured posts';
       })
       .addCase(deleteFeaturedPost.fulfilled, (state, action: PayloadAction<string>) => {
-        state.featured = state.featured.filter((f) => f.postId !== action.payload);
+        state.featured = state.featured.filter((f) => f.post._id !== action.payload);
       });
   },
 });

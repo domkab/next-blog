@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FeaturedPost } from '../slices/featuredPostSlice';
 import axios from 'axios';
+import { FeaturedPost } from '../slices/featuredPostSlice';
 
 export const fetchFeaturedPosts = createAsyncThunk(
   'featuredPost/fetch',
