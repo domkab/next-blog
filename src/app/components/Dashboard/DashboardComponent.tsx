@@ -28,7 +28,7 @@ export default function DashboardComp() {
     const fetchUsers = async () => {
       try {
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_URL}/api/user/get`,
+          `/api/user/get`,
           { limit: 5 },
           { signal: controller.signal }
         );
