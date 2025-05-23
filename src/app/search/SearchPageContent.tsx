@@ -79,7 +79,7 @@ export default function SearchPageContent() {
     urlParams.set('startIndex', numberOfPosts.toString());
     try {
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/api/post/get`,
+        `/api/post/get`,
         {
           limit: 9,
           order: sidebarData.sort,
