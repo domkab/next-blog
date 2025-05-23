@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -25,7 +24,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       </h1>
       <Link
         href={`/search?category=${post && post.category}`}
-        className='self-center mt-5'
+        className='self-center my-5'
       >
         <Button color='gray' pill size='xs'>
           {post && post.category}
@@ -44,7 +43,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             />
 
             {(post.images.main.meta?.description || post.images.main.meta?.author) && (
-              <figcaption className={styles['post-content__caption']}>
+              <figcaption className={`${styles['post-content__caption']} text-gray-600 dark:text-gray-300`}>
                 {post.images.main.meta?.author
                   ? `${post.images.main.meta?.description} — ${post.images.main.meta?.author}`
                   : post.images.main.meta?.description}
@@ -64,10 +63,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <PostContent post={post} />
       </div>
 
-      {/* <div className='max-w-4xl mx-auto w-full'> */}
       <CallToAction />
-      {/* </div> */}
-
       <RecentPosts limit={3} />
     </main>
   );

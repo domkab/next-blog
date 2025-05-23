@@ -10,8 +10,7 @@ import {
   ImageMeta,
 } from '@/redux/slices/postFormSlice';
 
-import styles from './InlineImageEditor.module.scss';
-import { Button } from 'flowbite-react';
+import { Button, Label, TextInput } from 'flowbite-react';
 import axios from 'axios';
 
 const InlineImageEditor: React.FC = () => {
@@ -50,47 +49,44 @@ const InlineImageEditor: React.FC = () => {
   };
 
   return (
-    <section className={styles['inline-img-editor']}>
-      {inlineImages.length === 0 && (
-        <p className={styles['inline-img-editor__empty']}>
-          No inline images yet.
-        </p>
-      )}
-
+    <section className="space-y-6 mt-6">
       {inlineImages.map(({ id, url, meta }) => (
-        <article key={id} className={styles['inline-img-editor__item']}>
+        <article
+          key={id}
+          className="flex flex-col sm:flex-row gap-6 border border-gray-200 dark:border-gray-700 rounded-md p-4"
+        >
           <img
             src={url}
             alt={meta?.description ?? `inline image ${id}`}
-            className={styles['inline-img-editor__thumb']}
+            className="w-32 h-32 object-cover rounded shadow-md"
           />
 
-          <div className={styles['inline-img-editor__fields']}>
-            <label className={styles['inline-img-editor__label']}>
-              Author
-              <input
-                type="text"
+          <div className="flex-1 grid gap-4">
+            <div>
+              <Label htmlFor={`author-${id}`} value="Author" />
+              <TextInput
+                id={`author-${id}`}
                 value={meta?.author ?? ''}
-                onChange={e => handleMetaChange(id, 'author', e)}
-                className={styles['inline-img-editor__input']}
+                onChange={(e) => handleMetaChange(id, 'author', e)}
+                className="text-gray-600 dark:text-gray-300"
               />
-            </label>
+            </div>
 
-            <label className={styles['inline-img-editor__label']}>
-              Description
-              <input
-                type="text"
+            <div>
+              <Label htmlFor={`desc-${id}`} value="Description" />
+              <TextInput
+                id={`desc-${id}`}
                 value={meta?.description ?? ''}
-                onChange={e => handleMetaChange(id, 'description', e)}
-                className={styles['inline-img-editor__input']}
+                onChange={(e) => handleMetaChange(id, 'description', e)}
+                className="text-gray-600 dark:text-gray-300"
               />
-            </label>
+            </div>
 
             <Button
               color="failure"
               size="xs"
               onClick={() => handleDeleteInlineImage(id)}
-              className={styles['inline-img-editor__delete']}
+              className="w-fit"
             >
               Delete
             </Button>

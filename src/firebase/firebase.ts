@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
+import { Analytics, getAnalytics, isSupported } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,11 +18,15 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
+let analytics: Analytics | null = null;
+
 // Initialize analytics only in the browser and if supported
 if (typeof window !== "undefined") {
   isSupported().then((supported) => {
     if (supported) {
-      getAnalytics(app);
+      analytics = getAnalytics(app);
     }
   });
 }
+
+export { analytics };

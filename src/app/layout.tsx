@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import ThemeComponent from './components/ThemeComponent';
 import NavigationLoader from './components/Navigation/NavigationLoader';
+import PageViewTracker from './components/Tracking/PageViewTracker';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
                   <Header />
                 </Suspense>
                 <NavigationLoader />
+                <PageViewTracker />
                 {children}
                 <Footer />
               </div>
