@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '@/firebase/firebase';
 import Link from 'next/link';
@@ -26,13 +25,6 @@ export default function LinkTracker({
       logEvent(analytics, eventName, eventData || {});
     }
   };
-
-  useEffect(() => {
-    console.log(`[GA] LinkTracker ready for event: "${eventName}"`, eventData);
-    if (!analytics) {
-      console.warn('[GA] analytics not available yet.');
-    }
-  }, [eventName, eventData]);
 
   return (
     <Link href={href} onClick={handleClick} className={className}>
