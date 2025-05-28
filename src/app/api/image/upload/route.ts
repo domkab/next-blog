@@ -37,11 +37,8 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
       public: true,
     });
 
-    const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(
-      fileRef.name
-    )}?alt=media`;
-
-    return NextResponse.json({ url: publicUrl });
+    return NextResponse.json({ url: filePath });
+    
   } catch (error) {
     console.error('Upload failed:', error);
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
