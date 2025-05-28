@@ -33,6 +33,7 @@ export default async function FeaturedPost() {
               src={overrideImage || post.images?.main?.url}
               alt={post.title}
               fill
+              unoptimized
               className="object-cover rounded-t-lg"
             />
           </div>

@@ -5,8 +5,8 @@ import RecentPosts from '@/app/components/RecentPosts';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
-import CallToAction from '@/app/components/CallToAction2';
 import { getPostBySlug } from '@/lib/services/postService';
+import { CallToAction } from '@/app/components/CallToAction2';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
