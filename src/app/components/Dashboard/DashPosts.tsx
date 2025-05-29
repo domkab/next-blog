@@ -19,6 +19,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import { PostType } from '@/types/Post';
+import SecuredImage from '../SecureImage';
 
 type SortablePostField = 'title' | 'updatedAt' | 'category';
 
@@ -177,10 +178,12 @@ export default function DashPosts() {
                   </TableCell>
                   <TableCell>
                     <Link href={`/post/${post.slug}`}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={post.images.main.url}
+                      <SecuredImage
+                        path={post.images.main.url}
                         alt={post.title}
+                        unoptimized
+                        width={80}
+                        height={40}
                         className="w-20 h-10 object-cover bg-gray-500"
                       />
                     </Link>

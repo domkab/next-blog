@@ -46,13 +46,16 @@ const PostEditor: React.FC<PostEditorProps> = ({
       if (!file) return;
 
       try {
-        const imageUrl = await handleUploadImage(file);
+        const imagePath = await handleUploadImage(file); 
         const imageId = uuidv4();
+
+        const res = await fetch(`/api/image/image-url?path=${encodeURIComponent(imagePath)}`);
+        const { url: signedUrl } = await res.json();
 
         dispatch(
           addInlineImage({
             id: imageId,
-            url: imageUrl,
+            url: signedUrl,
             meta: { author: '', description: '' },
           }),
         );
@@ -61,7 +64,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
         if (!quill) return;
 
         const range = quill.getSelection(true);
-        quill.insertEmbed(range?.index ?? 0, 'image', imageUrl, 'user');
+        quill.insertEmbed(range?.index ?? 0, 'image', signedUrl, 'user');
         quill.formatText(range?.index ?? 0, 1, { imageId });
         quill.setSelection((range?.index ?? 0) + 1);
 
