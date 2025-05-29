@@ -49,6 +49,7 @@ const middlewareHandler = clerkMiddleware(async (auth, req: NextRequest) => {
     req.method === 'GET';
 
   if (isRateLimitTarget && isRateLimited(ip)) {
+    console.warn(`[RATE LIMIT] ${ip} exceeded limit for ${req.nextUrl.pathname}`);
     return new NextResponse('Rate limit exceeded', { status: 429 });
   }
 
