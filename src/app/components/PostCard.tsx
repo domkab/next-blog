@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import NextImage from 'next/image';
 import { PostType } from '@/types/Post';
+import SecuredImage from './SecureImage';
 
 type PostCardProps = {
   post: PostType;
@@ -12,8 +12,8 @@ export default function PostCard({ post }: PostCardProps) {
     <div className='group relative w-full border border-teal-500 hover:border-2 h-[420px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
       <Link href={`/post/${post.slug}`}>
         <div className="relative w-full h-[260px] group-hover:h-[200px] transition-all duration-300">
-          <NextImage
-            src={post.images.main.url}
+          <SecuredImage
+            path={post.images.main.url}
             alt="post cover"
             fill
             className="object-cover z-20"
