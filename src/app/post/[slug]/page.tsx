@@ -1,12 +1,13 @@
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
 import { getPostBySlug } from '@/lib/services/postService';
 import { CallToAction } from '@/app/components/CallToAction2';
+import SecuredImage from '@/app/components/SecureImage';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -33,8 +34,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <div>
         {post.images.main.url && (
           <figure className={styles['post-content__figure']}>
-            <Image
-              src={post.images.main.url}
+            <SecuredImage
+              path={post.images.main.url}
               alt={post.images.main.meta?.description || "Main Image"}
               width={800}
               height={450}

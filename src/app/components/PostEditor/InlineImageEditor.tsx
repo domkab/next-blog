@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { ChangeEvent, memo } from 'react';
@@ -11,6 +10,7 @@ import {
 } from '@/redux/slices/postFormSlice';
 
 import { Button, Label, TextInput } from 'flowbite-react';
+import SecuredImage from '../SecureImage';
 import axios from 'axios';
 
 const InlineImageEditor: React.FC = () => {
@@ -55,9 +55,12 @@ const InlineImageEditor: React.FC = () => {
           key={id}
           className="flex flex-col sm:flex-row gap-6 border border-gray-200 dark:border-gray-700 rounded-md p-4"
         >
-          <img
-            src={url}
+          <SecuredImage
+            path={url}
             alt={meta?.description ?? `inline image ${id}`}
+            unoptimized
+            width={128}
+            height={128}
             className="w-32 h-32 object-cover rounded shadow-md"
           />
 
