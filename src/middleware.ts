@@ -3,7 +3,7 @@ import { clerkMiddleware } from '@clerk/nextjs/server';
 
 // ========== Config ==========
 const RATE_LIMIT_PATH = '/api/image/image-url';
-const MAX_REQUESTS = 20;
+const MAX_REQUESTS = 40;
 const WINDOW_MS = 60 * 1000; // 1 minute
 
 const uploadLimits = new Map<string, { count: number; lastReset: number }>();
