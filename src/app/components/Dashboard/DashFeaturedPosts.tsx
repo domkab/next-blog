@@ -1,10 +1,8 @@
 'use client';
 
 import { RootState } from '@/redux/store';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import { uploadFeaturedImage } from '@/firebase/uploadFeaturedImage';
 import { useAppDispatch } from '@/redux';
 import { deleteFeaturedPost, fetchFeaturedPosts, saveFeaturedPost } from '@/redux/thunks/featuredPostThunks';
@@ -20,6 +18,7 @@ import {
   Textarea,
 } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
+import SecuredImage from '../SecureImage';
 
 export default function FeaturedPostAdminPage() {
   const { user } = useUser();
@@ -177,8 +176,8 @@ export default function FeaturedPostAdminPage() {
 
           <Card>
             <div className="w-full h-40 relative mb-2">
-              <Image
-                src={
+              <SecuredImage
+                path={
                   overrideImage ||
                   getPostById(selectedPostId)?.images?.main?.url ||
                   '/placeholder.jpg'
@@ -236,8 +235,8 @@ export default function FeaturedPostAdminPage() {
                   className="relative cursor-pointer hover:ring-2 hover:ring-teal-500 transition-all"
                 >
                   <div className="w-full h-40 relative mb-2">
-                    <Image
-                      src={f.overrideImage || post?.images?.main?.url || '/placeholder.jpg'}
+                    <SecuredImage
+                      path={f.overrideImage || post?.images?.main?.url || '/placeholder.jpg'}
                       alt={post?.title || 'Post image'}
                       onClick={() => router.push(`/post/${post?.slug}`)}
                       fill
