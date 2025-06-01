@@ -7,14 +7,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Missing path' }, { status: 400 });
   }
 
+  console.log('Signing URL for path:', path);
+  
   try {
     const [url] = await adminStorage
       .bucket()
       .file(path)
       .getSignedUrl({
         action: 'read',
-        expires: Date.now() + 10 * 1000, // ⏱ 10 seconds
+        expires: Date.now() + 60 * 1000, // ⏱ 10 seconds
       });
+
+    console.log('signed url:', url);
 
     return NextResponse.json({ url });
   } catch (error) {
