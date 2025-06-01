@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import RecentPosts from './components/RecentPosts';
-import CallToAction from './components/CallToAction2';
+// import CallToAction from './components/CallToAction2';
 import FeaturedPost from './components/FeaturedPost/FeaturedPost';
+import { CallToAction } from './components/CallToAction2';
 
 export default async function Home() {
   return (
@@ -10,7 +11,7 @@ export default async function Home() {
         <FeaturedPost />
       </section>
 
-      <section className="p-3 flex flex-col gap-8 py-7" aria-label="Recent Articles">
+      <section className="p-3 flex flex-col gap-8 pt-7" aria-label="Recent Articles">
         <RecentPosts limit={9} />
         <Link
           href={'/search?category'}

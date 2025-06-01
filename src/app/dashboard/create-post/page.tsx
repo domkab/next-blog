@@ -3,12 +3,12 @@
 import CategorySelect from '@/app/components/Dashboard/Categories/CategorySelect';
 import InlineImageEditor from '@/app/components/PostEditor/InlineImageEditor';
 import PostEditor from '@/app/components/PostEditor/PostEditor';
+import SecureImage from '@/app/components/SecureImage';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, TextInput } from 'flowbite-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -190,8 +190,8 @@ export default function CreatePostPage() {
         {formData.images.main.url && (
           <>
             <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-              <Image
-                src={formData.images.main.url}
+              <SecureImage
+                path={formData.images.main.url}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
                 className="object-cover"

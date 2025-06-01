@@ -3,12 +3,12 @@
 import CategorySelect from '@/app/components/Dashboard/Categories/CategorySelect';
 import InlineImageEditor from '@/app/components/PostEditor/InlineImageEditor';
 import PostEditor from '@/app/components/PostEditor/PostEditor';
+import SecuredImage from '@/app/components/SecureImage';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Alert, Button, FileInput, TextInput } from 'flowbite-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -223,8 +223,8 @@ export default function UpdatePost() {
         {formData.images.main.url && (
           <>
             <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-              <Image
-                src={formData.images.main.url}
+              <SecuredImage
+                path={formData.images.main.url}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
                 unoptimized

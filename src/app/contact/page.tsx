@@ -18,10 +18,11 @@ export default function ContactPage() {
       </p>
 
       <form
-        action="https://formspree.io/f/your-form-id"
+        action="https://formspree.io/f/mnndyryb"
         method="POST"
         className="flex flex-col gap-4"
       >
+        <input type="hidden" name="_next" value={`${process.env.NEXT_PUBLIC_SITE_URL}/thank-you`} />
         <div>
           <Label htmlFor="name" value="Your name" />
           <TextInput
@@ -43,12 +44,13 @@ export default function ContactPage() {
         </div>
 
         <div>
-          <Label htmlFor="message" value="Your message" />
+          <Label className='' htmlFor="message" value="Your message" />
           <Textarea
             id="message"
             name="message"
             rows={5}
             required
+            className='mb-4'
           />
         </div>
 
