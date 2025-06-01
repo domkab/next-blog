@@ -18,18 +18,18 @@ export async function uploadImageViaApi(
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+
       onUploadProgress: (progressEvent) => {
         const percent = (progressEvent.loaded / (progressEvent.total || 1)) * 100;
         onProgress(percent.toFixed(0));
       },
     });
 
-    console.log('upload to firebase:', response.data);
-
     onProgress('100');
     onSuccess(response.data.url);
   } catch (error: unknown) {
     console.error('Upload failed:', error);
+
     if (axios.isAxiosError(error)) {
       onError(error.response?.data?.error || 'Upload failed');
     } else {

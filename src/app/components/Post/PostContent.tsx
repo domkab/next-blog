@@ -4,9 +4,10 @@ import parse, {
   Element as DomElement,
   Text as DomText,
 } from 'html-react-parser';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { PostType } from '@/types/Post';
 import styles from './PostContent.module.scss';
+import SecuredImage from '../SecureImage';
 
 interface PostContentProps {
   post: PostType;
@@ -25,6 +26,8 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
         ) {
           const imgNode = p.children[0] as DomElement;
           const { src, alt } = imgNode.attribs;
+          console.log(src);
+
           const inlineImage = post.images.inline.find(i => i.url === src);
           if (!inlineImage) {
             return;
@@ -35,8 +38,8 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
 
           return (
             <figure key={index} className={styles['post-content__figure']}>
-              <Image
-                src={src}
+              <SecuredImage
+                path={src}
                 alt={alt || meta?.description || 'inline image'}
                 width={800}
                 height={450}
