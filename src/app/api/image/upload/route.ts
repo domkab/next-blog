@@ -38,9 +38,9 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
     });
 
     return NextResponse.json({ url: filePath });
-    
   } catch (error) {
     console.error('Upload failed:', error);
+
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 });

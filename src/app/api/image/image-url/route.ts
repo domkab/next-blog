@@ -3,12 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const path = req.nextUrl.searchParams.get('path');
+
   if (!path) {
     return NextResponse.json({ error: 'Missing path' }, { status: 400 });
   }
 
-  console.log('Signing URL for path:', path);
-  
+  if (path.startsWith('http')) {
+    return NextResponse.json({ error: "Path must be a relative file path, not a full URL" }, { status: 400 })
+  }
+
   try {
     const [url] = await adminStorage
       .bucket()
