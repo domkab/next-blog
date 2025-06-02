@@ -2,7 +2,7 @@ import { Button } from 'flowbite-react';
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function CallToAction() {
+export function CallToAction2() {
   return (
     <div className='p-2 bg-amber-100 dark:bg-slate-700 mb-7 rounded-tl-3xl rounded-br-3xl shadow-sm'>
       <div className='flex flex-col sm:flex-row p-3 border-2 border-teal-500 justify-center items-center rounded-tl-3xl rounded-br-3xl text-center'>
