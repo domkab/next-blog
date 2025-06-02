@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import RecentPosts from './components/RecentPosts';
 import FeaturedPost from './components/FeaturedPost/FeaturedPost';
-import { CallToAction2 } from './components/CallToAction2';
+import { CallToAction2 } from './components/CallToAction/CallToAction2';
+import { CallToAction3 } from './components/CallToAction/CallToAction3';
 
 export default async function Home() {
   return (
@@ -22,6 +23,7 @@ export default async function Home() {
 
       <section aria-label="Subscribe to Newsletter">
         <CallToAction2 />
+        <CallToAction3 />
       </section>
     </main>
   );

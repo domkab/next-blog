@@ -1,12 +1,11 @@
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
-// import Image from 'next/image';
 import RecentPosts from '@/app/components/RecentPosts';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
 import { getPostBySlug } from '@/lib/services/postService';
-import { CallToAction } from '@/app/components/CallToAction2';
+import { CallToAction2 } from '@/app/components/CallToAction/CallToAction2';
 import SecuredImage from '@/app/components/SecureImage';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -64,7 +63,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <PostContent post={post} />
       </div>
 
-      <CallToAction />
+      <CallToAction2 />
       <RecentPosts limit={3} />
     </main>
   );
