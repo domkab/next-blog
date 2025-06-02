@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import RecentPosts from './components/RecentPosts';
-// import CallToAction from './components/CallToAction2';
 import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 import { CallToAction2 } from './components/CallToAction2';
 
