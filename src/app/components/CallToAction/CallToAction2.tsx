@@ -35,9 +35,9 @@ export function CallToAction2() {
       </div>
     </div>
   )
-}
+};
 
-// export function CallToAction() {
+// export function CallToAction2() {
 //   return (
 //     <div className='flex flex-col sm:flex-row items-center justify-between p-6 border-2 border-teal-500 rounded-3xl bg-white dark:bg-slate-800 shadow-md'>
 //       <div className='flex-1 text-center sm:text-left'>
