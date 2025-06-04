@@ -94,7 +94,7 @@ export async function POST(req: Request) {
         }
       }
     } catch (error) {
-      console.log('Error creating or updatng user:', error);
+      console.log('Error creating or updating user.:', error);
       return new Response('Error occured', { status: 400 })
     };
   }
