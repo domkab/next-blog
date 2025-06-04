@@ -11,7 +11,7 @@ export async function getRecentPosts(limit = 9, order = 'desc'): Promise<PostTyp
   const posts = await Post.find().lean().sort({ updatedAt: sort }).limit(limit);
 
   return posts as PostType[]
-}
+};
 
 export async function getPostBySlug(slug: string): Promise<PostType> {
   await connect();
@@ -51,4 +51,4 @@ export async function getFeaturedPosts(): Promise<{
     }));
 
   return normalized;
-}
+};

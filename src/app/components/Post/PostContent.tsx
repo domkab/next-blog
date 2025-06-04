@@ -4,7 +4,6 @@ import parse, {
   Element as DomElement,
   Text as DomText,
 } from 'html-react-parser';
-// import Image from 'next/image';
 import { PostType } from '@/types/Post';
 import styles from './PostContent.module.scss';
 import SecuredImage from '../SecureImage';
@@ -19,27 +18,35 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
       if (domNode.type === 'tag' && domNode.name === 'p') {
         const p = domNode as DomElement;
 
-        if (
-          p.children.length === 1 &&
-          p.children[0].type === 'tag' &&
-          (p.children[0] as DomElement).name === 'img'
-        ) {
-          const imgNode = p.children[0] as DomElement;
+        const imgNode = p.children.find(
+          (child) => child.type === 'tag' && (child as DomElement).name === 'img'
+        ) as DomElement | undefined;
+
+        if (imgNode) {
           const { src, alt } = imgNode.attribs;
-          console.log(src);
 
-          const inlineImage = post.images.inline.find(i => i.url === src);
-          if (!inlineImage) {
-            return;
-          }
+          const extractPath = (url: string) => {
+            const decoded = decodeURIComponent(url);
+            const match = decoded.match(/\/posts\/[^\s"'?<>]+/);
+            return match ? match[0].replace(/^\//, '') : url;
+          };
 
-          const { meta } = inlineImage;
-          const hasCaption = Boolean(meta?.description || meta?.author);
+          const path = extractPath(src);
+          const inlineImage = post.images.inline.find(i => i.url === path);
+
+          const meta = (inlineImage?.meta || {}) as {
+            author?: string;
+            description?: string;
+          };
+
+          const hasCaption =
+            (meta.description && meta.description.trim()) ||
+            (meta.author && meta.author.trim());
 
           return (
             <figure key={index} className={styles['post-content__figure']}>
               <SecuredImage
-                path={src}
+                path={path}
                 alt={alt || meta?.description || 'inline image'}
                 width={800}
                 height={450}
@@ -48,11 +55,9 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
               />
               {hasCaption && (
                 <figcaption className={styles['post-content__caption']}>
-                  {meta?.author
-                    ? `${meta?.description} — ${meta?.author}`
-                    : meta?.description !== alt
-                      ? meta?.description
-                      : null}
+                  {meta.author && meta.description
+                    ? `${meta.description} — ${meta.author}`
+                    : meta.description || meta.author}
                 </figcaption>
               )}
             </figure>
@@ -62,6 +67,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
         const allText = p.children.every(
           c => c.type === 'text' && !((c as DomText).data.trim())
         );
+
         if (allText) {
           return <React.Fragment key={index} />;
         }
