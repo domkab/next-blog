@@ -1,6 +1,5 @@
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { email } = body;
+  const { email } = await req.json();
 
   if (!email || !email.includes('@')) {
     return new Response(JSON.stringify({ error: 'Invalid email' }), {
@@ -10,31 +9,27 @@ export async function POST(req: Request) {
   }
 
   try {
-    const API_KEY = process.env.MAILCHIMP_API_KEY;
-    const AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
-    const DATACENTER = API_KEY?.split('-')[1]; // e.g., 'us21'
+    const API_KEY = process.env.MAILERLITE_API_KEY;
+    const GROUP_ID = process.env.MAILERLITE_GROUP_ID;
 
-    const mailchimpRes = await fetch(
-      `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${AUDIENCE_ID}/members`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `apikey ${API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email_address: email,
-          status: 'subscribed',
-        }),
-      }
-    );
+    const mlRes = await fetch('https://api.mailerlite.com/api/v2/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-MailerLite-ApiKey': API_KEY!,
+      },
+      body: JSON.stringify({
+        email,
+        groups: [GROUP_ID],
+      }),
+    });
 
-    if (!mailchimpRes.ok) {
-      const err = await mailchimpRes.json();
-      return new Response(
-        JSON.stringify({ error: err.detail || 'Mailchimp error' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+    if (!mlRes.ok) {
+      const err = await mlRes.json();
+      return new Response(JSON.stringify({ error: err.error?.message || 'MailerLite error' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     return new Response(JSON.stringify({ message: 'Subscribed' }), {
