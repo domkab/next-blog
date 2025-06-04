@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       .file(path)
       .getSignedUrl({
         action: 'read',
-        expires: Date.now() + 60 * 1000, // ⏱ 10 seconds
+        expires: Date.now() + 60 * 1000, // 60 seconds
       });
 
     console.log('signed url:', url);

@@ -10,7 +10,7 @@ export const POST = async (req: Request) => {
     const data = await req.json();
 
     if (!user) {
-      return;
+      return new Response('Unauthorized', { status: 401 });
     }
 
     if (!user.publicMetadata.isAdmin) {
