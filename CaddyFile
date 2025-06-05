@@ -1,0 +1,3 @@
+laurynogargasoapiserver.xyz {
+  reverse_proxy nextblog:3000
+}
