@@ -27,3 +27,22 @@ services:
     environment:
       - NODE_ENV=development
     command: npm run dev
+
+  #caddy
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nextblog
+
+volumes:
+  caddy_data:
+  caddy_config:
