@@ -1,0 +1,56 @@
+name: E2E → Build → Docker Push
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  e2e-test:
+    name: 🧪 Run Playwright Smoke Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🧪 Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: ⚙️ Build App
+        run: npm run build
+
+      - name: 🚀 Start Server and Run Tests
+        run: |
+          npm run start & 
+          npx wait-on http://localhost:3000
+          npm run test:e2e
+
+  build-and-push:
+    name: 🐳 Build & Push Docker Image
+    needs: e2e-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔐 Docker Login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: 🛠️ Build Docker Image
+        run: docker build -t my-app:latest .
+
+      - name: 📤 Push Docker Image
+        run: docker push my-app:latest
