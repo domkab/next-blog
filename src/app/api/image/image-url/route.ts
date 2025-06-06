@@ -21,8 +21,6 @@ export async function GET(req: NextRequest) {
         expires: Date.now() + 60 * 1000, // 60 seconds
       });
 
-    console.log('signed url:', url);
-
     return NextResponse.json({ url });
   } catch (error) {
     console.error(error);

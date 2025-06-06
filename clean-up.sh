@@ -1,6 +1,7 @@
-#!/bin/bash
-
 echo "🧹 Starting cleanup..."
+
+echo "💽 Disk usage before cleanup:"
+df -h
 
 echo "🧼 Docker system prune..."
 docker system prune -a --volumes -f
