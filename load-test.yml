@@ -1,0 +1,16 @@
+config:
+  target: "https://laurynogargasoapiserver.xyz/"
+  phases:
+    - duration: 30
+      arrivalRate: 10
+scenarios:
+  - name: Basic User Browsing Flow
+    flow:
+      - get:
+          url: "/"
+      - think: 2
+      - get:
+          url: "/post/sliuha-posting"
+      - think: 1
+      - get:
+          url: "/search?category=&searchTerm=&sort=desc"
