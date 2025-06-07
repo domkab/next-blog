@@ -1,8 +1,11 @@
+#!/bin/bash
+
 echo "🚀 Starting Monitoring Setup..."
 
 # Resolve script's actual directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CADDYFILE_PATH="$SCRIPT_DIR/../Caddyfile"  # 🛠️ points to project root
+CADDYFILE_PATH="$SCRIPT_DIR/../Caddyfile"
+GOACCESS_SERVICE_PATH="/etc/systemd/system/goaccess.service"
 
 # 1. Check Caddyfile exists
 if [[ -f "$CADDYFILE_PATH" ]]; then
@@ -12,34 +15,30 @@ else
   exit 1
 fi
 
-# 1. Update & install tools
+# 2. Update & install tools
 apt update && apt upgrade -y
 apt install -y goaccess fail2ban curl htop logrotate
 
-# 2. Install Netdata (non-interactive)
+# 3. Install Netdata (non-interactive)
 echo "🧠 Installing Netdata..."
 bash <(curl -SsL https://my-netdata.io/kickstart.sh) --dont-wait --disable-telemetry
 
-# 3. Inject access log config into Caddyfile (if not already present)
+# 4. Inject access log config into Caddyfile
 echo "📄 Ensuring Caddyfile has access logging..."
-CADDYFILE_PATH="./Caddyfile"
-if [[ -f "$CADDYFILE_PATH" ]]; then
-  if ! grep -q "log {" "$CADDYFILE_PATH"; then
-    echo "
+if ! grep -q "log {" "$CADDYFILE_PATH"; then
+  cat <<EOL >> "$CADDYFILE_PATH"
+
 log {
   output file /var/log/caddy/access.log
   format single_field common_log
-}" >> "$CADDYFILE_PATH"
-    echo "✅ Appended logging block to Caddyfile"
-  else
-    echo "ℹ️ Caddyfile already has a log block"
-  fi
+}
+EOL
+  echo "✅ Appended logging block to Caddyfile"
 else
-  echo "❌ Caddyfile not found in current directory: $PWD"
-  exit 1
+  echo "ℹ️ Caddyfile already has a log block"
 fi
 
-# 4. Configure logrotate for Caddy logs
+# 5. Configure logrotate
 echo "🧹 Configuring logrotate for Caddy logs..."
 cat <<EOF > /etc/logrotate.d/caddy
 /var/log/caddy/*.log {
@@ -57,12 +56,39 @@ cat <<EOF > /etc/logrotate.d/caddy
 }
 EOF
 
-# 5. Setup GoAccess live dashboard
+# 6. Setup GoAccess live dashboard (first run only)
 echo "🎯 Setting up GoAccess HTML output..."
 mkdir -p /var/www/html
-goaccess ./caddy-logs/access.log \
-  --log-format=COMBINED \
-  --real-time-html -o /var/www/html/report.html &
+mkdir -p "$SCRIPT_DIR/../caddy-logs"
+touch "$SCRIPT_DIR/../caddy-logs/access.log"
+
+# 7. Create GoAccess systemd service
+if [[ ! -f "$GOACCESS_SERVICE_PATH" ]]; then
+  echo "⚙️ Creating GoAccess systemd service..."
+  cat <<EOF > "$GOACCESS_SERVICE_PATH"
+[Unit]
+Description=GoAccess real-time HTML dashboard
+After=network.target docker.service
+
+[Service]
+ExecStart=/usr/bin/goaccess $SCRIPT_DIR/../caddy-logs/access.log \\
+  --log-format=COMBINED \\
+  --real-time-html \\
+  -o /var/www/html/report.html
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  systemctl daemon-reload
+  systemctl enable goaccess
+  systemctl start goaccess
+  echo "✅ GoAccess systemd service installed and started!"
+else
+  echo "ℹ️ GoAccess systemd service already exists"
+fi
 
 echo "✅ Monitoring stack installed!"
 echo "➡ Netdata: http://$(hostname -I | awk '{print $1}'):19999"
