@@ -6,7 +6,7 @@ apt install -y goaccess fail2ban curl htop logrotate
 
 # 2. Install Netdata (non-interactive)
 echo "🧠 Installing Netdata..."
-bash <(curl -Ss https://my-netdata.io/kickstart.sh) --dont-wait --disable-telemetry
+bash <(curl -SsL https://my-netdata.io/kickstart.sh) --dont-wait --disable-telemetry
 
 # 3. Inject access log config into Caddyfile (if not already present)
 echo "📄 Ensuring Caddyfile has access logging..."
@@ -48,7 +48,7 @@ EOF
 # 5. Setup GoAccess live dashboard
 echo "🎯 Setting up GoAccess HTML output..."
 mkdir -p /var/www/html
-goaccess /var/log/caddy/access.log \
+goaccess ./caddy-logs/access.log \
   --log-format=COMBINED \
   --real-time-html -o /var/www/html/report.html &
 
