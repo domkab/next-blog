@@ -1,9 +1,10 @@
-import { getFeaturedPosts } from '@/lib/services/postService';
 import LinkTracker from '../Tracking/LinkTracker';
 import SecuredImage from '../SecureImage';
+import { fetchWithTag } from '@/utils/fetchWithTags';
+import { FeaturedPostType } from '@/types/Post';
 
 export default async function FeaturedPost() {
-  const featured = await getFeaturedPosts();
+  const featured = await fetchWithTag<FeaturedPostType[]>('/api/internal/featured', 'featured-posts');
   const first = featured[0];
 
   if (!first) return null;
