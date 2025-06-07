@@ -1,8 +1,10 @@
 echo "🚀 Starting Monitoring Setup..."
 
+# Resolve script's actual directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CADDYFILE_PATH="$SCRIPT_DIR/Caddyfile"
+CADDYFILE_PATH="$SCRIPT_DIR/../Caddyfile"  # 🛠️ points to project root
 
+# 1. Check Caddyfile exists
 if [[ -f "$CADDYFILE_PATH" ]]; then
   echo "📄 Found Caddyfile at: $CADDYFILE_PATH"
 else
