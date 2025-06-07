@@ -1,7 +1,7 @@
 echo "🚀 Starting Monitoring Setup..."
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CADDYFILE_PATH="$SCRIPT_DIR/../Caddyfile"
+CADDYFILE_PATH="$SCRIPT_DIR/Caddyfile"
 
 if [[ -f "$CADDYFILE_PATH" ]]; then
   echo "📄 Found Caddyfile at: $CADDYFILE_PATH"
