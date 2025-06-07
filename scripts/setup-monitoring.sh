@@ -30,7 +30,6 @@ if ! grep -q "log {" "$CADDYFILE_PATH"; then
 
 log {
   output file /var/log/caddy/access.log
-  format single_field common_log
 }
 EOL
   echo "✅ Appended logging block to Caddyfile"
