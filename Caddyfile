@@ -6,7 +6,8 @@ laurynogargasoapiserver.xyz {
   @next path /api/* /admin/* /_next/* /posts/* /
   reverse_proxy @next nextblog:3000
 
-  handle_path /netdata/* {
+  handle /netdata/* {
+    uri strip_prefix /netdata
     reverse_proxy 127.0.0.1:19999
   }
 
