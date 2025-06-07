@@ -58,3 +58,10 @@ export interface PostUpdateInput {
     inline?: PostImage[];
   };
 };
+
+export interface FeaturedPostType {
+  _id?: string;
+  post: PostType;
+  overrideSummary?: string;
+  overrideImage?: string;
+}
