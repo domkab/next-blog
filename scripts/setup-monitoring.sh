@@ -1,5 +1,15 @@
 echo "🚀 Starting Monitoring Setup..."
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CADDYFILE_PATH="$SCRIPT_DIR/../Caddyfile"
+
+if [[ -f "$CADDYFILE_PATH" ]]; then
+  echo "📄 Found Caddyfile at: $CADDYFILE_PATH"
+else
+  echo "❌ Caddyfile not found at: $CADDYFILE_PATH"
+  exit 1
+fi
+
 # 1. Update & install tools
 apt update && apt upgrade -y
 apt install -y goaccess fail2ban curl htop logrotate
