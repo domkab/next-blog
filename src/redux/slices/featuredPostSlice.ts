@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deleteFeaturedPost, fetchFeaturedPosts } from '../thunks/featuredPostThunks';
-import { PostType } from '@/types/Post';
+import { FeaturedPostType } from '@/types/Post';
 
-export interface FeaturedPost {
-  _id?: string;
-  post: PostType;
-  overrideSummary?: string;
-  overrideImage?: string;
-}
+// export interface FeaturedPost {
+//   _id?: string;
+//   post: PostType;
+//   overrideSummary?: string;
+//   overrideImage?: string;
+// }
 
 interface FeaturedPostsState {
-  featured: FeaturedPost[];
+  featured: FeaturedPostType[];
   loading: boolean;
   error: string | null;
 }
@@ -35,7 +35,7 @@ const featuredPostsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchFeaturedPosts.fulfilled, (state, action: PayloadAction<FeaturedPost[]>) => {
+      .addCase(fetchFeaturedPosts.fulfilled, (state, action: PayloadAction<FeaturedPostType[]>) => {
         state.loading = false;
         state.featured = action.payload;
       })
