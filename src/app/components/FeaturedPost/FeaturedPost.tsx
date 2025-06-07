@@ -2,7 +2,7 @@ import { getFeaturedPosts } from '@/lib/services/postService';
 import LinkTracker from '../Tracking/LinkTracker';
 import SecuredImage from '../SecureImage';
 
-export const revalidate = Number(process.env.CACHE_REVALIDATION_INTERVAL);
+export const revalidate = Number(process.env.CACHE_REVALIDATION_INTERVAL) || 120;
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
