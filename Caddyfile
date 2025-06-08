@@ -1,3 +1,7 @@
 laurynogargasoapiserver.xyz {
   reverse_proxy nextblog:3000
+
+  log {
+    output file /var/log/caddy/access.log
+  }
 }
