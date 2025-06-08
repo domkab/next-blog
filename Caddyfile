@@ -1,15 +1,5 @@
 laurynogargasoapiserver.xyz {
-
-  root * /var/www/html
-  file_server
-
-  @next path /api/* /admin/* /_next/* /posts/* /
-  reverse_proxy @next nextblog:3000
-
-  handle /netdata/* {
-    uri strip_prefix /netdata
-    reverse_proxy 127.0.0.1:19999
-  }
+  reverse_proxy nextblog:3000
 
   log {
     output file /var/log/caddy/access.log
