@@ -15,16 +15,3 @@ export const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-
-// let analytics: Analytics | null = null;
-
-// Initialize analytics only in the browser and if supported
-// if (typeof window !== "undefined") {
-//   isSupported().then((supported) => {
-//     if (supported) {
-//       analytics = getAnalytics(app);
-//     }
-//   });
-// }
-
-// export { analytics };
