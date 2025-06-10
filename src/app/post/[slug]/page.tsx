@@ -5,7 +5,7 @@ import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
 import { getPostBySlug } from '@/lib/services/postService';
-import SecuredImage from '@/app/components/SecureImage';
+import Image from 'next/image';
 import { EmailSubscribeWModal } from '@/app/components/CallToAction/EmailSubscribeWModal';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -33,13 +33,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <div>
         {post.images.main.url && (
           <figure className={styles['post-content__figure']}>
-            <SecuredImage
-              path={post.images.main.url}
+            <Image
+              src={post.images.main.url}
               alt={post.images.main.meta?.description || "Main Image"}
               width={800}
               height={450}
               className={styles['post-content__image']}
-              unoptimized
             />
 
             {(post.images.main.meta?.description || post.images.main.meta?.author) && (

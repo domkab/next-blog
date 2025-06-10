@@ -3,7 +3,7 @@
 import CategorySelect from '@/app/components/Dashboard/Categories/CategorySelect';
 import InlineImageEditor from '@/app/components/PostEditor/InlineImageEditor';
 import PostEditor from '@/app/components/PostEditor/PostEditor';
-import SecureImage from '@/app/components/SecureImage';
+import Image from 'next/image';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
 import { useUser } from '@clerk/nextjs';
@@ -101,7 +101,7 @@ export default function CreatePostPage() {
   }
 
   return (
-    <div className="p-3 mx-5 min-h-screen">
+    <div className="p-3 mx-10 min-h-screen">
       {publishSuccess && (
         <Alert color='success'>{publishSuccess}</Alert>
       )}
@@ -190,12 +190,11 @@ export default function CreatePostPage() {
         {formData.images.main.url && (
           <>
             <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-              <SecureImage
-                path={formData.images.main.url}
+              <Image
+                src={formData.images.main.url}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
                 className="object-cover"
-                unoptimized
               />
             </div>
 

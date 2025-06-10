@@ -18,7 +18,7 @@ import {
   Textarea,
 } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
-import SecuredImage from '../SecureImage';
+import Image from 'next/image';
 
 export default function FeaturedPostAdminPage() {
   const { user } = useUser();
@@ -176,8 +176,8 @@ export default function FeaturedPostAdminPage() {
 
           <Card>
             <div className="w-full h-40 relative mb-2">
-              <SecuredImage
-                path={
+              <Image
+                src={
                   overrideImage ||
                   getPostById(selectedPostId)?.images?.main?.url ||
                   '/placeholder.jpg'
@@ -185,7 +185,6 @@ export default function FeaturedPostAdminPage() {
                 alt={getPostById(selectedPostId)?.title || 'Post image'}
                 fill
                 className="object-cover rounded-md"
-                unoptimized
               />
             </div>
 
@@ -235,13 +234,12 @@ export default function FeaturedPostAdminPage() {
                   className="relative cursor-pointer hover:ring-2 hover:ring-teal-500 transition-all"
                 >
                   <div className="w-full h-40 relative mb-2">
-                    <SecuredImage
-                      path={f.overrideImage || post?.images?.main?.url || '/placeholder.jpg'}
+                    <Image
+                      src={f.overrideImage || post?.images?.main?.url || '/placeholder.jpg'}
                       alt={post?.title || 'Post image'}
                       onClick={() => router.push(`/post/${post?.slug}`)}
                       fill
                       className="object-cover rounded-md"
-                      unoptimized
                     />
                   </div>
 

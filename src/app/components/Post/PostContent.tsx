@@ -4,9 +4,9 @@ import parse, {
   Element as DomElement,
   Text as DomText,
 } from 'html-react-parser';
+import Image from 'next/image';
 import { PostType } from '@/types/Post';
 import styles from './PostContent.module.scss';
-import SecuredImage from '../SecureImage';
 
 interface PostContentProps {
   post: PostType;
@@ -25,13 +25,8 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
         if (imgNode) {
           const { src, alt } = imgNode.attribs;
 
-          const extractPath = (url: string) => {
-            const decoded = decodeURIComponent(url);
-            const match = decoded.match(/\/posts\/[^\s"'?<>]+/);
-            return match ? match[0].replace(/^\//, '') : url;
-          };
-
-          const path = extractPath(src);
+          // Now we treat `src` as a public local path
+          const path = decodeURIComponent(src);
           const inlineImage = post.images.inline.find(i => i.url === path);
 
           const meta = (inlineImage?.meta || {}) as {
@@ -45,13 +40,12 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
 
           return (
             <figure key={index} className={styles['post-content__figure']}>
-              <SecuredImage
-                path={path}
-                alt={alt || meta?.description || 'inline image'}
+              <Image
+                src={path}
+                alt={alt || meta.description || 'inline image'}
                 width={800}
                 height={450}
                 className={styles['post-content__image']}
-                unoptimized
               />
               {hasCaption && (
                 <figcaption className={styles['post-content__caption']}>
