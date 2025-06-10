@@ -185,7 +185,6 @@ export default function FeaturedPostAdminPage() {
                 alt={getPostById(selectedPostId)?.title || 'Post image'}
                 fill
                 className="object-cover rounded-md"
-                unoptimized
               />
             </div>
 
