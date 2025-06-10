@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { Analytics, getAnalytics, isSupported } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -12,21 +11,7 @@ export const firebaseConfig = {
   storageBucket: "next-blog-acbbc.appspot.com",
   messagingSenderId: "747614347281",
   appId: "1:747614347281:web:bf168be2a99bc06aee51b0",
-  measurementId: "G-KL3MM058ZJ"
 };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-
-let analytics: Analytics | null = null;
-
-// Initialize analytics only in the browser and if supported
-if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-    }
-  });
-}
-
-export { analytics };

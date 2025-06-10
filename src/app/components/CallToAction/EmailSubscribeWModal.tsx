@@ -4,6 +4,8 @@ import { Button, Modal, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
+import axios from 'axios';
+import type { AxiosError } from 'axios';
 
 export function EmailSubscribeWModal() {
   const [openModal, setOpenModal] = useState(false);
@@ -26,21 +28,30 @@ export function EmailSubscribeWModal() {
     setStatus('loading');
     setErrorMessage(null);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      await axios.post('/api/newsletter', { email });
 
-    setStatus('success');
-    setEmail('');
+      setStatus('success');
+      setEmail('');
 
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
 
-    setTimeout(() => {
-      setOpenModal(false);
-      setStatus('idle');
-    }, 2000);
+      setTimeout(() => {
+        setOpenModal(false);
+        setStatus('idle');
+      }, 2000);
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ error: string }>;
+
+      setStatus('error');
+      setErrorMessage(
+        error?.response?.data?.error || 'Network error, please try again'
+      );
+    }
   };
 
   return (
@@ -72,8 +83,8 @@ export function EmailSubscribeWModal() {
         </div>
       </div>
 
-      <Modal show={openModal} onClose={() => setOpenModal(false)} popup>
-        <Modal.Header className="justify-center" />
+      <Modal show={openModal} onClose={() => setOpenModal(false)} popup className='subscribe-modal'>
+        <Modal.Header className="justify-center subscribe-modal__header" />
         <Modal.Body>
           <div className="flex flex-col items-center text-center space-y-4 px-2 py-4">
             <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -127,22 +138,3 @@ export function EmailSubscribeWModal() {
     </>
   );
 };
-
-// const handleSubmit = async () => {
-//   setStatus('loading');
-//   try {
-//     const res = await fetch('/api/newsletter', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ email }),
-//     });
-//     if (res.ok) {
-//       setStatus('success');
-//       setEmail('');
-//     } else {
-//       throw new Error('Failed to subscribe');
-//     }
-//   } catch {
-//     setStatus('error');
-//   }
-// };

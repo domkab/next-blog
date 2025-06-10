@@ -1,7 +1,5 @@
 'use client';
 
-import { logEvent } from 'firebase/analytics';
-import { analytics } from '@/firebase/firebase';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
@@ -21,8 +19,8 @@ export default function LinkTracker({
   className,
 }: LinkTrackerProps) {
   const handleClick = () => {
-    if (analytics) {
-      logEvent(analytics, eventName, eventData || {});
+    if (process.env.NODE_ENV === 'production' && typeof window.gtag === 'function') {
+      window.gtag('event', eventName, eventData || {});
     }
   };
 

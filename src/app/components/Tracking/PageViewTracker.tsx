@@ -1,16 +1,16 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { logEvent } from 'firebase/analytics';
-import { analytics } from '@/firebase/firebase';
+import { usePathname } from 'next/navigation';
 
 export default function PageViewTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (analytics) {
-      logEvent(analytics, 'page_view', {
+    if (process.env.NODE_ENV !== 'production') return;
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('config', process.env.NEXT_PUBLIC_GA_ID as string, {
         page_path: pathname,
       });
     }
