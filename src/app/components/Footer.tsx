@@ -50,7 +50,7 @@ export default function FooterCom() {
               <FooterTitle title='Legal' />
               <FooterLinkGroup col>
                 <FooterLink href='/privacy-policy'>Privacy & Cookies</FooterLink>
-                <FooterLink href='#'>Terms &amp; Conditions</FooterLink>
+                <FooterLink href='terms-conditions'>Terms &amp; Conditions</FooterLink>
               </FooterLinkGroup>
             </div>
           </div>
