@@ -101,7 +101,7 @@ export default function CreatePostPage() {
   }
 
   return (
-    <div className="p-3 mx-5 min-h-screen">
+    <div className="p-3 mx-10 min-h-screen">
       {publishSuccess && (
         <Alert color='success'>{publishSuccess}</Alert>
       )}
