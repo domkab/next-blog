@@ -1,6 +1,6 @@
 import { getFeaturedPosts } from '@/lib/services/postService';
 import LinkTracker from '../Tracking/LinkTracker';
-import SecuredImage from '../SecureImage';
+import Image from 'next/image';
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
@@ -29,11 +29,10 @@ export default async function FeaturedPost() {
           hover:shadow-lg hover:translate-y-[-1px] transition-all duration-300
         ">
           <div className="w-full h-64 md:h-96 relative">
-            <SecuredImage
-              path={overrideImage || post.images?.main?.url}
+            <Image
+              src={overrideImage || post.images?.main?.url}
               alt={post.title}
               fill
-              unoptimized
               className="object-cover rounded-t-lg"
             />
           </div>
