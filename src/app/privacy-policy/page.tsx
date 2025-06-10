@@ -1,6 +1,11 @@
 import { FiMail, FiExternalLink } from 'react-icons/fi';
 import { DOMAIN_NAME, SITE_NAME, SITE_TITLE } from '@/lib/constants';
 
+export const metadata = {
+  title: `Privacy Policy | ${SITE_TITLE}`,
+  description: `Privacy policy of ${SITE_TITLE}`,
+};
+
 const PrivacyPolicy = () => {
   return (
     <main className="privacy-policy md:mx-auto max-w-4xl p-6 sm:p-12">
