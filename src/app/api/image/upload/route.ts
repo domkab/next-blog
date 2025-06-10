@@ -10,7 +10,7 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
   const formData = await req.formData();
   const file = formData.get('file') as File;
   const slug = formData.get('slug') as string;
-  const target = formData.get('target') as 'main' | 'inline';
+  const target = formData.get('target') as 'main' | 'inline' | 'featured';
 
   if (!file || !slug || !target) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -20,7 +20,7 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     let resized: Buffer;
-    if (target === 'main') {
+    if (target === 'main' || target === 'featured') {
       resized = await sharp(buffer)
         .resize({ width: 1200, height: 800, fit: 'cover' })
         .webp()
@@ -34,17 +34,33 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
       return NextResponse.json({ error: 'Invalid target' }, { status: 400 });
     }
 
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'posts', slug);
-    fs.mkdirSync(uploadDir, { recursive: true });
+    let filePath: string;
+    let publicUrl: string;
+    let fileName: string;
 
-    const fileName = `${target}-${Date.now()}-${uuidv4()}.webp`;
-    const filePath = path.join(uploadDir, fileName);
+    if (target === 'featured') {
+      fileName = `${slug}-main-${Date.now()}.webp`;
+      const folder = path.join(process.cwd(), 'public', 'uploads', 'featured-posts');
+      fs.mkdirSync(folder, { recursive: true });
+      filePath = path.join(folder, fileName);
+      publicUrl = `/uploads/featured-posts/${fileName}`;
+    } else {
+      fileName = `${target}-${Date.now()}-${uuidv4()}.webp`;
+      const folder = path.join(process.cwd(), 'public', 'uploads', 'posts', slug);
+      fs.mkdirSync(folder, { recursive: true });
+      filePath = path.join(folder, fileName);
+      publicUrl = `/uploads/posts/${slug}/${fileName}`;
+    }
+
     fs.writeFileSync(filePath, resized);
 
-    const publicUrl = `/uploads/posts/${slug}/${fileName}`;
-
     if (process.env.ENABLE_FIREBASE_SYNC === 'true') {
-      await uploadToFirebase(filePath, `posts/${slug}/${fileName}`);
+      const remotePath =
+        target === 'featured'
+          ? `featured-posts/${fileName}`
+          : `posts/${slug}/${fileName}`;
+
+      await uploadToFirebase(filePath, remotePath);
     }
 
     return NextResponse.json({ url: publicUrl });
