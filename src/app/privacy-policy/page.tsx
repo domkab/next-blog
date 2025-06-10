@@ -1,8 +1,9 @@
 import { FiMail, FiExternalLink } from 'react-icons/fi';
+import { DOMAIN_NAME, SITE_NAME, SITE_TITLE } from '@/lib/constants';
 
 const PrivacyPolicy = () => {
   return (
-    <main className="max-w-4xl mx-auto p-6 sm:p-12">
+    <main className="privacy-policy md:mx-auto max-w-4xl p-6 sm:p-12">
       <h1 className="flex items-center justify-center text-3xl font-bold mb-6 gap-2 text-gray-800 dark:text-gray-300">
         Privacy & Cookie Policy
       </h1>
@@ -11,14 +12,14 @@ const PrivacyPolicy = () => {
         Last updated: 10 June 2025
       </div>
 
-      <div className="prose dark:prose-invert max-w-none">
+      <div className=" max-w-none">
         {/* Section 1 */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold mb-4 text-teal-600 dark:text-teal-400">1. Who We Are</h2>
           <p>
-            <span className="font-semibold">[Site Name]</span> (&quot;we&quot;, &quot;us&quot; or &quot;our&quot;) is a technology-focused blog operated from [Vilnius, Lithuania].
+            <span className="font-semibold">{SITE_TITLE}</span> (&quot;we&quot;, &quot;us&quot; or &quot;our&quot;) is a technology-focused blog operated from [Vilnius, Lithuania].
             This Policy explains how we collect, use, store and share your information and how we use cookies and similar technologies.
-            It applies to www.[yoursitename].com and any sub-domains (collectively, the &quot;Site&quot;).
+            It applies to www.{DOMAIN_NAME} and any sub-domains (collectively, the &quot;Site&quot;).
           </p>
         </section>
 
@@ -26,58 +27,57 @@ const PrivacyPolicy = () => {
         <section className="mb-10">
           <h2 className="text-2xl font-bold mb-4 text-teal-600 dark:text-teal-400">2. The Data We Collect</h2>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full border dark:border-gray-600 mb-4">
-              <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Category</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Examples</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Collected via</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Contact Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Name, e-mail address, message content</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Contact-us form, direct e-mail</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Newsletter Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">E-mail address, marketing preferences</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">&quot;Subscribe&quot; form</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Usage Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Pages viewed, clicks, referring URL, time on page</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Google Analytics cookies</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Device Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">IP address, browser type, OS, screen resolution</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Google Analytics cookies</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Advertising Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    Ad impressions, ad clicks, coarse location <br />(country/region), device identifiers
-                  </td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    Google AdSense cookies &amp; tags <span className="italic">(future)</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Content Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Images you upload when commenting/posting (future feature)</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Firebase Storage</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Cookie Data</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Unique cookie ID, consent choice</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">First-party cookie banner</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <figure className="rounded-lg border border-gray-200 dark:border-gray-600 mb-4">
+            <div className="overflow-x-auto">
+              <table className="min-w-[600px] text-sm w-full">
+                <thead className="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Category</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Examples</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Collected via</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Contact Data</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Name, e-mail address, message content</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Contact-us form, direct e-mail</td>
+                  </tr>
+
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Newsletter Data</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">E-mail address, marketing preferences</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">&quot;Subscribe&quot; form</td>
+                  </tr>
+
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Usage Data</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Pages viewed, clicks, referring URL, time on page</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Google Analytics cookies</td>
+                  </tr>
+
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Device Data</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">IP address, browser type, OS, screen resolution</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Google Analytics cookies</td>
+                  </tr>
+
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Advertising Data</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      Ad impressions, ad clicks, coarse location <br />(country/region), device identifiers
+                    </td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      Google AdSense cookies &amp; tags <span className="italic">(future)</span>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </figure>
+
+
 
           <p className="italic">
             We do not intentionally collect sensitive personal data (e.g., health, race, political opinions).
@@ -89,58 +89,56 @@ const PrivacyPolicy = () => {
         <section className="mb-10">
           <h2 className="text-2xl font-bold mb-4 text-teal-600 dark:text-teal-400">3. How & Why We Collect It</h2>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full border dark:border-gray-600 mb-4">
-              <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Purpose</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Legal Basis*</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Provide the Site & respond to enquiries</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Legitimate interest / Contract</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Enable you to read articles, contact us & receive replies</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Send newsletters & promotions</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Consent</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Only after you opt-in; each e-mail includes an unsubscribe link</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Analytics & performance</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Consent (EU/UK) / Legitimate interest (elsewhere)</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Understand traffic, improve content & UX</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Advertising &amp; monetisation</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    Consent<span className="hidden sm:inline"> (EU/UK)</span> / Legitimate interest
-                  </td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    Serve personalised or contextual ads, measure ad performance
-                  </td>
-                </tr>
+          <figure className="rounded-lg border border-gray-200 dark:border-gray-600 mb-4">
+            <div className="overflow-x-auto">
+              <table className="min-w-[600px] text-sm w-full">
+                <thead className="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Purpose</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Legal Basis*</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Provide the Site & respond to enquiries</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Legitimate interest / Contract</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Enable you to read articles, contact us & receive replies</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Send newsletters & promotions</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Consent</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Only after you opt-in; each e-mail includes an unsubscribe link</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Analytics & performance</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Consent (EU/UK) / Legitimate interest (elsewhere)</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Understand traffic, improve content & UX</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Advertising &amp; monetisation</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      Consent<span className="hidden sm:inline"> (EU/UK)</span> / Legitimate interest
+                    </td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      Serve personalised or contextual ads, measure ad performance
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Affiliate link tracking</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Legitimate interest / Consent</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Track clicks & attribute commissions</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Security & fraud prevention</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Legitimate interest</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Ensure the integrity of our systems</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p className="text-sm italic">
-            * Under GDPR (EU Regulation 2016/679). Where GDPR does not apply, we rely on equivalent local provisions.
-          </p>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Affiliate link tracking</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Legitimate interest / Consent</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Track clicks & attribute commissions</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Security & fraud prevention</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Legitimate interest</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Ensure the integrity of our systems</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
         </section>
 
         {/* Section 4 */}
@@ -170,94 +168,92 @@ const PrivacyPolicy = () => {
         <section className="mb-10">
           <h2 className="text-2xl font-bold mb-4 text-teal-600 dark:text-teal-400">5. Third-Party Services</h2>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full border dark:border-gray-600 mb-4">
-              <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Service</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Purpose</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Link to their Policy</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Google Analytics 4</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Traffic & performance stats</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    <a
-                      href="https://policies.google.com/privacy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
-                    >
-                      View <FiExternalLink className="ml-1" size={14} />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Google AdSense</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Ad serving &amp; reporting</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    <a
-                      href="https://policies.google.com/technologies/ads"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
-                    >
-                      View <FiExternalLink className="ml-1" size={14} />
-                    </a>
-                  </td>
-                </tr>
+          <figure className="rounded-lg border border-gray-200 dark:border-gray-600 mb-4">
+            <div className="overflow-x-auto">
+              <table className="min-w-[600px] text-sm w-full">
+                <thead className="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Service</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Purpose</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Link to their Policy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Google Analytics 4</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Traffic & performance stats</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      <a
+                        href="https://policies.google.com/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
+                      >
+                        View <FiExternalLink className="ml-1" size={14} />
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Google AdSense</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Ad serving &amp; reporting</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      <a
+                        href="https://policies.google.com/technologies/ads"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
+                      >
+                        View <FiExternalLink className="ml-1" size={14} />
+                      </a>
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Firebase by Google</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Image storage, e-mail auth</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    <a
-                      href="https://firebase.google.com/support/privacy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
-                    >
-                      View <FiExternalLink className="ml-1" size={14} />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">MongoDB Atlas</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Managed database</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    <a
-                      href="https://www.mongodb.com/legal/privacy-policy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
-                    >
-                      View <FiExternalLink className="ml-1" size={14} />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Amazon Associates</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Affiliate programme (future)</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    <a
-                      href="https://affiliate-program.amazon.com/help/operating/agreement"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
-                    >
-                      View <FiExternalLink className="ml-1" size={14} />
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p>
-            These partners may place their own cookies or collect data according to their policies.
-          </p>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Firebase by Google</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Image storage, e-mail auth</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      <a
+                        href="https://firebase.google.com/support/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
+                      >
+                        View <FiExternalLink className="ml-1" size={14} />
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">MongoDB Atlas</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Managed database</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      <a
+                        href="https://www.mongodb.com/legal/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
+                      >
+                        View <FiExternalLink className="ml-1" size={14} />
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Amazon Associates</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Affiliate programme (future)</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      <a
+                        href="https://affiliate-program.amazon.com/help/operating/agreement"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-600 dark:text-teal-400 hover:underline flex items-center"
+                      >
+                        View <FiExternalLink className="ml-1" size={14} />
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
         </section>
 
         {/* Section 6 */}
@@ -268,60 +264,48 @@ const PrivacyPolicy = () => {
             <span className="font-semibold">What are cookies?</span> Cookies are small text files stored on your device when you visit a website. We use:
           </p>
 
-          <div className="overflow-x-auto mb-4">
-            <table className="min-w-full border dark:border-gray-600">
-              <thead className="bg-gray-100 dark:bg-gray-700">
-                <tr>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Type</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Purpose</th>
-                  <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Lifespan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Strictly Necessary</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Remember cookie-consent choice, load-balancing</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">up to 12 months</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Analytics</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Measure traffic & user behaviour (Google Analytics)</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">up to 14 months</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Functional</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Persist theme (dark/light) preference</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">up to 12 months</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Marketing / Affiliate</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Track outbound clicks to commerce partners</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">up to 30 days</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">Advertising / AdSense</td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">
-                    Deliver personalised or non-personalised ads, limit ad frequency
-                  </td>
-                  <td className="py-2 px-4 border-b dark:border-gray-600">up to 13 months</td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-
-          <h3 className="text-xl font-semibold mb-2 mt-6">Managing Cookies</h3>
-          <p className="mb-4">
-            On your first visit from the EU/UK you will see a cookie banner requesting Consent. You can:
-          </p>
-          <ul className="list-disc pl-5 mb-4 space-y-2">
-            <li>Accept all cookies.</li>
-            <li>Reject non-essential cookies.</li>
-            <li>Change or withdraw consent anytime via the &quot;Cookie Settings&quot; link in the footer.</li>
-          </ul>
-          <p>
-            Additionally, you can delete or block cookies using your browser settings (see help section of Chrome, Firefox, Safari, Edge, etc.).
-          </p>
+          <figure className="rounded-lg border border-gray-200 dark:border-gray-600 mb-4">
+            <div className="overflow-x-auto">
+              <table className="min-w-[600px] text-sm w-full">
+                <thead className="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Type</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Purpose</th>
+                    <th className="py-2 px-4 border-b dark:border-gray-600 text-left">Lifespan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Strictly Necessary</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Remember cookie-consent choice, load-balancing</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">up to 12 months</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Analytics</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Measure traffic & user behaviour (Google Analytics)</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">up to 14 months</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Functional</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Persist theme (dark/light) preference</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">up to 12 months</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Marketing / Affiliate</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Track outbound clicks to commerce partners</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">up to 30 days</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">Advertising / AdSense</td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">
+                      Deliver personalised or non-personalised ads, limit ad frequency
+                    </td>
+                    <td className="py-2 px-4 border-b dark:border-gray-600">up to 13 months</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
         </section>
 
         {/* Section 7 */}
@@ -361,7 +345,7 @@ const PrivacyPolicy = () => {
 
           <h3 className="text-xl font-semibold mb-2 mt-6">How to exercise these rights</h3>
           <p>
-            Send an e-mail to <a href="mailto:privacy@[yoursitename].com" className="text-teal-600 dark:text-teal-400 hover:underline">privacy@[yoursitename].com</a> or use the &quot;Privacy Request&quot; form. We will respond within 30 days.
+            Send an e-mail to <a href={`mailto:privacy@${SITE_NAME}.com`} className="text-teal-600 dark:text-teal-400 hover:underline">privacy@{SITE_NAME}.com</a> or use the &quot;Privacy Request&quot; form. We will respond within 30 days.
           </p>
         </section>
 
@@ -390,7 +374,10 @@ const PrivacyPolicy = () => {
           <ul className="space-y-2">
             <li className="flex items-center">
               <FiMail className="mr-2" />
-              E-mail: <a href="mailto:contact@[yoursitename].com" className="text-teal-600 dark:text-teal-400 hover:underline ml-1">contact@[yoursitename].com</a>
+              E-mail:
+              <a href={`mailto:contact@${SITE_NAME}.com`}
+                className="text-teal-600 dark:text-teal-400 hover:underline ml-1">contact@{SITE_NAME}.com
+              </a>
             </li>
             <li>
               Postal: [Company Name], [Street Address], [City], [Postcode], Lithuania.
