@@ -3,7 +3,7 @@
 import CategorySelect from '@/app/components/Dashboard/Categories/CategorySelect';
 import InlineImageEditor from '@/app/components/PostEditor/InlineImageEditor';
 import PostEditor from '@/app/components/PostEditor/PostEditor';
-import SecuredImage from '@/app/components/SecureImage';
+import Image from 'next/image';
 import { uploadPostImage, useAppDispatch, useAppSelector } from '@/redux';
 import { setFormData } from '@/redux/slices/postFormSlice';
 import { useUser } from '@clerk/nextjs';
@@ -223,11 +223,10 @@ export default function UpdatePost() {
         {formData.images.main.url && (
           <>
             <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-              <SecuredImage
-                path={formData.images.main.url}
+              <Image
+                src={formData.images.main.url}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
-                unoptimized
                 className="object-cover"
               />
             </div>

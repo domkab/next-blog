@@ -1,7 +1,6 @@
 import { connect } from '@/lib/mongodb/mongoose';
 import FeaturedPost from '@/lib/models/featuredPostModel';
 import { withAdminAuth } from '@/lib/auth/withAdminAuth';
-import { revalidateTag } from 'next/cache';
 
 export const GET = async () => {
   await connect();
@@ -17,8 +16,6 @@ export const GET = async () => {
       overrideSummary: item.overrideSummary,
       overrideImage: item.overrideImage,
     }));
-
-    revalidateTag('featured-posts');
 
     return new Response(JSON.stringify(normalized), { status: 200 });
   } catch (error) {
