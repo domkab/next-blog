@@ -10,6 +10,21 @@ services:
     env_file:
       - .env.production
     restart: unless-stopped
+    volumes:
+      - ./uploads:/app/public/uploads
+
+  nextblog-preview:
+    container_name: nextblog-preview
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.preview
+    restart: unless-stopped
+    volumes:
+      - ./uploads:/app/public/uploads
 
   # Development
   nextblog-dev:

@@ -40,9 +40,8 @@ export default function DashImageSettings() {
       {toast && (
         <div className="fixed top-4 right-4 z-50">
           <div
-            className={`p-4 rounded-lg shadow-md text-white ${
-              toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'
-            }`}
+            className={`p-4 rounded-lg shadow-md text-white ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'
+              }`}
           >
             {toast.message}
           </div>

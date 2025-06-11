@@ -1,5 +1,6 @@
 import { adminStorage } from '@/firebase/firebase-admin';
 import fs from 'fs';
+import path from 'path';
 
 export async function uploadToFirebase(localPath: string, destination: string) {
   const bucket = adminStorage.bucket();
@@ -16,4 +17,34 @@ export async function uploadToFirebase(localPath: string, destination: string) {
       .on('error', reject)
       .on('finish', resolve);
   });
+}
+
+export async function syncFromFirebase() {
+  const bucket = adminStorage.bucket();
+  const [files] = await bucket.getFiles({ prefix: '' });
+
+  for (const file of files) {
+    const remotePath = file.name;
+    const localPath = path.join(process.cwd(), 'public', 'uploads', remotePath);
+
+    if (fs.existsSync(localPath)) {
+      continue; // Skip if file already exists
+    }
+
+    const localDir = path.dirname(localPath);
+    fs.mkdirSync(localDir, { recursive: true });
+
+    const writeStream = fs.createWriteStream(localPath);
+
+    await new Promise((resolve, reject) => {
+      file.createReadStream()
+        .on('error', reject)
+        .on('end', resolve)
+        .pipe(writeStream);
+    });
+
+    console.log(`✅ Synced: ${remotePath}`);
+  }
+
+  console.log('🔥 Image sync from Firebase complete.');
 }
