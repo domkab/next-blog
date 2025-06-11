@@ -5,4 +5,3 @@ Dockerfile
 .dockerignore
 .env.local
 src/firebase/firebaseReadAccount.json
-public/uploads
