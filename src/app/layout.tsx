@@ -23,7 +23,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Pixel Tech | Home",
+  keywords: [
+    "tech blog",
+    "technology",
+    "gadgets",
+    "reviews",
+    "news",
+    "articles",
+  ],
   description: "Tech blog with articles on technology, gadgets, and more.",
 };
 
