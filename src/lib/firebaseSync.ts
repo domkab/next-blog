@@ -17,27 +17,38 @@ export async function uploadToFirebase(localPath: string, destination: string) {
       .on('error', reject)
       .on('finish', resolve);
   });
-}
+};
 
 export async function syncFromFirebase() {
   const bucket = adminStorage.bucket();
   const [files] = await bucket.getFiles({ prefix: '' });
+  const baseUploadsDir = path.join(process.cwd(), 'src', 'uploads');
+
+  if (!baseUploadsDir.includes('/public/uploads')) {
+    throw new Error(`Invalid baseUploadsDir: ${baseUploadsDir}`);
+  };
 
   for (const file of files) {
     const remotePath = file.name;
 
-    if (remotePath.endsWith('/')) continue;
+    if (!remotePath || remotePath.endsWith('/')) continue;
 
-    const localPath = path.join(process.cwd(), 'public', 'uploads', remotePath);
+    const localPath = path.join(baseUploadsDir, remotePath);
+    const localDir = path.dirname(localPath);
 
     if (fs.existsSync(localPath)) {
-      continue; // Skip if file already exists
-    }
+      console.log(`🔁 Skipped (already exists): ${localPath}`);
+      continue;
+    };
 
-    const localDir = path.dirname(localPath);
     fs.mkdirSync(localDir, { recursive: true });
 
+    console.log('✅ Target directory =', localDir);
+
     const writeStream = fs.createWriteStream(localPath);
+    writeStream.on('finish', () => {
+      console.log(`✅ Finished writing: ${localPath}`);
+    });
 
     await new Promise((resolve, reject) => {
       file.createReadStream()
@@ -47,7 +58,7 @@ export async function syncFromFirebase() {
     });
 
     console.log(`✅ Synced: ${remotePath}`);
-  }
+  };
 
   console.log('🔥 Image sync from Firebase complete.');
-}
+};
