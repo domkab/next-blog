@@ -1,0 +1,18 @@
+laurynogargasoapiserver.xyz {
+  reverse_proxy nextblog:3000
+
+  # Serve static files under /uploads from /app/public
+  handle_path /uploads/* {
+    root * /app/public
+    file_server
+  }
+
+  # Fallback: everything else goes to Next.js
+  handle {
+    reverse_proxy nextblog:3000
+  }
+
+  log {
+    output file /var/log/caddy/access.log
+  }
+}

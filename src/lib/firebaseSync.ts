@@ -25,6 +25,9 @@ export async function syncFromFirebase() {
 
   for (const file of files) {
     const remotePath = file.name;
+
+    if (remotePath.endsWith('/')) continue;
+
     const localPath = path.join(process.cwd(), 'public', 'uploads', remotePath);
 
     if (fs.existsSync(localPath)) {

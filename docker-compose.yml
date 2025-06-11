@@ -10,8 +10,6 @@ services:
     env_file:
       - .env.production
     restart: unless-stopped
-    volumes:
-      - ./uploads:/app/public/uploads
 
   nextblog-preview:
     container_name: nextblog-preview
@@ -23,8 +21,6 @@ services:
     env_file:
       - .env.preview
     restart: unless-stopped
-    volumes:
-      - ./uploads:/app/public/uploads
 
   # Development
   nextblog-dev:
