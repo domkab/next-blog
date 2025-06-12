@@ -24,10 +24,6 @@ export async function syncFromFirebase() {
   const [files] = await bucket.getFiles({ prefix: '' });
   const baseUploadsDir = path.join(process.cwd(), 'src', 'uploads');
 
-  if (!baseUploadsDir.includes('/public/uploads')) {
-    throw new Error(`Invalid baseUploadsDir: ${baseUploadsDir}`);
-  };
-
   for (const file of files) {
     const remotePath = file.name;
 

@@ -1,13 +1,15 @@
 laurynogargasoapiserver.xyz {
-  reverse_proxy nextblog:3000
 
-  # Serve static files under /uploads from /app/public
+  encode zstd gzip
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  }
+
   handle_path /uploads/* {
-    root * /app/public
+    root * /app/src
     file_server
   }
 
-  # Fallback: everything else goes to Next.js
   handle {
     reverse_proxy nextblog:3000
   }
