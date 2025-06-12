@@ -7,6 +7,7 @@ import parse, {
 import Image from 'next/image';
 import { PostType } from '@/types/Post';
 import styles from './PostContent.module.scss';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 interface PostContentProps {
   post: PostType;
@@ -41,7 +42,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
           return (
             <figure key={index} className={styles['post-content__figure']}>
               <Image
-                src={path}
+                src={getImageUrl(path)}
                 alt={alt || meta.description || 'inline image'}
                 width={800}
                 height={450}

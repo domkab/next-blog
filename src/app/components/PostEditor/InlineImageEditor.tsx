@@ -12,6 +12,7 @@ import {
 import { Button, Label, TextInput } from 'flowbite-react';
 import Image from 'next/image';
 import axios from 'axios';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 const InlineImageEditor: React.FC = () => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const InlineImageEditor: React.FC = () => {
           className="flex flex-col sm:flex-row gap-6 border border-gray-200 dark:border-gray-700 rounded-md p-4"
         >
           <Image
-            src={url}
+            src={getImageUrl(url)}
             alt={meta?.description ?? `inline image ${id}`}
             width={128}
             height={128}
