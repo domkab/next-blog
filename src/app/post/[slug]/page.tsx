@@ -7,6 +7,7 @@ import NotFound from '@/app/not-found';
 import { getPostBySlug } from '@/lib/services/postService';
 import Image from 'next/image';
 import { EmailSubscribeWModal } from '@/app/components/CallToAction/EmailSubscribeWModal';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -34,7 +35,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         {post.images.main.url && (
           <figure className={styles['post-content__figure']}>
             <Image
-              src={post.images.main.url}
+              src={getImageUrl(post.images.main.url)}
               alt={post.images.main.meta?.description || "Main Image"}
               width={800}
               height={450}
