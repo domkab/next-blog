@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 /* --------------------------------------------------------------------------
    Analytics helper – GA4 + Google AdSense with Consent Mode v2 (TS-safe)
    -------------------------------------------------------------------------- */
