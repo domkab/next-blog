@@ -22,7 +22,7 @@ export default async function FeaturedPost() {
         {/* Image Section */}
         <div className="w-full h-64 md:h-96 relative">
           <Image
-            src={overrideImage ? getImageUrl(overrideImage) : getImageUrl(post.images?.main?.url)}
+            src={getImageUrl(overrideImage || post.images?.main?.url)}
             alt={post.title}
             fill
             className="object-cover"
