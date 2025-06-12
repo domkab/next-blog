@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { PostType } from '@/types/Post';
 import Image from 'next/image';
-import { getImageUrl } from '@/utils/getImageUrl';
 
 type PostCardProps = {
   post: PostType;
@@ -14,7 +13,7 @@ export default function PostCard({ post }: PostCardProps) {
       <Link href={`/post/${post.slug}`}>
         <div className="relative w-full h-[260px] group-hover:h-[200px] transition-all duration-300">
           <Image
-            src={getImageUrl(post.images.main.url)}
+            src={post.images.main.url}
             alt="post cover"
             fill
             className="object-cover z-20"
