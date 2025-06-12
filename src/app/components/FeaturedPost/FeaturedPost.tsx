@@ -1,6 +1,7 @@
 import { getFeaturedPosts } from '@/lib/services/postService';
 import LinkTracker from '../Tracking/LinkTracker';
 import Image from 'next/image';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
@@ -30,7 +31,7 @@ export default async function FeaturedPost() {
         ">
           <div className="w-full h-64 md:h-96 relative">
             <Image
-              src={overrideImage || post.images?.main?.url}
+              src={overrideImage ? getImageUrl(overrideImage) : getImageUrl(post.images?.main?.url)}
               alt={post.title}
               fill
               className="object-cover rounded-t-lg"
