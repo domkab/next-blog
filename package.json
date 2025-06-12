@@ -8,8 +8,7 @@
     "clean": "rm -rf node_modules .next package-lock.json && echo 'Cleaned up project files.'",
     "start": "next start",
     "lint": "next lint",
-    "dev:debug": "node --inspect-brk node_modules/next/dist/bin/next dev",
-    "test:e2e": "playwright test"
+    "dev:debug": "node --inspect-brk node_modules/next/dist/bin/next dev"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.31.9",
@@ -41,7 +40,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@playwright/test": "^1.52.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^22.15.18",
     "@types/nprogress": "^0.2.3",
