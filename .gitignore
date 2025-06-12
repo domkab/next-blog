@@ -49,5 +49,8 @@ next-env.d.ts
 
 launch.json
 
+#e2e testing
+e2e/node_modules
+
 #uploads
 public/uploads
