@@ -6,8 +6,9 @@ laurynogargasoapiserver.xyz {
     Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
   }
 
-  handle_path /uploads/* {
-    root * /var/www/next-blog
+  handle /uploads/* {
+    uri strip_prefix /uploads
+    root * /var/www/next-blog/uploads
     file_server
   }
 
