@@ -7,7 +7,7 @@ laurynogargasoapiserver.xyz {
   }
 
   handle_path /uploads/* {
-    root * /app/src
+    root * /var/www/next-blog
     file_server
   }
 
