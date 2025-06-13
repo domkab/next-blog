@@ -69,4 +69,5 @@ export function enableAdsense() {
   document.head.appendChild(ad);
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { loadGtag, enableAdsense, userHasConsented };
