@@ -11,6 +11,7 @@ import ThemeComponent from './components/ThemeComponent';
 import NavigationLoader from './components/Navigation/NavigationLoader';
 import PageViewTracker from './components/Tracking/PageViewTracker';
 import GA from './components/Tracking/GA';
+import CookieBanner from './components/Tracking/CookieBanner';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,7 @@ export default function RootLayout({
                 <NavigationLoader />
                 <PageViewTracker />
                 <GA />
+                <CookieBanner />
                 {children}
                 <Footer />
               </div>
