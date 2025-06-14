@@ -2,10 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Install deps first to cache properly
 COPY package.json package-lock.json* ./
 RUN npm install
 
+# Copy rest of app
 COPY . .
+
+# Run type-check before starting the app
+RUN npm run type-check
 
 EXPOSE 3000
 

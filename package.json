@@ -8,7 +8,8 @@
     "clean": "rm -rf node_modules .next package-lock.json && echo 'Cleaned up project files.'",
     "start": "next start",
     "lint": "next lint",
-    "dev:debug": "node --inspect-brk node_modules/next/dist/bin/next dev"
+    "dev:debug": "node --inspect-brk node_modules/next/dist/bin/next dev",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.31.9",
