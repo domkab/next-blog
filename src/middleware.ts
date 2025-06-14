@@ -1,67 +1,42 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { clerkMiddleware } from '@clerk/nextjs/server';
+import { isRateLimited, logRequest } from './middleware_utils/mwutils';
+import { getIpAndCountry } from './middleware_utils/geo';
 
-// ========== Config ==========
-const RATE_LIMIT_PATH = '/api/image/image-url';
+// ---------- config ----------
 const MAX_REQUESTS = Number(process.env.RATE_LIMIT) || 40;
-const WINDOW_MS = 60 * 1000; // 1 minute
+const WINDOW_MS = 60_000;
 
-const uploadLimits = new Map<string, { count: number; lastReset: number }>();
-
-// ========== Utilities ==========
-function getIP(req: NextRequest): string {
-  return (
-    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
-    req.headers.get('x-real-ip') ??
-    'anon'
-  );
-}
-
-function logRequest(req: NextRequest, ip: string) {
-  const { method, nextUrl } = req;
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${method} ${nextUrl.pathname} from ${ip}`);
-}
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = uploadLimits.get(ip) || { count: 0, lastReset: now };
-
-  if (now - entry.lastReset > WINDOW_MS) {
-    entry.count = 1;
-    entry.lastReset = now;
-  } else {
-    entry.count++;
-  }
-
-  uploadLimits.set(ip, entry);
-  return entry.count > MAX_REQUESTS;
-}
-
-// ========== Middleware ==========
-const middlewareHandler = clerkMiddleware(async (auth, req: NextRequest) => {
-  const ip = getIP(req);
+// ---------- middleware ----------
+const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
+  const { ip, isEU } = await getIpAndCountry(req);
   logRequest(req, ip);
 
-  // Apply rate limiting only to this path
-  const isRateLimitTarget =
-    req.nextUrl.pathname.startsWith(RATE_LIMIT_PATH) &&
-    req.method === 'GET';
+  const res = NextResponse.next();
 
-  if (isRateLimitTarget && isRateLimited(ip)) {
-    console.warn(`[RATE LIMIT] ${ip} exceeded limit for ${req.nextUrl.pathname}`);
+  // EU cookie banner logic using isEU
+  if (!req.cookies.has('banner_shown') && isEU) {
+    res.headers.set('x-requires-cookie-banner', '1');
+  };
+
+  // Rate limiting
+  const isTarget =
+    req.method === 'GET' && req.nextUrl.pathname.startsWith('/api');
+
+  if (isTarget && isRateLimited(ip, MAX_REQUESTS, WINDOW_MS)) {
+    console.warn(`[RATE LIMIT] ${ip} exceeded limit`);
     return new NextResponse('Rate limit exceeded', { status: 429 });
-  }
+  };
 
-  return NextResponse.next();
+  return res;
 });
 
 export default middlewareHandler;
 
+// Matcher config: all HTML pages and API routes, skip static files
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
-    '/api/image/image-url',
+    '/((?!_next|[^?]*\\.(?:[a-z0-9]+)$).*)',
+    '/api/:path*',
   ],
 };

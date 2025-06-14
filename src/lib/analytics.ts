@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 
 /* --------------------------------------------------------------------------
    Analytics helper – GA4 + Google AdSense with Consent Mode v2 (TS-safe)
@@ -41,9 +39,13 @@ export function loadGtag() {
     document.head.appendChild(s);
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = ((...a: Parameters<GtagFn>) => pushDL(...a)) as unknown as typeof window.gtag;
 
+    window.gtag = function (...args: Parameters<GtagFn>) {
+      pushDL(...args);
+    };
+    
     window.gtag('js', new Date().toISOString());
+
     window.gtag('consent', 'default', {
       ad_storage: 'denied',
       analytics_storage: 'denied',
