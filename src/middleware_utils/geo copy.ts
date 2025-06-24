@@ -18,6 +18,10 @@ type IPGeoData = {
   };
 };
 
+// function normalizeIp(ip: string): string {
+//   return ip.startsWith('::ffff:') ? ip.slice(7) : ip;
+// }
+
 const ipGeoCache = new Map<string, { data: IPGeoData; timestamp: number }>();
 // const CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 const CACHE_DURATION_MS = 1
@@ -50,6 +54,7 @@ export async function getGeoWithCache(ip: string): Promise<IPGeoData | null> {
 export async function getIpAndCountry(
   req: NextRequest
 ): Promise<{ ip: string; country: string; isEU: boolean }> {
+  console.log('Running getIpAndCountry');
 
   const ip = (() => {
     const rawIp =
@@ -71,11 +76,11 @@ export async function getIpAndCountry(
         country: mockGeo.toUpperCase(),
         isEU: true,
       };
-    };
+    }
 
     // local override for cookie banner
     const isLocal =
-      ip === '::1' ||
+      ip === '::1'||
       ip.startsWith('127.') ||
       ip.startsWith('192.168.') ||
       ip.startsWith('10.') ||
@@ -91,8 +96,8 @@ export async function getIpAndCountry(
         country: 'LT',
         isEU: true,
       };
-    };
-  };
+    }
+  }
 
   const geo = await getGeoWithCache(ip);
   console.log('[Geo] Fetched geo data:', geo);

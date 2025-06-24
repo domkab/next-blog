@@ -16,8 +16,14 @@ export default function CookieBanner() {
       buttonClasses="bg-teal-600 px-4 py-2 rounded text-white"
       declineButtonClasses="bg-slate-500 px-4 py-2 rounded text-white"
       onAccept={() => {
-        loadGtag(); 
+        document.cookie = 'cookie_consent=accept; Max-Age=31536000; path=/; SameSite=Lax';
+        document.cookie = 'needs_banner=1; Max-Age=0; path=/';  // delete
+        loadGtag();
         enableAdsense();
+      }}
+      onDecline={() => {
+        document.cookie = 'cookie_consent=reject; Max-Age=31536000; path=/; SameSite=Lax';
+        document.cookie = 'needs_banner=1; Max-Age=0; path=/';  // delete
       }}
     >
       We use cookies and Google AdSense to personalise content and measure
