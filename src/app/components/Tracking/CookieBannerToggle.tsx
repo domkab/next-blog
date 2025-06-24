@@ -7,14 +7,13 @@ export default function CookieBannerToggle() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const needsBanner =
-      document?.querySelector('meta[name="x-requires-cookie-banner"]') ||
-      (window.__NEXT_DATA__?.props?.pageProps?.requiresBanner ?? false);
+    if (document.cookie.includes('needs_banner=1')) {
+      setShow(true);
+    };
 
-    if (needsBanner) setShow(true);
+    console.log('needs banner');
   }, []);
 
   if (!show) return null;
-
   return <CookieBanner />;
 }

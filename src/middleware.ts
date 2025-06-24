@@ -9,22 +9,33 @@ const WINDOW_MS = 60_000;
 
 // ---------- middleware ----------
 const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
-  const { ip, isEU } = await getIpAndCountry(req);
+  const { ip, country, isEU } = await getIpAndCountry(req);
   logRequest(req, ip);
+  console.log(ip, country, isEU);
 
   const res = NextResponse.next();
 
-  // EU cookie banner logic using isEU
-  if (!req.cookies.has('banner_shown') && isEU) {
-    res.headers.set('x-requires-cookie-banner', '1');
-  };
+  /* 3: EU cookie-banner header */
+  // if (isEU && !req.cookies.has('banner_shown')) {
+  //   res.headers.set('x-requires-cookie-banner', '1');
+  // };
 
-  // Rate limiting
-  const isTarget =
+  if (isEU && !req.cookies.has('cookie_consent')) {
+    res.cookies.set('needs_banner', '1', {
+      path: '/',
+      maxAge: 60 * 5,
+      httpOnly: false,
+      sameSite: 'lax',
+    });
+  }
+
+  /* 4: simple rate-limit for GET /api/* */
+  const isApiGet =
     req.method === 'GET' && req.nextUrl.pathname.startsWith('/api');
 
-  if (isTarget && isRateLimited(ip, MAX_REQUESTS, WINDOW_MS)) {
-    console.warn(`[RATE LIMIT] ${ip} exceeded limit`);
+  if (isApiGet && isRateLimited(ip ?? 'anon', MAX_REQUESTS, WINDOW_MS)) {
+    console.warn(`[RATE LIMIT] ${ip} exceeded`);
+
     return new NextResponse('Rate limit exceeded', { status: 429 });
   };
 
