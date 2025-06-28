@@ -1,8 +1,16 @@
 // src/app/privacy-controls/page.tsx
 'use client';
 
+import { SITE_NAME } from '@/lib/constants';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+
+export const metadata = {
+  title: `Privacy Controls | ${SITE_NAME}`,
+  description:
+    'Manage your CCPA privacy preferences. Opt out of the sale or sharing of your personal information used for personalized advertising.',
+  robots: 'noindex, nofollow',
+};
 
 export default function PrivacyControlsPage() {
   const [optedOut, setOptedOut] = useState(false);
