@@ -9,9 +9,13 @@ const WINDOW_MS = 60_000;
 
 // ---------- middleware ----------
 const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
-  const { ip, country, isEU, isCalifornia } = await getIpAndCountry(req);
+  const {
+    ip,
+    // country, for debugging purposes
+    isEU,
+    isCalifornia } = await getIpAndCountry(req);
+
   logRequest(req, ip);
-  console.log(ip, country, 'location in eu:', isEU, 'is california:', isCalifornia);
 
   const res = NextResponse.next();
 
@@ -42,7 +46,6 @@ const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
 
 export default middlewareHandler;
 
-// Matcher config: all HTML pages and API routes, skip static files
 export const config = {
   matcher: [
     '/((?!_next|[^?]*\\.(?:[a-z0-9]+)$).*)',
