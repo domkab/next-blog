@@ -10,8 +10,6 @@ export default function CookieBannerToggle() {
     if (document.cookie.includes('needs_banner=1')) {
       setShow(true);
     };
-
-    console.log('needs banner');
   }, []);
 
   if (!show) return null;
