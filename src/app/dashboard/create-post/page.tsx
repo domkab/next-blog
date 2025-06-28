@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import 'react-quill-new/dist/quill.snow.css';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -191,7 +192,7 @@ export default function CreatePostPage() {
           <>
             <div style={{ position: 'relative', width: '100%', height: '400px' }}>
               <Image
-                src={formData.images.main.url}
+                src={getImageUrl(formData.images.main.url)}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
                 className="object-cover"

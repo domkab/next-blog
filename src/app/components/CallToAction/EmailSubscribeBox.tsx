@@ -1,3 +1,6 @@
+// src/app/components/CallToAction/EmailSubscribeBox.tsx
+// email subscribe box component, same as EmailSubscribeWModal but without modal functionality
+// this component can be placed anywhere in rendered pages 
 'use client';
 
 import { Button, TextInput } from 'flowbite-react';

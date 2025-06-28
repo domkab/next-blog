@@ -18,7 +18,13 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'www.hostinger.com',
+        hostname: 'laurynogargasoapiserver.xyz',
+        pathname: '/uploads/**',
+      },
+            {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/uploads/**',
       },
     ],
   },

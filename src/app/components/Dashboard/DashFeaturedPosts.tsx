@@ -19,6 +19,7 @@ import {
 } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 export default function FeaturedPostAdminPage() {
   const { user } = useUser();
@@ -177,11 +178,10 @@ export default function FeaturedPostAdminPage() {
           <Card>
             <div className="w-full h-40 relative mb-2">
               <Image
-                src={
+                src={getImageUrl(
                   overrideImage ||
-                  getPostById(selectedPostId)?.images?.main?.url ||
-                  '/placeholder.jpg'
-                }
+                  getPostById(selectedPostId)?.images?.main?.url
+                )}
                 alt={getPostById(selectedPostId)?.title || 'Post image'}
                 fill
                 className="object-cover rounded-md"
@@ -235,7 +235,7 @@ export default function FeaturedPostAdminPage() {
                 >
                   <div className="w-full h-40 relative mb-2">
                     <Image
-                      src={f.overrideImage || post?.images?.main?.url || '/placeholder.jpg'}
+                      src={getImageUrl(f.overrideImage || post?.images?.main?.url)}
                       alt={post?.title || 'Post image'}
                       onClick={() => router.push(`/post/${post?.slug}`)}
                       fill

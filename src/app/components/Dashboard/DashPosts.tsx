@@ -20,6 +20,7 @@ import axios from 'axios';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import { PostType } from '@/types/Post';
 import Image from 'next/image';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 type SortablePostField = 'title' | 'updatedAt' | 'category';
 
@@ -179,7 +180,7 @@ export default function DashPosts() {
                   <TableCell>
                     <Link href={`/post/${post.slug}`}>
                       <Image
-                        src={post.images.main.url}
+                        src={getImageUrl(post.images.main.url)}
                         alt={post.title}
                         width={80}
                         height={40}

@@ -31,7 +31,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env
 .env.local
+.env.preview
 .env.production
+# deploy build from local to vps
+.env.deploy
 
 # vercel
 .vercel
@@ -47,6 +50,9 @@ next-env.d.ts
 /.clerk/
 
 launch.json
+
+#e2e testing
+e2e/node_modules
 
 #uploads
 public/uploads
