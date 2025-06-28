@@ -9,25 +9,23 @@ const WINDOW_MS = 60_000;
 
 // ---------- middleware ----------
 const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
-  const { ip, country, isEU } = await getIpAndCountry(req);
+  const { ip, country, isEU, isCalifornia } = await getIpAndCountry(req);
   logRequest(req, ip);
-  console.log(ip, country, isEU);
+  console.log(ip, country, 'location in eu:', isEU, 'is california:', isCalifornia);
 
   const res = NextResponse.next();
 
-  /* 3: EU cookie-banner header */
-  // if (isEU && !req.cookies.has('banner_shown')) {
-  //   res.headers.set('x-requires-cookie-banner', '1');
-  // };
+  const needsBanner =
+    (!req.cookies.has('cookie_consent')) && (isEU || isCalifornia);
 
-  if (isEU && !req.cookies.has('cookie_consent')) {
+  if (needsBanner) {
     res.cookies.set('needs_banner', '1', {
       path: '/',
-      maxAge: 60 * 5,
+      maxAge: 300,
       httpOnly: false,
       sameSite: 'lax',
     });
-  }
+  };
 
   /* 4: simple rate-limit for GET /api/* */
   const isApiGet =

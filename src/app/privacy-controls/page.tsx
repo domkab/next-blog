@@ -1,6 +1,7 @@
 // src/app/privacy-controls/page.tsx
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function PrivacyControlsPage() {
@@ -38,14 +39,21 @@ export default function PrivacyControlsPage() {
 
       <button
         onClick={toggle}
-        className={`px-6 py-3 rounded text-white ${
-          optedOut ? 'bg-slate-500' : 'bg-teal-600'
-        }`}
+        className={`px-6 py-3 rounded text-white ${optedOut ? 'bg-slate-500' : 'bg-teal-600'
+          }`}
       >
         {optedOut
           ? 'Opt-out is ACTIVE  –  Click to enable ads'
           : 'Click to opt-out of personalised ads'}
       </button>
+
+      {/* ↩︎ Back-to-home link */}
+      <Link
+        href="/"
+        className="ml-4 inline-block mt-4 text-teal-600 hover:underline"
+      >
+        ← Back to Home
+      </Link>
 
       <p className="text-sm text-gray-500">
         Your choice is stored in a cookie for one year. You can revisit
