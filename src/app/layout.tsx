@@ -12,6 +12,7 @@ import NavigationLoader from './components/Navigation/NavigationLoader';
 import PageViewTracker from './components/Tracking/PageViewTracker';
 import GA from './components/Tracking/GA';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
+// import { SITE_NAME } from '@/lib/constants';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // title: `${SITE_NAME} | Home`,
   title: "Pixel Tech | Home",
   keywords: [
     "tech blog",
