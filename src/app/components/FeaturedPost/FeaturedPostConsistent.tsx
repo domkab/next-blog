@@ -1,6 +1,7 @@
 import { getFeaturedPosts } from '@/lib/services/postService';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 //  experiment version with consistent design = button + hover effect
 
@@ -21,7 +22,7 @@ export default async function FeaturedPost() {
         {/* Image Section */}
         <div className="w-full h-64 md:h-96 relative">
           <Image
-            src={overrideImage || post.images?.main?.url || '/placeholder.jpg'}
+            src={getImageUrl(overrideImage || post.images?.main?.url)}
             alt={post.title}
             fill
             className="object-cover"

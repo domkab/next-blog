@@ -5,6 +5,7 @@ import path from 'path';
 import sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadToFirebase } from '@/lib/firebaseSync';
+import { getUploadsPath } from '@/utils/uploadPath';
 
 export const POST = withAdminAuth(async (_user, req: NextRequest) => {
   const formData = await req.formData();
@@ -34,33 +35,23 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
       return NextResponse.json({ error: 'Invalid target' }, { status: 400 });
     }
 
-    let filePath: string;
-    let publicUrl: string;
-    let fileName: string;
+    const fileName = `${target}-${Date.now()}-${uuidv4()}.webp`;
+    const relativePath =
+      target === 'featured'
+        ? `featured-posts/${fileName}`
+        : `posts/${slug}/${fileName}`;
 
-    if (target === 'featured') {
-      fileName = `${slug}-main-${Date.now()}.webp`;
-      const folder = path.join(process.cwd(), 'public', 'uploads', 'featured-posts');
-      fs.mkdirSync(folder, { recursive: true });
-      filePath = path.join(folder, fileName);
-      publicUrl = `/uploads/featured-posts/${fileName}`;
-    } else {
-      fileName = `${target}-${Date.now()}-${uuidv4()}.webp`;
-      const folder = path.join(process.cwd(), 'public', 'uploads', 'posts', slug);
-      fs.mkdirSync(folder, { recursive: true });
-      filePath = path.join(folder, fileName);
-      publicUrl = `/uploads/posts/${slug}/${fileName}`;
-    }
+    const filePath = getUploadsPath(relativePath);
+    const publicUrl = `/uploads/${relativePath}`;
 
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+
+    // 💾 Save image to disk
     fs.writeFileSync(filePath, resized);
 
+    // ☁️ Upload to Firebase if enabled
     if (process.env.ENABLE_FIREBASE_SYNC === 'true') {
-      const remotePath =
-        target === 'featured'
-          ? `featured-posts/${fileName}`
-          : `posts/${slug}/${fileName}`;
-
-      await uploadToFirebase(filePath, remotePath);
+      await uploadToFirebase(filePath, relativePath);
     }
 
     return NextResponse.json({ url: publicUrl });

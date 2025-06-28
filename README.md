@@ -1,6 +1,9 @@
 # next-blog
 next-blog with dash for my data driven project
 
+mock geo for eu countries
+http://localhost:3000/?mockGeo=lt
+
 text gray dark:text-gray we can use that combo for dark light mode text colours
 
       for h1: text-gray-800 dark:text-gray-300

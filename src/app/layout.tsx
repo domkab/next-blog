@@ -11,6 +11,7 @@ import ThemeComponent from './components/ThemeComponent';
 import NavigationLoader from './components/Navigation/NavigationLoader';
 import PageViewTracker from './components/Tracking/PageViewTracker';
 import GA from './components/Tracking/GA';
+import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Pixel Tech | Home",
+  keywords: [
+    "tech blog",
+    "technology",
+    "gadgets",
+    "reviews",
+    "news",
+    "articles",
+  ],
   description: "Tech blog with articles on technology, gadgets, and more.",
 };
 
@@ -43,6 +52,7 @@ export default function RootLayout({
                 <NavigationLoader />
                 <PageViewTracker />
                 <GA />
+                <CookieBannerToggle />
                 {children}
                 <Footer />
               </div>

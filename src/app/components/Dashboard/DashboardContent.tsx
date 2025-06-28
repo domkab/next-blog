@@ -9,6 +9,7 @@ import DashUsers from './DashUsers';
 import DashboardComponent from './DashboardComponent';
 import DashFeaturedPosts from './DashFeaturedPosts';
 import DashCategories from './Categories/DashCategories';
+import DashImageSettings from './DashImageSettings';
 
 export default function DashboardContent() {
   const searchParams = useSearchParams();
@@ -31,6 +32,7 @@ export default function DashboardContent() {
       {tab === 'posts' && <DashPosts />}
       {tab === 'featured-posts' && <DashFeaturedPosts />}
       {tab === 'categories' && <DashCategories />}
+      {tab === 'image-settings' && <DashImageSettings />}
       {tab === 'users' && <DashUsers />}
       {tab === 'dash' && <DashboardComponent />}
     </div>

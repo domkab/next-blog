@@ -9,7 +9,7 @@ import {
   HiChartPie,
   HiStar,
 } from 'react-icons/hi';
-import { FiFolder } from 'react-icons/fi';
+import { FiFolder, FiImage } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SignOutButton } from '@clerk/nextjs';
@@ -102,6 +102,18 @@ export default function DashSidebar() {
                 as='div'
               >
                 Categories
+              </SidebarItem>
+            </Link>
+          )}
+
+          {isAdmin && (
+            <Link href='/dashboard?tab=image-settings'>
+              <SidebarItem
+                active={tab === 'image-settings'}
+                icon={FiImage}
+                as='div'
+              >
+                Image Settings
               </SidebarItem>
             </Link>
           )}
