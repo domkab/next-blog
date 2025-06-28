@@ -16,4 +16,4 @@ export default function CookieBannerToggle() {
 
   if (!show) return null;
   return <CookieBanner />;
-}
+};
