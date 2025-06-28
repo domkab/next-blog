@@ -19,6 +19,7 @@ export async function POST(req: Request) {
       {
         email,
         groups: [GROUP_ID],
+        resubscribe: true,
       },
       {
         headers: {
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error(err);
+
     return new Response(JSON.stringify({ error: 'Server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
