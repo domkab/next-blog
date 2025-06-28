@@ -9,27 +9,31 @@ export default function CookieBanner() {
       location="bottom"
       cookieName="cookie_consent"
       sameSite="lax"
-      buttonText="Accept all"
-      declineButtonText="Reject"
+      buttonText="Accept all cookies"
+      declineButtonText="Reject non-essential"
       enableDeclineButton
       style={{ background: '#1e293b' }}
       buttonClasses="bg-teal-600 px-4 py-2 rounded text-white"
       declineButtonClasses="bg-slate-500 px-4 py-2 rounded text-white"
       onAccept={() => {
-        document.cookie = 'cookie_consent=accept; Max-Age=31536000; path=/; SameSite=Lax';
-        document.cookie = 'needs_banner=1; Max-Age=0; path=/';  // delete
-        loadGtag();
-        enableAdsense();
+        /* user said YES to analytics + ads */
+        document.cookie =
+          'cookie_consent=full; Max-Age=31536000; path=/; SameSite=Lax';
+        document.cookie = 'needs_banner=1; Max-Age=0; path=/';
+        loadGtag();        // Google Analytics
+        enableAdsense();   // AdSense / personalised ads
       }}
       onDecline={() => {
-        document.cookie = 'cookie_consent=reject; Max-Age=31536000; path=/; SameSite=Lax';
-        document.cookie = 'needs_banner=1; Max-Age=0; path=/';  // delete
+        /* user said NO — keep only essential cookies */
+        document.cookie =
+          'cookie_consent=necessary; Max-Age=31536000; path=/; SameSite=Lax';
+        document.cookie = 'needs_banner=1; Max-Age=0; path=/';
+        // DO NOT call loadGtag / enableAdsense here
       }}
     >
-      We use cookies and Google AdSense to personalise content and measure
-      traffic.{' '}
+      We use cookies for analytics and personalised ads.{' '}
       <a href="/privacy-policy" className="underline text-teal-400">
-        Learn more
+        Learn&nbsp;more
       </a>
       .
     </CookieConsent>
