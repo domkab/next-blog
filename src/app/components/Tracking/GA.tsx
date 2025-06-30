@@ -36,7 +36,7 @@ export default function GA() {
           });
 
           /* ---- If user had already accepted on a prior visit ---- */
-          if (document.cookie.includes('cookie_consent=accept')) {
+          if (document.cookie.includes('cookie_consent=full')) {
             gtag('consent', 'update', {
               ad_storage: 'granted',
               analytics_storage: 'granted',
