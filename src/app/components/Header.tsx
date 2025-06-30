@@ -1,6 +1,10 @@
 'use client';
 
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import {
+  SignedIn,
+  // SignedOut,
+  UserButton
+} from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { Button, Navbar, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from 'flowbite-react';
 import { useTheme } from 'next-themes';
@@ -8,7 +12,11 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { FaMoon, FaSignInAlt, FaSun } from 'react-icons/fa';
+import {
+  FaMoon,
+  // FaSignInAlt,
+  FaSun
+} from 'react-icons/fa';
 import Logo from './Logo';
 
 export default function Header() {
@@ -84,17 +92,17 @@ export default function Header() {
             userProfileUrl="/dashboard?tab=profile"
           />
         </SignedIn>
-        <SignedOut>
+        {/* <SignedOut>
           <Link href='sign-in'>
             <Button gradientDuoTone='redToYellow' outline>
               <span className="hidden md:inline">Sign In</span>
               <span className="inline md:hidden">
                 <FaSignInAlt size={20} />
-              </span>
+              </span> 
             </Button>
           </Link>
 
-        </SignedOut>
+        </SignedOut> */}
         <NavbarToggle />
       </div>
       <NavbarCollapse>
