@@ -41,6 +41,7 @@ export default function DashPosts() {
           `/api/post/get`,
           {
             userId: user?.publicMetadata?.userMongoId,
+            isAdmin: user?.publicMetadata?.isAdmin, // render all posts if admin
           }
         );
 
@@ -78,6 +79,31 @@ export default function DashPosts() {
       console.error(error)
     }
   }
+
+  const handleDeleteSelectedPosts = async () => {
+    if (selectedPosts.length === 0) return;
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${selectedPosts.length} post(s)?`
+    );
+    if (!confirmed) return;
+
+    try {
+      await axios.delete(`/api/post/delete`, {
+        data: {
+          postIds: selectedPosts,
+          userMongoId: user?.publicMetadata.userMongoId,
+        },
+      });
+
+      setUserPosts((prev) =>
+        prev.filter((post) => !selectedPosts.includes(post._id))
+      );
+      setSelectedPosts([]);
+    } catch (error) {
+      console.error('Bulk delete failed:', error);
+    }
+  };
 
   const handleSort = (field: SortablePostField | '') => {
     let order = 'asc';
@@ -132,6 +158,17 @@ export default function DashPosts() {
           <Link href="/dashboard/create-post">
             <Button className="mb-5">Create Post</Button>
           </Link>
+
+          {selectedPosts.length > 0 && (
+            <Button
+              color="failure"
+              className="mb-5 ml-3"
+              onClick={handleDeleteSelectedPosts}
+            >
+              Delete Selected ({selectedPosts.length})
+            </Button>
+          )}
+
           <Table hoverable className="shadow-md">
             <TableHead>
               <TableHeadCell>

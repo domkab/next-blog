@@ -13,7 +13,7 @@ export const POST = async (req: Request) => {
     const sortDirection = data.order === 'asc' ? 1 : -1;
 
     const posts = await Post.find({
-      ...(data.userId && { userId: data.userId }),
+      ...(data.isAdmin ? {} : { userId: data.userId }),
       ...(data.category ? { category: data.category } : {}),
       ...(data.slug && { slug: data.slug }),
       ...(data.postId && { _id: data.postId }),
