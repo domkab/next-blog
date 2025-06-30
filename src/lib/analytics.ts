@@ -21,7 +21,7 @@ const GRANTED_FLAGS = {
 // ----------------------------------------------------------- utilities ---
 export const userHasConsented = () =>
   typeof document !== 'undefined' &&
-  document.cookie.includes('cookie_consent=accept');
+  document.cookie.includes('cookie_consent=full');
 
 // --------------------------------------------------- dataLayer helper ----
 function pushDL(...args: Parameters<GtagFn>) {
