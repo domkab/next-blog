@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 
 let initialized = false;
 const uri = process.env.MONGODB_URI;
+const dbName = process.env.MONGODB_DBNAME;
+
+if (!uri || !dbName) {
+  throw new Error('MongoDB URI or DB name is not defined in the environment variables');
+};
 
 export const connect = async () => {
   mongoose.set('strictQuery', true);
@@ -18,7 +23,7 @@ export const connect = async () => {
 
   try {
     await mongoose.connect(uri, {
-      dbName: 'next-blog',
+      dbName: dbName,
     });
 
     console.log('Connected to MongoDb')
