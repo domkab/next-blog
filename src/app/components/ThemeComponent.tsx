@@ -1,7 +1,9 @@
-"use client";
+'use client';
 
 import { ThemeProvider, useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+
+const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
 
 export default function ThemeComponent({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -10,7 +12,15 @@ export default function ThemeComponent({ children }: { children: React.ReactNode
     setMounted(true);
   }, []);
 
-  if (!mounted) return <div className="opacity-0">{children}</div>; // Prevents Flash of Unstyled Content (FOUC)
+  if (!useThemeFlag) {
+    // Theme is disabled, no need for FOUC fix
+    return <>{children}</>;
+  }
+
+  if (!mounted) {
+    // Theme is enabled, apply FOUC protection
+    return <div className="opacity-0">{children}</div>;
+  }
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

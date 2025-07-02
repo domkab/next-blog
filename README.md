@@ -4,6 +4,10 @@ next-blog with dash for my data driven project
 mock geo for eu countries
 http://localhost:3000/?mockGeo=lt
 
+theme Component - can be used if we want to have a theme light/dark on our app
+use ENV variables to toggle: NEXT_PUBLIC_USE_THEME
+
+
 text gray dark:text-gray we can use that combo for dark light mode text colours
 
       for h1: text-gray-800 dark:text-gray-300
