@@ -7,11 +7,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from 'react';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import ThemeComponent from './components/ThemeComponent';
 import NavigationLoader from './components/Navigation/NavigationLoader';
 import PageViewTracker from './components/Tracking/PageViewTracker';
 import GA from './components/Tracking/GA';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
+import ThemeComponent from './components/ThemeComponent';
 // import { SITE_NAME } from '@/lib/constants';
 
 const geistSans = Geist({
@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   // title: `${SITE_NAME} | Home`,
-  title: "Pixel Tech | Home",
+  title: "GargoFx | Home",
   keywords: [
     "tech blog",
     "technology",
