@@ -100,7 +100,7 @@ export default function UpdatePost() {
       try {
         const { data } = await axios.post(
           '/api/post/get',
-          { postId },
+          { postId, userId: user?.publicMetadata?.userMongoId, isAdmin: user?.publicMetadata?.isAdmin },
           {
             headers: { 'Content-Type': 'application/json' },
           }
