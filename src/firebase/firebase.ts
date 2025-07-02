@@ -7,8 +7,8 @@ import { initializeApp } from "firebase/app";
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "next-blog-acbbc.firebaseapp.com",
-  projectId: "next-blog-acbbc",
-  storageBucket: "next-blog-acbbc.appspot.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: "747614347281",
   appId: "1:747614347281:web:bf168be2a99bc06aee51b0",
 };
