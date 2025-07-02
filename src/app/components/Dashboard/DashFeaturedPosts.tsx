@@ -51,6 +51,7 @@ export default function FeaturedPostAdminPage() {
           `/api/post/get`,
           {
             userId: user?.publicMetadata?.userMongoId,
+            isAdmin: user?.publicMetadata?.isAdmin
           }
         );
 
@@ -64,7 +65,7 @@ export default function FeaturedPostAdminPage() {
     if (user?.publicMetadata?.userMongoId) {
       fetchPosts();
     }
-  }, [dispatch, user?.publicMetadata?.userMongoId]);
+  }, [dispatch, user?.publicMetadata?.userMongoId, user?.publicMetadata?.isAdmin]);
 
   const handleSave = async () => {
     if (!selectedPostId) return;
