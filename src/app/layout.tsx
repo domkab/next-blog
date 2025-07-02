@@ -2,7 +2,6 @@ import "./globals.css";
 import "./globals.scss";
 import ReduxProvider from '@/redux/ReduxProvider';
 import { ClerkProvider } from '@clerk/nextjs';
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from 'react';
 import Footer from './components/Footer';
@@ -12,7 +11,9 @@ import PageViewTracker from './components/Tracking/PageViewTracker';
 import GA from './components/Tracking/GA';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
-// import { SITE_NAME } from '@/lib/constants';
+import { layoutMetadata } from '@/lib/metadata/layout';
+
+export const metadata = layoutMetadata;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,20 +24,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  // title: `${SITE_NAME} | Home`,
-  title: "GargoFx | Home",
-  keywords: [
-    "tech blog",
-    "technology",
-    "gadgets",
-    "reviews",
-    "news",
-    "articles",
-  ],
-  description: "Tech blog with articles on technology, gadgets, and more.",
-};
 
 export default function RootLayout({
   children,
