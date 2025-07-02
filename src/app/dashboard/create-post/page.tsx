@@ -35,6 +35,7 @@ export default function CreatePostPage() {
         {
           ...formData,
           userMongoId: user?.publicMetadata.userMongoId,
+          isAdmin: user?.publicMetadata?.isAdmin,
         },
         {
           headers: { 'Content-Type': 'application/json' },
