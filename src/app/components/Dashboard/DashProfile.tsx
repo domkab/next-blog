@@ -3,7 +3,7 @@
 import { UserProfile } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { useTheme } from 'next-themes';
-import styles from './DashProfile.module.scss'
+import styles from '../../../styles/components/Dashboard/DashProfile.module.scss';
 
 export default function DashProfile() {
   const { theme } = useTheme();
