@@ -2,7 +2,7 @@
 
 import {
   SignedIn,
-  // SignedOut,
+  SignedOut,
   UserButton
 } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
@@ -14,12 +14,12 @@ import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import {
   FaMoon,
-  // FaSignInAlt,
+  FaSignInAlt,
   FaSun
 } from 'react-icons/fa';
-import Logo from './Logo';
+import Logo from '../Logo';
 
-export default function Header() {
+export default function HeaderWithSearch() {
   const path = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -49,6 +49,7 @@ export default function Header() {
   return (
     <Navbar className="border-b-2">
       <Logo />
+
       <form onSubmit={handleSubmit} className="hidden lg:block">
         <div className="relative">
           <TextInput
@@ -92,30 +93,33 @@ export default function Header() {
             userProfileUrl="/dashboard?tab=profile"
           />
         </SignedIn>
-        {/* <SignedOut>
+
+        <SignedOut>
           <Link href='sign-in'>
             <Button gradientDuoTone='redToYellow' outline>
               <span className="hidden md:inline">Sign In</span>
               <span className="inline md:hidden">
                 <FaSignInAlt size={20} />
-              </span> 
+              </span>
             </Button>
           </Link>
-
-        </SignedOut> */}
+        </SignedOut>
         <NavbarToggle />
       </div>
+
       <NavbarCollapse>
         <Link href='/'>
           <NavbarLink active={path === '/'} as={'div'}>
             Home
           </NavbarLink>
         </Link>
+
         <Link href='/about'>
           <NavbarLink active={path === '/about'} as={'div'}>
             About
           </NavbarLink>
         </Link>
+
         <Link href='/search'>
           <NavbarLink active={path === '/search'} as={'div'}>
             Search
