@@ -12,9 +12,9 @@ export default function Logo() {
       rounded-lg text-white
       "
       >
-        Consumer&apos;s
+        Site&apos;s
       </span>
-      Prices
+      Logo
     </Link>
   )
 }
