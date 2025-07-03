@@ -1,3 +1,5 @@
+//  most likely unused endpoint for signing image URLs
+
 import { adminStorage } from '@/firebase/firebase-admin';
 import { NextRequest, NextResponse } from 'next/server';
 
