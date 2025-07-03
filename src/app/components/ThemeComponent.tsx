@@ -2,32 +2,9 @@
 
 import { ThemeProvider, useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
-
-export default function ThemeComponent({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!useThemeFlag) {
-    // Theme is disabled, no need for FOUC fix
-    return <>{children}</>;
-  }
-
-  if (!mounted) {
-    // Theme is enabled, apply FOUC protection
-    return <div className="opacity-0">{children}</div>;
-  }
-
-  return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <ThemeContent>{children}</ThemeContent>
-    </ThemeProvider>
-  );
-}
 
 function ThemeContent({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
@@ -40,3 +17,25 @@ function ThemeContent({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+export default function ThemeComponent({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const isDashboard = pathname.startsWith('/dashboard');
+
+  const themingEnabled = useThemeFlag || isDashboard;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!themingEnabled) return <>{children}</>;
+  if (!mounted) return <div className="opacity-0">{children}</div>;
+
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeContent>{children}</ThemeContent>
+    </ThemeProvider>
+  );
+}
+
