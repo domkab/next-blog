@@ -8,7 +8,7 @@ const decoded = JSON.parse(
 if (!getApps().length) {
   initializeApp({
     credential: cert(decoded),
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    storageBucket: 'next-blog-acbbc.firebasestorage.app',
   });
 }
 
