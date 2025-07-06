@@ -10,14 +10,6 @@ type GtagFn = (...args: [string, ...unknown[]]) => void;
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? '';
 const AD_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? '';
 
-// ------------------------------------------------------ consent flags ----
-const GRANTED_FLAGS = {
-  ad_storage: 'granted',
-  analytics_storage: 'granted',
-  ad_user_data: 'granted',
-  ad_personalization: 'granted',
-} as const;
-
 // ----------------------------------------------------------- utilities ---
 export const userHasConsented = () =>
   typeof document !== 'undefined' &&
@@ -43,7 +35,7 @@ export function loadGtag() {
     window.gtag = function (...args: Parameters<GtagFn>) {
       pushDL(...args);
     };
-    
+
     window.gtag('js', new Date().toISOString());
 
     window.gtag('consent', 'default', {
@@ -54,7 +46,6 @@ export function loadGtag() {
     });
   }
 
-  window.gtag('consent', 'update', GRANTED_FLAGS);
   window.gtag('config', GA_ID, { page_path: window.location.pathname });
 }
 
