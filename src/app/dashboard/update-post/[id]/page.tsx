@@ -16,6 +16,8 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import 'react-quill-new/dist/quill.snow.css';
 import { getImageUrl } from '@/utils/getImageUrl';
+import { generateSlug } from '@/utils/generateSlug';
+import { DeleteMainImageButton } from '@/app/components/Dashboard/DeleteImage/DeleteMainImageButton';
 
 export default function UpdatePost() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -25,8 +27,10 @@ export default function UpdatePost() {
 
   const dispatch = useAppDispatch();
   const formData = useAppSelector((state) => state.postForm);
+  const inlineImages = useAppSelector((state) => state.postForm.images.inline);
   const imageUploadProgress = useAppSelector((state) => state.postForm.imageUploadProgress);
   const imageUploadError = useAppSelector((state) => state.postForm.imageUploadError);
+  const slug = generateSlug(formData.title);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -230,6 +234,28 @@ export default function UpdatePost() {
                 fill
                 className="object-cover"
               />
+
+              <div className="delete-main-img absolute top-1 right-1 z-10">
+                <DeleteMainImageButton
+                  slug={slug}
+                  onSuccess={() => {
+                    dispatch(
+                      setFormData({
+                        images: {
+                          main: {
+                            url: '',
+                            meta: {
+                              author: '',
+                              description: '',
+                            },
+                          },
+                          inline: inlineImages,
+                        },
+                      })
+                    );
+                  }}
+                />
+              </div>
             </div>
 
             <div className="flex flex-col gap-4 mt-6">
