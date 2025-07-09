@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.32.2",
-    "@clerk/nextjs": "^6.23.1",
+    "@clerk/nextjs": "^6.23.3",
     "@clerk/themes": "^2.2.52",
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.10.0",
