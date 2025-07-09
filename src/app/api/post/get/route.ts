@@ -12,22 +12,29 @@ export const POST = async (req: Request) => {
     const limit = parseInt(data.limit) || 9;
     const sortDirection = data.order === 'asc' ? 1 : -1;
 
-    const posts = await Post.find({
-      ...(data.isAdmin ? {} : { userId: data.userId }),
+    const query: Record<string, unknown> = {
       ...(data.category ? { category: data.category } : {}),
-      ...(data.slug && { slug: data.slug }),
-      ...(data.postId && { _id: data.postId }),
-      ...(data.searchTerm && {
-        $or: [
-          { title: { $regex: data.searchTerm, $options: 'i' } },
-          { content: { $regex: data.searchTerm, $options: 'i' } }
-        ]
-      })
-    })
+      ...(data.slug ? { slug: data.slug } : {}),
+      ...(data.postId ? { _id: data.postId } : {}),
+      ...(data.searchTerm
+        ? {
+          $or: [
+            { title: { $regex: data.searchTerm, $options: 'i' } },
+            { content: { $regex: data.searchTerm, $options: 'i' } }
+          ]
+        }
+        : {})
+    };
+
+    if (!data.isAdmin && data.userId) {
+      query.userId = data.userId;
+    }
+
+    const posts = await Post.find(query)
       .lean()
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
-      .limit(limit)
+      .limit(limit);
 
     const totalPost = await Post.countDocuments();
     const now = new Date();
