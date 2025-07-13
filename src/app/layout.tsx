@@ -11,6 +11,7 @@ import PageViewTracker from './components/Tracking/PageViewTracker';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
+import AnalyticsLoader from './components/Tracking/AnalyticsLoader';
 
 export const metadata = layoutMetadata;
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <ReduxProvider>
             <ThemeComponent>
               <div className="flex min-h-screen flex-col">
+                <AnalyticsLoader />
                 <Suspense fallback={<div>Loading...</div>}>
                   <Header />
                 </Suspense>
