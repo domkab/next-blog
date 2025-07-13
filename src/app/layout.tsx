@@ -8,7 +8,6 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import NavigationLoader from './components/Navigation/NavigationLoader';
 import PageViewTracker from './components/Tracking/PageViewTracker';
-import GA from './components/Tracking/GA';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
@@ -40,7 +39,6 @@ export default function RootLayout({
                 </Suspense>
                 <NavigationLoader />
                 <PageViewTracker />
-                <GA />
                 <CookieBannerToggle />
                 {children}
                 <Footer />
