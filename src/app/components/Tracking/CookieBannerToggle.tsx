@@ -7,11 +7,15 @@ export default function CookieBannerToggle() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (document.cookie.includes('needs_banner=1')) {
+    const cookies = document.cookie;
+
+    const needsBanner = cookies.includes('needs_banner=1');
+    const hasConsent = cookies.includes('cookie_consent=full') || cookies.includes('cookie_consent=necessary');
+
+    if (needsBanner && !hasConsent) {
       setShow(true);
-    };
+    }
   }, []);
 
-  if (!show) return null;
-  return <CookieBanner />;
-};
+  return show ? <CookieBanner /> : null;
+}
