@@ -2,11 +2,10 @@
 
 import { useEffect } from 'react';
 import CookieConsent from 'react-cookie-consent';
-import { loadGtag, enableAdsense } from '@/lib/analytics';
 
 export default function CookieBanner() {
   useEffect(() => {
-    loadGtag();
+    // Don't load GA here anymore — GAInject handles that
   }, []);
 
   return (
@@ -21,13 +20,11 @@ export default function CookieBanner() {
       buttonClasses="bg-teal-600 px-4 py-2 rounded text-white"
       declineButtonClasses="bg-slate-500 px-4 py-2 rounded text-white"
       onAccept={() => {
-        // Store consent flag
         document.cookie =
           'cookie_consent=full; Max-Age=31536000; path=/; SameSite=Lax';
         document.cookie =
           'needs_banner=1; Max-Age=0; path=/';
 
-        // Update GA consent mode to granted
         if (typeof window !== 'undefined' && window.gtag) {
           window.gtag('consent', 'update', {
             ad_storage: 'granted',
@@ -37,10 +34,11 @@ export default function CookieBanner() {
           });
         }
 
-        enableAdsense();
+        // if (typeof window !== 'undefined' && window.enableAdsense) {
+        //   window.enableAdsense();
+        // }
       }}
       onDecline={() => {
-        // Store necessary-only flag
         document.cookie =
           'cookie_consent=necessary; Max-Age=31536000; path=/; SameSite=Lax';
         document.cookie =
