@@ -31,8 +31,8 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <GAInject />
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <GAInject />
           <ReduxProvider>
             <ThemeComponent>
               <div className="flex min-h-screen flex-col">
