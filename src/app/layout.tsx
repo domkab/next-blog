@@ -11,7 +11,7 @@ import PageViewTracker from './components/Tracking/PageViewTracker';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
-import AnalyticsLoader from './components/Tracking/AnalyticsLoader';
+import GAInject from './components/Tracking/GAInject';
 
 export const metadata = layoutMetadata;
 
@@ -32,7 +32,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <AnalyticsLoader />
+          <GAInject />
           <ReduxProvider>
             <ThemeComponent>
               <div className="flex min-h-screen flex-col">
