@@ -32,6 +32,10 @@ export default function CookieBanner() {
             ad_user_data: 'granted',
             ad_personalization: 'granted',
           });
+
+          window.gtag('config', 'G-Q66V3M4QDN', {
+            page_path: window.location.pathname
+          });
         }
 
         // if (typeof window !== 'undefined' && window.enableAdsense) {
