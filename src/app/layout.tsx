@@ -32,10 +32,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <AnalyticsLoader />
           <ReduxProvider>
             <ThemeComponent>
               <div className="flex min-h-screen flex-col">
-                <AnalyticsLoader />
                 <Suspense fallback={<div>Loading...</div>}>
                   <Header />
                 </Suspense>
