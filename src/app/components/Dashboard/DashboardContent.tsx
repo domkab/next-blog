@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import DashSidebar from './DashSidebar';
 import DashProfile from './DashProfile';
 import DashPosts from './DashPosts';
@@ -10,10 +10,19 @@ import DashboardComponent from './DashboardComponent';
 import DashFeaturedPosts from './DashFeaturedPosts';
 import DashCategories from './Categories/DashCategories';
 import DashImageSettings from './DashImageSettings';
+import { useUser } from '@clerk/clerk-react';
 
 export default function DashboardContent() {
   const searchParams = useSearchParams();
   const [tab, setTab] = useState('');
+  const router = useRouter();
+  const { isSignedIn, isLoaded } = useUser();
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push('/');
+    }
+  }, [isLoaded, isSignedIn, router]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(searchParams);
