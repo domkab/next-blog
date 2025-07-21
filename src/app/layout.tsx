@@ -12,6 +12,7 @@ import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
 import GAInject from './components/Tracking/GAInject';
+import BodyFontManager from './components/BodyFontManager';
 
 export const metadata = layoutMetadata;
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <GAInject />
+          <BodyFontManager />
           <ReduxProvider>
             <ThemeComponent>
               <div className="flex min-h-screen flex-col">
