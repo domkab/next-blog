@@ -32,3 +32,16 @@ text gray dark:text-gray we can use that combo for dark light mode text colours
       for h1: text-gray-800 dark:text-gray-300
       for p: text-gray-600 dark:text-gray-300
       .max-w-7xl - max-width 1200px
+
+
+updating packgaes:
+
+npx npm-check-updates --reject tailwindcss,flowbite-react
+
+then:
+
+npx npm-check-updates --reject tailwindcss,flowbite-react -u
+
+finally:
+
+npm i
