@@ -45,3 +45,13 @@ npx npm-check-updates --reject tailwindcss,flowbite-react -u
 finally:
 
 npm i
+
+
+# how to run gh actions secret variables migration:
+
+  If your production env file is env.production:
+
+    chmod +x upload-secrets.sh
+  ./upload-secrets.sh env.production
+
+  (If you don’t pass a file, it defaults to .env)
