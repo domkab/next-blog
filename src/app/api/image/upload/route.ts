@@ -4,10 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadToFirebase } from '@/lib/firebaseSync';
 import { getUploadsPath } from '@/utils/uploadPath';
 
 export const POST = withAdminAuth(async (_user, req: NextRequest) => {
+  const { uploadToFirebase } = await import('@/lib/firebaseSync');
+
   const formData = await req.formData();
   const file = formData.get('file') as File;
   const slug = formData.get('slug') as string;
