@@ -67,7 +67,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /home/deploy/gargofx
+            cd /home/deploy/next-blog
             npm install --production
-            pm2 reload gargofx || pm2 start npm --name "gargofx" -- run start
+            pm2 reload next-blog???? || pm2 start npm --name "nextblog" -- run start
             pm2 save
