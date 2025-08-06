@@ -10,5 +10,5 @@ export function getUploadsBaseDir(): string {
 }
 
 export function getUploadsPath(relativePath: string): string {
-  return path.join(getUploadsBaseDir(), relativePath);
+  return path.join(getUploadsBaseDir(), relativePath) || '';
 }

@@ -53,7 +53,7 @@ npm i
 
   If your production env file is env.production:
 
-    chmod +x upload-secrets.sh (optional if not already)
-    ./scripts/upload-secrets-gh.sh env.production
+    chmod +x scripts/upload-secrets-gh.sh (optional if not already)
+    ./scripts/upload-secrets-gh.sh
 
-  (If you don’t pass a file, it defaults to .env)
+  (If you don’t pass a file, it defaults to .env.production)

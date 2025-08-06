@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import { getUploadsPath } from '@/utils/uploadPath';
 import { deleteInlineImageFromUrl } from '@/firebase/deleteImages';
+import { existsSync } from 'fs';
 
 export const DELETE = withAdminAuth<{ url: string }>(async (_user, body) => {
   const { url } = body;
@@ -18,6 +19,12 @@ export const DELETE = withAdminAuth<{ url: string }>(async (_user, body) => {
 
     const relativePath = pathname.replace(/^\/uploads\//, '');
     const fullPath = getUploadsPath(relativePath);
+
+    if (!fullPath || !existsSync(fullPath)) {
+      console.warn(`Skipping delete, file not found: ${fullPath}`);
+    } else {
+      await fs.unlink(fullPath);
+    }
 
     try {
       await fs.unlink(fullPath);
