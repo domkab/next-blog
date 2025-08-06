@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/auth/withAdminAuth';
-import { syncFromFirebase } from '@/lib/firebaseSync';
 
 export const POST = withAdminAuth(async () => {
+  const { syncFromFirebase } = await import('@/lib/firebaseSync')
+
   try {
     await syncFromFirebase();
 

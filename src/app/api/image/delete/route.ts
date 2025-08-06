@@ -2,10 +2,10 @@ import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import { getUploadsPath } from '@/utils/uploadPath';
-import { deleteInlineImageFromUrl } from '@/firebase/deleteImages';
 import { existsSync } from 'fs';
 
 export const DELETE = withAdminAuth<{ url: string }>(async (_user, body) => {
+  const { deleteInlineImageFromUrl } = await import('@/firebase/deleteImages');
   const { url } = body;
 
   if (!url) {
