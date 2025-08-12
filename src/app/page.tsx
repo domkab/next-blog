@@ -4,7 +4,6 @@ import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 import { EmailSubscribeWModal } from './components/CallToAction/EmailSubscribeWModal';
 
 export const revalidate = 120;
-export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   return (
