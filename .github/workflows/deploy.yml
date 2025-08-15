@@ -46,14 +46,12 @@ jobs:
             # ACLs (existing files/dirs)
             sudo setfacl -R  \
               -m u:deploy:rwx \
-              -m u:domka:rwx  \
               -m u:${CADDY_USER}:rx \
               /var/www/next-blog
 
             # Default ACLs (inherit for NEW files/dirs)
             sudo setfacl -dR \
               -m u:deploy:rwx \
-              -m u:domka:rwx  \
               -m u:${CADDY_USER}:rx \
               /var/www/next-blog
 
