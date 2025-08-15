@@ -155,6 +155,20 @@ jobs:
             tar -xzf release.tgz
             rm -f release.tgz
 
+            echo "🔎 Debug PATH and node/npm"
+            echo "SHELL=$SHELL"
+            echo "PATH=$PATH"
+            command -v node || echo "node not found"
+            command -v npm  || echo "npm not found"
+
+            # ▶ Load nvm for non-login shell
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+            nvm use 20 || nvm install 20
+
+            echo "node=$(node -v) npm=$(npm -v)"
+
             # remove old build artifacts (keep uploads, configs, public)
             find . -maxdepth 1 -type d -name ".next*" ! -path "./.next" -prune -exec rm -rf {} +
 
