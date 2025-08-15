@@ -24,11 +24,6 @@ jobs:
           script: |
             set -euo pipefail
 
-            # Ensure target exists, owned by deploy
-            sudo mkdir -p /var/www/next-blog/uploads/{posts,featured-posts}
-            sudo chown -R deploy:deploy /var/www/next-blog
-            sudo chmod -R 755 /var/www/next-blog
-
             # Figure out caddy user (caddy or www-data)
             CADDY_USER="$( (id -u caddy >/dev/null 2>&1 && echo caddy) || (id -u www-data >/dev/null 2>&1 && echo www-data) || echo caddy )"
 
