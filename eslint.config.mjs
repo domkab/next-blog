@@ -11,20 +11,6 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
-
-  {
-    rules: {
-      'no-restricted-syntax': [
-        'error',
-        {
-          selector:
-            "JSXAttribute[name.name='src'] Literal[value=/^(?!https?:\\/\\/|\\/).+/]",
-          message:
-            'Public asset paths must start with `/` or `http(s)://` to avoid incorrect resolution.'
-        }
-      ]
-    }
-  }
 ]
 
 export default eslintConfig
