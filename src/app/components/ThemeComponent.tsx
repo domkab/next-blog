@@ -8,16 +8,22 @@ const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
 
 function ThemeContent({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
-
   return (
     <div
-      className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-gray-200' : 'bg-transparent text-gray-700'
-        }`}
+      className={`min-h-screen ${
+        theme === 'dark'
+          ? 'bg-gray-900 text-gray-200'
+          : 'bg-transparent text-gray-700'
+      }`}
     >
       {children}
     </div>
   );
 }
+
+// ˆˆˆˆˆˆˆˆˆˆˆ
+
+// todo: add light mode settings
 
 export default function ThemeComponent({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -26,17 +32,20 @@ export default function ThemeComponent({ children }: { children: React.ReactNode
 
   const themingEnabled = useThemeFlag || isDashboard;
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
-  if (!themingEnabled) return <>{children}</>;
+  // case 1: theming is disabled globally and we are NOT in dashboard → force dark
+  if (!themingEnabled) {
+    return <div className="min-h-screen bg-black">{children}</div>;
+  }
+
+  // wait until mounted to avoid hydration mismatches
   if (!mounted) return <div className="opacity-0">{children}</div>;
 
+  // case 2: theming is enabled (env or dashboard) → ThemeProvider active
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <ThemeContent>{children}</ThemeContent>
     </ThemeProvider>
   );
 }
-
