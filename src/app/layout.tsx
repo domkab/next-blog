@@ -29,10 +29,18 @@ const geistMono = Geist_Mono({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
+
+  const bodyClassName = `
+  ${geistSans.variable} 
+  ${geistMono.variable} 
+  antialiased${useThemeFlag ? '' : ' background'}
+  `;
+
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body className={bodyClassName}>
           <GAInject />
           <BodyFontManager />
           <ReduxProvider>
