@@ -13,7 +13,7 @@ function ThemeContent({ children }: { children: React.ReactNode }) {
       className={`min-h-screen ${
         theme === 'dark'
           ? 'bg-gray-900 text-gray-200'
-          : 'bg-transparent text-gray-700'
+          : 'bg-white text-gray-700'
       }`}
     >
       {children}
@@ -36,7 +36,7 @@ export default function ThemeComponent({ children }: { children: React.ReactNode
 
   // case 1: theming is disabled globally and we are NOT in dashboard → force dark
   if (!themingEnabled) {
-    return <div className="min-h-screen bg-black">{children}</div>;
+    return <div className="min-h-screen bg-black text-opacity-95">{children}</div>;
   }
 
   // wait until mounted to avoid hydration mismatches
