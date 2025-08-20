@@ -150,6 +150,8 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -e
+            source ~/.profile || true
+            source ~/.nvm/nvm.sh || true
             cd /home/deploy/next-blog
             echo "📦 Extracting release.tgz"
             tar -xzf release.tgz
