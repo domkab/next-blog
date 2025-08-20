@@ -13,6 +13,7 @@ import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
 import BodyFontManager from './components/BodyFontManager';
+import Script from 'next/script';
 
 export const metadata = layoutMetadata;
 
