@@ -23,7 +23,6 @@ function pushDL(...args: Parameters<GtagFn>) {
 // --------------------------------------------------------- load gtag -----
 export function loadGtag() {
   if (typeof window === 'undefined' || !GA_ID) return;
-  console.log('[Analytics] Loading gtag.js', GA_ID);
 
   if (!window.gtag) {
     const s = document.createElement('script');
@@ -49,44 +48,6 @@ export function loadGtag() {
 
   window.gtag('config', GA_ID, { page_path: window.location.pathname });
 }
-
-// export function loadGtag() {
-//   if (typeof window === 'undefined' || !GA_ID) {
-//     console.warn('[Analytics] GA_ID not defined or server-side');
-//     return;
-//   }
-
-//   console.log('[Analytics] Loading gtag.js with GA_ID:', GA_ID);
-
-//   if (!window.gtag) {
-//     const s = document.createElement('script');
-//     s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-//     s.async = true;
-//     document.head.appendChild(s);
-
-//     window.dataLayer = window.dataLayer || [];
-//     // window.gtag = function (...args: Parameters<GtagFn>) {
-//     //   window.dataLayer.push(args);
-//     // };
-
-//     window.gtag = function (...args: Parameters<GtagFn>) {
-//       pushDL(...args);
-//     };
-
-//     window.gtag('js', new Date());
-//     window.gtag('consent', 'default', {
-//       ad_storage: 'denied',
-//       analytics_storage: 'denied',
-//       ad_user_data: 'denied',
-//       ad_personalization: 'denied',
-//     });
-//   }
-
-//   window.gtag('config', GA_ID, {
-//     page_path: window.location.pathname,
-//     debug_mode: true,
-//   });
-// }
 
 // ---------------------------------------------------- enable AdSense -----
 export function enableAdsense() {
