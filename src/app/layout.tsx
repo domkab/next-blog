@@ -7,11 +7,11 @@ import { Suspense } from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import NavigationLoader from './components/Navigation/NavigationLoader';
+import GA from './components/Tracking/GA';
 import PageViewTracker from './components/Tracking/PageViewTracker';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
-import GAInject from './components/Tracking/GAInject';
 import BodyFontManager from './components/BodyFontManager';
 
 export const metadata = layoutMetadata;
@@ -41,7 +41,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={bodyClassName}>
-          <GAInject />
+          {/* umami analytics */}
+          <Script
+            src="https://cloud.umami.is/script.js"
+            data-website-id="59c0b192-5001-40e2-96a9-7fa71ed1fa2d"
+            strategy="afterInteractive"
+            defer
+          />
+
           <BodyFontManager />
           <ReduxProvider>
             <ThemeComponent>
@@ -51,6 +58,7 @@ export default function RootLayout({
                 </Suspense>
                 <NavigationLoader />
                 <PageViewTracker />
+                <GA />
                 <CookieBannerToggle />
                 {children}
                 <Footer />
