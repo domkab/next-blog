@@ -2,6 +2,8 @@ import { adminStorage } from '@/firebase/firebase-admin';
 import { getUploadsPath } from '@/utils/uploadPath';
 import fs from 'fs';
 import path from 'path';
+import postModel from './models/postModel';
+import FeaturedPost from './models/featuredPostModel';
 
 export async function uploadToFirebase(localPath: string, destination: string) {
   const bucket = adminStorage.bucket();
@@ -89,61 +91,29 @@ export async function cleanupUnusedImagesFromFirebaseAndFilestore() {
 
   const usedImagePaths = new Set<string>();
 
-  // // ✅ Collect image URLs from Featured Layout
-  // const featuredRows = await featuredLayoutModel.find({});
-  // for (const row of featuredRows) {
-  //   for (const block of row.blocks) {
-  //     const urls = [
-  //       block.image?.desktop?.url,
-  //       block.image?.mobile?.url,
-  //     ].filter(Boolean);
+  // Collect image URLs from Posts
+  const posts = await postModel.find({});
+  for (const post of posts) {
+    const urls = [
+      post.heroImage?.url,
+      ...(post.content || []).map((c: { url?: string }) => c.url),
+    ].filter(Boolean);
 
-  //     urls.forEach((url: string) => {
-  //       const match = url.match(/(featured-posts\/.+|posts\/.+)/);
-  //       if (match?.[1]) usedImagePaths.add(match[1]);
-  //     });
-  //   }
-  // }
+    urls.forEach((url: string) => {
+      const match = url.match(/(featured-posts\/.+|posts\/.+)/);
+      if (match?.[1]) usedImagePaths.add(match[1]);
+    });
+  }
 
+  // ✅ Collect image URLs from FeaturedPosts
+  const featuredPosts = await FeaturedPost.find({});
+  for (const featured of featuredPosts) {
+    if (featured.overrideImage) {
+      const match = featured.overrideImage.match(/featured-posts\/.+/);
 
-  // // ✅ Collect image URLs from Posts
-  // const posts = await postModel.find({});
-  // for (const post of posts) {
-  //   const urls = [
-  //     post.heroImage?.url,
-  //     ...(post.content || []).map((c: { url?: string }) => c.url),
-  //   ].filter(Boolean);
-
-  //   urls.forEach((url: string) => {
-  //     const match = url.match(/(featured-posts\/.+|posts\/.+)/);
-  //     if (match?.[1]) usedImagePaths.add(match[1]);
-  //   });
-  // }
-
-  // // ✅ Collect image URLs from HomePage Layout
-  // const homePageRows = await homePageLayoutModel.find({});
-  // for (const row of homePageRows) {
-  //   for (const block of row.blocks) {
-  //     const urls = [
-  //       block.image?.desktop?.url,
-  //       block.image?.mobile?.url,
-  //     ].filter(Boolean);
-
-  //     urls.forEach((url: string) => {
-  //       const match = url.match(/(featured-posts\/.+|posts\/.+)/);
-  //       if (match?.[1]) usedImagePaths.add(match[1]);
-  //     });
-  //   }
-  // }
-
-  // // Logo Slider
-  // const logoSliderDocs = await LogoSliderModel.find({});
-  // for (const logo of logoSliderDocs) {
-  //   if (logo.url) {
-  //     const match = logo.url.match(/(logo-slider\/.+)/);
-  //     if (match?.[1]) usedImagePaths.add(match[1]);
-  //   }
-  // }
+      if (match?.[1]) usedImagePaths.add(match[1]);
+    }
+  };
 
   let deletedCount = 0;
 
