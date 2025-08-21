@@ -1,4 +1,3 @@
-import { deleteFeaturedImage, deletePostImages } from '@/firebase/deleteImages';
 import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import FeaturedPost from '@/lib/models/featuredPostModel';
 import Post from '@/lib/models/postModel';
@@ -11,6 +10,8 @@ type PostDeleteInput = {
 };
 
 export const DELETE = withAdminAuth<PostDeleteInput>(async (user, body) => {
+  const { deleteFeaturedImage, deletePostImages } = await import('@/firebase/deleteImages')
+
   await connect();
 
   const postIds = body.postIds ?? (body.postId ? [body.postId] : []);

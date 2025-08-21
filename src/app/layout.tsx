@@ -7,11 +7,13 @@ import { Suspense } from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import NavigationLoader from './components/Navigation/NavigationLoader';
-import PageViewTracker from './components/Tracking/PageViewTracker';
 import GA from './components/Tracking/GA';
+import PageViewTracker from './components/Tracking/PageViewTracker';
 import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
 import ThemeComponent from './components/ThemeComponent';
 import { layoutMetadata } from '@/lib/metadata/layout';
+import BodyFontManager from './components/BodyFontManager';
+import Script from 'next/script';
 
 export const metadata = layoutMetadata;
 
@@ -28,10 +30,27 @@ const geistMono = Geist_Mono({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
+
+  const bodyClassName = `
+  ${geistSans.variable} 
+  ${geistMono.variable} 
+  antialiased${useThemeFlag ? '' : ' background'}
+  `;
+
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body className={bodyClassName}>
+          {/* umami analytics */}
+          <Script
+            src="https://analytics.gargofx.com/script.js"
+            data-website-id="5ee64313-9ea0-421e-9cf5-44936d0ef79e"
+            strategy="afterInteractive"
+            defer
+          />
+
+          <BodyFontManager />
           <ReduxProvider>
             <ThemeComponent>
               <div className="flex min-h-screen flex-col">

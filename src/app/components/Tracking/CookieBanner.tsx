@@ -18,8 +18,8 @@ export default function CookieBanner() {
       declineButtonText="Reject non-essential"
       enableDeclineButton
       style={{ background: '#1e293b' }}
-      buttonClasses="bg-teal-600 px-4 py-2 rounded text-white"
-      declineButtonClasses="bg-slate-500 px-4 py-2 rounded text-white"
+      buttonClasses="bg-teal-600 px-4 py-2 rounded text-white/95"
+      declineButtonClasses="bg-slate-500 px-4 py-2 rounded text-white/95"
       onAccept={() => {
         document.cookie =
           'cookie_consent=full; Max-Age=31536000; path=/; SameSite=Lax';

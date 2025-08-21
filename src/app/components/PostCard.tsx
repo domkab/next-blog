@@ -17,6 +17,8 @@ export default function PostCard({ post }: PostCardProps) {
             src={getImageUrl(post.images.main.url)}
             alt="post cover"
             fill
+            unoptimized
+            priority
             className="object-cover z-20"
           />
         </div>

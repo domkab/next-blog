@@ -61,6 +61,7 @@ const InlineImageEditor: React.FC = () => {
             alt={meta?.description ?? `inline image ${id}`}
             width={128}
             height={128}
+            unoptimized
             className="w-32 h-32 object-cover rounded shadow-md"
           />
 
