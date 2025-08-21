@@ -46,6 +46,8 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
                 alt={alt || meta.description || 'inline image'}
                 width={800}
                 height={450}
+                unoptimized
+                priority
                 className={styles['post-content__image']}
               />
               {hasCaption && (

@@ -221,6 +221,7 @@ export default function DashPosts() {
                         alt={post.title}
                         width={80}
                         height={40}
+                        unoptimized
                         className="w-20 h-10 object-cover bg-gray-500"
                       />
                     </Link>
