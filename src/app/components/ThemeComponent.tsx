@@ -11,16 +11,14 @@ function ThemeContent({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={`min-h-screen ${theme === 'dark'
-          ? 'bg-gray-900 text-gray-200'
-          : 'bg-white text-gray-700'
+        ? 'bg-gray-900 text-gray-200'
+        : 'bg-white text-gray-700'
         }`}
     >
       {children}
     </div>
   );
 }
-
-// ˆˆˆˆˆˆˆˆˆˆˆ
 
 // todo: add light mode settings
 
@@ -43,7 +41,7 @@ export default function ThemeComponent({ children }: { children: React.ReactNode
 
   // case 2: theming is enabled (env or dashboard) → ThemeProvider active
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <ThemeContent>{children}</ThemeContent>
     </ThemeProvider>
   );
