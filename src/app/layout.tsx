@@ -44,8 +44,8 @@ export default function RootLayout({
         <body className={bodyClassName}>
           {/* umami analytics */}
           <Script
-            src="https://cloud.umami.is/script.js"
-            data-website-id="59c0b192-5001-40e2-96a9-7fa71ed1fa2d"
+            src="https://analytics.gargofx.com/script.js"
+            data-website-id="5ee64313-9ea0-421e-9cf5-44936d0ef79e"
             strategy="afterInteractive"
             defer
           />
