@@ -39,6 +39,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               alt={post.images.main.meta?.description || "Main Image"}
               width={800}
               height={450}
+              unoptimized
               className={styles['post-content__image']}
             />
 
