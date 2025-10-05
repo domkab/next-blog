@@ -1,3 +1,9 @@
+@mixin onMobileS {
+  @media (max-width: 389px) {
+    @content;
+  }
+}
+
 @mixin onMobile {
   @media (max-width: 767px) {
     @content;
@@ -16,8 +22,14 @@
   }
 }
 
+@mixin onDekstop {
+  @media (min-width: 2500px) {
+    @content;
+  }
+}
+
 @mixin onLaptopL {
-  @media (min-width: 1439px) {
+  @media (min-width: 1441px) {
     @content;
   }
 }

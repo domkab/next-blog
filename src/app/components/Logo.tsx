@@ -12,9 +12,9 @@ export default function Logo() {
       rounded-lg text-white
       "
       >
-        Site&apos;s
+        Pixel Tech&apos;s
       </span>
-      Logo
+      Blog
     </Link>
   )
 }
