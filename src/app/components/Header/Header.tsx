@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import HeaderWithSearchAndTheme from './HeaderWithSearchAndTheme';
-import HeaderClientSide from './HeaderClientSide';
+import HeaderThemedWithoutLogin from './HeaderThemedWithoutLogin';
 
 const useClientSideHeader = process.env.NEXT_PUBLIC_CLIENT_SIDE_HEADER === 'true';
 
@@ -14,5 +14,5 @@ export default function Header() {
     return <HeaderWithSearchAndTheme />;
   }
 
-  return useClientSideHeader ? <HeaderClientSide /> : <HeaderWithSearchAndTheme />;
+  return useClientSideHeader ? <HeaderThemedWithoutLogin /> : <HeaderWithSearchAndTheme />;
 }
