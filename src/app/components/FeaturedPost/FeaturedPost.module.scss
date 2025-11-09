@@ -4,11 +4,10 @@
 $border-radius: 0.25rem;
 
 .featured-post {
-  padding-top: 1.5rem;
-  border-radius:4rem;
+  padding: 1.5rem 1rem ;
 
   @include onTablet {
-    padding-top: 3rem;
+    padding: 3rem 0;
   }
 
   &__article {
