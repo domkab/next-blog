@@ -8,16 +8,16 @@ export const revalidate = 120;
 
 export default async function Home() {
   return (
-    <main className="flex flex-col justify-center items-center max-w-5xl mx-auto">
+    <main className="flex flex-col items-stretch max-w-5xl mx-auto w-full">
       <section className='w-full' aria-label="Featured Post">
         <FeaturedPost />
       </section>
 
-      <section className="flex flex-col gap-8 pt-6" aria-label="Recent Articles">
+      <section className="w-full pt-6 px-4 mx-auto" aria-label="Recent Articles">
         <RecentPosts limit={9} />
         <Link
-          href={'/search?category'}
-          className="text-lg text-teal-500 hover:underline text-center"
+          href="/search?category"
+          className="block mt-4 text-lg text-teal-500 hover:underline text-center"
         >
           View all posts
         </Link>

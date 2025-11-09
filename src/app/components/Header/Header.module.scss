@@ -2,10 +2,10 @@
 @use '@/styles/vars' as *;
 
 nav > div:first-child {
-  padding: 0.625rem 1rem;
+  padding: 0.625rem 0;
 
   @include onLaptop {
-    width: 1280px;
+    width: 1024px;
   }
 
   @include onMobile {

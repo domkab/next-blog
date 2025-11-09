@@ -36,9 +36,8 @@
 
 @mixin useGrid($columnsCount, $gap) {
   display: grid;
-  grid-template-columns: repeat($columnsCount, 1fr);
+  grid-template-columns: repeat($columnsCount, minmax(0, 1fr)); 
   gap: $gap;
-  grid-row-gap: 0;
 }
 
 @mixin flex-center {
