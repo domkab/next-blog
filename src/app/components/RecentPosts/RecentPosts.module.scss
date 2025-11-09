@@ -3,9 +3,6 @@
 
 .recent-posts {
   &__grid {
-    // max-width: 1080px;
-    // width: 100%;
-
     @include onMobile {
       @include useGrid(1, 1.5rem);
     }
