@@ -13,7 +13,7 @@ export default async function Home() {
         <FeaturedPost />
       </section>
 
-      <section className="w-full pt-6 px-4 mx-auto" aria-label="Recent Articles">
+      <section className="w-full pt-6 px-4 md:px-0 mx-auto" aria-label="Recent Articles">
         <RecentPosts limit={9} />
         <Link
           href="/search?category"
