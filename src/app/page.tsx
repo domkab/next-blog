@@ -8,12 +8,12 @@ export const revalidate = 120;
 
 export default async function Home() {
   return (
-    <main className="flex flex-col justify-center items-center">
+    <main className="flex flex-col justify-center items-center max-w-5xl mx-auto">
       <section className='w-full' aria-label="Featured Post">
         <FeaturedPost />
       </section>
 
-      <section className="p-3 flex flex-col gap-8 pt-7" aria-label="Recent Articles">
+      <section className="flex flex-col gap-8 pt-6" aria-label="Recent Articles">
         <RecentPosts limit={9} />
         <Link
           href={'/search?category'}
@@ -23,7 +23,7 @@ export default async function Home() {
         </Link>
       </section>
 
-      <section aria-label="Subscribe to Newsletter">
+      <section className='p-4' aria-label="Subscribe to Newsletter">
         <EmailSubscribeWModal />
       </section>
     </main>
