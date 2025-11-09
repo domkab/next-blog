@@ -87,19 +87,19 @@ export default function HeaderThemedWithoutLogin() {
       </div>
 
       <NavbarCollapse>
-        <Link href='/'>
+        <Link className={clsx(styles.link)} href='/'>
           <NavbarLink active={path === '/'} as={'div'}>
             Home
           </NavbarLink>
         </Link>
 
-        <Link href='/about'>
+        <Link className={clsx(styles.link)} href='/about'>
           <NavbarLink active={path === '/about'} as={'div'}>
             About
           </NavbarLink>
         </Link>
 
-        <Link href='/search'>
+        <Link className={clsx(styles.link)} href='/search'>
           <NavbarLink active={path === '/search'} as={'div'}>
             Search
           </NavbarLink>

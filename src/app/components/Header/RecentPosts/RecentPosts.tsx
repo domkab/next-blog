@@ -1,5 +1,5 @@
-import PostCard from './PostCard';
-import { PostType } from '../../types/Post';
+import PostCard from '../../PostCard';
+import { PostType } from '../../../../types/Post';
 import { getRecentPosts } from '@/lib/services/postService';
 
 interface recentPageProps {
@@ -10,9 +10,9 @@ export default async function RecentPosts({ limit }: recentPageProps) {
   const recentPosts = await getRecentPosts(limit);
 
   return (
-    <div className='recent-posts flex flex-col justify-center items-center mb-5'>
+    <div className='recent-posts flex flex-col justify-center items-center mb-5 max-w-7xl'>
       <h1 className='recent-posts__title text-xl mt-5'>Recent articles</h1>
-      <div className="flex flex-wrap gap-5 mt-5 justify-center">
+      <div className="flex flex-wrap gap-5 mt-5 justify-between">
         {recentPosts &&
           recentPosts.map((post: PostType) =>
             <PostCard key={post._id} post={post} limit={limit} />)

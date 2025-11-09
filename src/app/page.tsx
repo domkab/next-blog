@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import RecentPosts from './components/RecentPosts';
+import RecentPosts from './components/Header/RecentPosts/RecentPosts';
 import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 import { EmailSubscribeWModal } from './components/CallToAction/EmailSubscribeWModal';
+// import FeaturedPostConsistent from './components/FeaturedPost/FeaturedPostConsistent';
 
 export const revalidate = 120;
 
