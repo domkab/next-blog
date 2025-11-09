@@ -1,5 +1,5 @@
-import PostCard from '../../PostCard';
-import { PostType } from '../../../../types/Post';
+import PostCard from '../PostCard';
+import { PostType } from '../../../types/Post';
 import { getRecentPosts } from '@/lib/services/postService';
 
 interface recentPageProps {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import RecentPosts from './components/Header/RecentPosts/RecentPosts';
+import RecentPosts from './components/RecentPosts/RecentPosts';
 import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 import { EmailSubscribeWModal } from './components/CallToAction/EmailSubscribeWModal';
 // import FeaturedPostConsistent from './components/FeaturedPost/FeaturedPostConsistent';
