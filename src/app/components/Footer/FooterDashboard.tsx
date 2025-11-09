@@ -40,7 +40,7 @@ export default function FooterCom() {
                 </FooterLink>
 
                 <FooterLink href='/privacy-controls'>
-                  Do&nbsp;Not&nbsp;Sell&nbsp;/&nbsp;Share&nbsp;My&nbsp;Info
+                  Do&nbsp;Not&nbsp;Share&nbsp;My&nbsp;Info
                 </FooterLink>
               </FooterLinkGroup>
             </div>
