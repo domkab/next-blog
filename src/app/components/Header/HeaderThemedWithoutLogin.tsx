@@ -43,9 +43,10 @@ export default function HeaderThemedWithoutLogin() {
 
   return (
     <Navbar className={clsx(
-      styles, 'header',
+      styles.header,
       'border-b-2',
-      '!p-0 !px-0 !py-0 !m-0 border-b-2'
+      '!p-0 !px-0 !py-0 !m-0 border-b-2',
+      'header'
     )}>
       <Logo />
 
@@ -67,25 +68,6 @@ export default function HeaderThemedWithoutLogin() {
         </div>
       </form>
 
-      <Button
-        className="w-12 h-10 lg:hidden" color="gray" pill
-        onClick={handleMobileSearch}
-      >
-        <AiOutlineSearch />
-      </Button>
-
-      <div className="flex gap-2 md:order-2">
-        <Button
-          className="w-12 h-10 hidden sm:inline"
-          color="gray"
-          pill
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-        >
-          {theme === 'light' ? <FaSun /> : <FaMoon />}
-        </Button>
-        <NavbarToggle />
-      </div>
-
       <NavbarCollapse>
         <Link className={clsx(styles.link)} href='/'>
           <NavbarLink active={path === '/'} as={'div'}>
@@ -105,6 +87,35 @@ export default function HeaderThemedWithoutLogin() {
           </NavbarLink>
         </Link>
       </NavbarCollapse>
+
+      <div className={clsx(
+        'md:hidden flex justify-center items-center gap-2',
+        styles.headerMobileActions
+      )}
+      >
+        <button
+          onClick={handleMobileSearch}
+          className={clsx('header-search-button flex justify-center items-center')}
+        >
+          <AiOutlineSearch size={24} color='gray' />
+        </button>
+
+        <div className="ml-auto flex gap-2">
+          <Button
+            className="w-12 h-10 hidden sm:inline"
+            color="gray"
+            pill
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            {theme === 'light' ? <FaSun /> : <FaMoon />}
+          </Button>
+          <NavbarToggle />
+        </div>
+      </div>
+
     </Navbar>
+
+
+
   );
 }
