@@ -112,10 +112,6 @@ export default function HeaderThemedWithoutLogin() {
           <NavbarToggle />
         </div>
       </div>
-
     </Navbar>
-
-
-
   );
 }

@@ -16,7 +16,7 @@ export default async function RecentPosts({ limit }: recentPageProps) {
       'flex flex-col justify-center items-center mb-5'
     )}
     >
-      <h1 className='recent-posts__title text-xl mt-5'>Recent articles</h1>
+      <h1 className='recent-posts__title text-xl mb-6 md:mb-8'>Recent articles</h1>
       <div
         className={clsx(styles['recent-posts__grid'], 'w-full'
         )}
