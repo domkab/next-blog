@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300" viewBox="0 0 500 300">
+	<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap');
+  text {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    fill: #1B2A36;
+  }
+</style>
+	<text x="40" y="120" font-size="64" text-anchor="start">PIXEL</text>
+	<text x="40" y="200" font-size="40" text-anchor="start">TECH BLOG</text>
+</svg>

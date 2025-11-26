@@ -1,0 +1,27 @@
+@use '@/styles/_mixins' as *;
+@use '@/styles/vars' as *;
+
+
+.header {
+  > div:first-child {
+    padding: 0.625rem 0;
+
+    @include onLaptop {
+      width: 1024px;
+    }
+
+    @include onMobile {
+      padding: 0.625rem 1rem;
+    }
+  }
+
+  .link {
+    text-transform: uppercase;
+  }
+}
+
+.headerMobileActions {
+  @include onLaptop {
+    display: none;
+  }
+}

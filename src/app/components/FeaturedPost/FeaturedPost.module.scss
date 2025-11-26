@@ -1,0 +1,21 @@
+@use '@/styles/_mixins' as *;
+@use '@/styles/vars' as *;
+
+$border-radius: 0.25rem;
+
+.featured-post {
+  padding: 1.5rem 1rem ;
+
+  @include onTablet {
+    padding: 2rem 0 3rem 0;
+  }
+
+  &__article {
+    border-radius: $border-radius;
+  }
+
+  &__image {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+}

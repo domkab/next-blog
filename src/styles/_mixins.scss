@@ -1,3 +1,9 @@
+@mixin onMobileS {
+  @media (max-width: 389px) {
+    @content;
+  }
+}
+
 @mixin onMobile {
   @media (max-width: 767px) {
     @content;
@@ -16,17 +22,22 @@
   }
 }
 
+@mixin onDekstop {
+  @media (min-width: 2500px) {
+    @content;
+  }
+}
+
 @mixin onLaptopL {
-  @media (min-width: 1439px) {
+  @media (min-width: 1441px) {
     @content;
   }
 }
 
 @mixin useGrid($columnsCount, $gap) {
   display: grid;
-  grid-template-columns: repeat($columnsCount, 1fr);
+  grid-template-columns: repeat($columnsCount, minmax(0, 1fr)); 
   gap: $gap;
-  grid-row-gap: 0;
 }
 
 @mixin flex-center {

@@ -1,11 +1,5 @@
 'use client';
 
-import {
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
 import { Button, Navbar, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from 'flowbite-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -14,12 +8,13 @@ import { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import {
   FaMoon,
-  FaSignInAlt,
   FaSun
 } from 'react-icons/fa';
 import Logo from '../Logo';
+import clsx from 'clsx';
+import styles from './Header.module.scss';
 
-export default function HeaderWithSearchAndTheme() {
+export default function HeaderThemedWithoutLogin() {
   const path = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -47,7 +42,12 @@ export default function HeaderWithSearchAndTheme() {
   }, [searchParams]);
 
   return (
-    <Navbar className="border-b-2">
+    <Navbar className={clsx(
+      styles.header,
+      'border-b-2',
+      '!p-0 !px-0 !py-0 !m-0 border-b-2',
+      'header'
+    )}>
       <Logo />
 
       <form onSubmit={handleSubmit} className="hidden lg:block">
@@ -68,64 +68,50 @@ export default function HeaderWithSearchAndTheme() {
         </div>
       </form>
 
-      <Button
-        className="w-12 h-10 lg:hidden" color="gray" pill
-        onClick={handleMobileSearch}
-      >
-        <AiOutlineSearch />
-      </Button>
-
-      <div className="flex gap-2 md:order-2">
-        <Button
-          className="w-12 h-10 hidden sm:inline"
-          color="gray"
-          pill
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-        >
-          {theme === 'light' ? <FaSun /> : <FaMoon />}
-        </Button>
-
-        <SignedIn>
-          <UserButton
-            appearance={{
-              baseTheme: theme === 'light' ? undefined : dark,
-            }}
-            userProfileUrl="/dashboard?tab=profile"
-          />
-        </SignedIn>
-
-        <SignedOut>
-          <Link href='sign-in'>
-            <Button gradientDuoTone='redToYellow' outline>
-              <span className="hidden md:inline">Sign In</span>
-              <span className="inline md:hidden">
-                <FaSignInAlt size={20} />
-              </span>
-            </Button>
-          </Link>
-        </SignedOut>
-        <NavbarToggle />
-      </div>
-
       <NavbarCollapse>
-        <Link href='/'>
+        <Link className={clsx(styles.link)} href='/'>
           <NavbarLink active={path === '/'} as={'div'}>
             Home
           </NavbarLink>
         </Link>
 
-        <Link href='/about'>
+        <Link className={clsx(styles.link)} href='/about'>
           <NavbarLink active={path === '/about'} as={'div'}>
             About
           </NavbarLink>
         </Link>
 
-        <Link href='/search'>
+        <Link className={clsx(styles.link)} href='/search'>
           <NavbarLink active={path === '/search'} as={'div'}>
             Search
           </NavbarLink>
         </Link>
       </NavbarCollapse>
+
+      <div className={clsx(
+        'md:hidden flex justify-center items-center gap-2',
+        styles.headerMobileActions
+      )}
+      >
+        <button
+          onClick={handleMobileSearch}
+          className={clsx('header-search-button flex justify-center items-center')}
+        >
+          <AiOutlineSearch size={24} color='gray' />
+        </button>
+
+        <div className="ml-auto flex gap-2">
+          <Button
+            className="w-12 h-10 hidden sm:inline"
+            color="gray"
+            pill
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            {theme === 'light' ? <FaSun /> : <FaMoon />}
+          </Button>
+          <NavbarToggle />
+        </div>
+      </div>
     </Navbar>
   );
 }
