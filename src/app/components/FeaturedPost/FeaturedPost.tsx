@@ -2,6 +2,8 @@ import { getFeaturedPosts } from '@/lib/services/postService';
 import LinkTracker from '../Tracking/LinkTracker';
 import Image from 'next/image';
 import { getImageUrl } from '@/utils/getImageUrl';
+import clsx from 'clsx';
+import styles from './FeaturedPost.module.scss';
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
@@ -12,9 +14,7 @@ export default async function FeaturedPost() {
   const { post, overrideImage, overrideSummary } = first;
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <h2 className="text-2xl font-semibold mb-4">Featured Post</h2>
-
+    <div className={clsx(styles['featured-post'], 'mx-auto max-w-7xl')}>
       <LinkTracker
         href={`/post/${post.slug}`}
         eventName="featured_post_click"
@@ -25,10 +25,12 @@ export default async function FeaturedPost() {
         }}
         className="block"
       >
-        <article className="
-          flex flex-col bg-white dark:bg-slate-800 rounded-lg shadow-md border border-teal-300 
-          hover:shadow-lg hover:translate-y-[-1px] transition-all duration-300
-        ">
+        <article
+          className={clsx(styles['featured-post__article'],
+            'flex flex-col bg-white dark:bg-slate-800 rounded-lg shadow-md border',
+            'border-teal-300 hover:shadow-lg hover:translate-y-[-1px] transition-all duration-300'
+          )}
+        >
           <div className="w-full h-64 md:h-96 relative">
             <Image
               src={getImageUrl(overrideImage || post.images?.main?.url)}
@@ -36,7 +38,7 @@ export default async function FeaturedPost() {
               fill
               unoptimized
               priority
-              className="object-cover rounded-t-lg"
+              className={clsx(styles['featured-post__image'], 'object-cover')}
             />
           </div>
 
@@ -58,6 +60,6 @@ export default async function FeaturedPost() {
           </div>
         </article>
       </LinkTracker>
-    </div>
+    </div >
   );
 }

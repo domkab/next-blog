@@ -2,7 +2,11 @@ import "./globals.css";
 import "./globals.scss";
 import ReduxProvider from '@/redux/ReduxProvider';
 import { ClerkProvider } from '@clerk/nextjs';
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Poppins,
+  Outfit,
+  Inter
+} from "next/font/google";
 import { Suspense } from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -17,14 +21,25 @@ import Script from 'next/script';
 
 export const metadata = layoutMetadata;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-poppins',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-outfit',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-inter',
 });
 
 export default function RootLayout({
@@ -33,8 +48,10 @@ export default function RootLayout({
   const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
 
   const bodyClassName = `
-  ${geistSans.variable} 
-  ${geistMono.variable} 
+  ${inter.variable} 
+  ${outfit.variable} 
+  ${poppins.variable}
+  antialiased -webkit-font-smoothing
   antialiased${useThemeFlag ? '' : ' background'}
   `;
 

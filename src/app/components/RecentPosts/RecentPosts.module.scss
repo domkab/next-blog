@@ -1,0 +1,24 @@
+@use '@/styles/_mixins' as *;
+@use '@/styles/vars' as *;
+
+.recent-posts {
+  &__grid {
+    @include onMobile {
+      @include useGrid(1, 1.5rem);
+    }
+
+    @include onTablet {
+      @include useGrid(2, 1.5rem);
+    }
+
+    @include onLaptop {
+      @include useGrid(3, 2rem);
+      row-gap: 3rem;
+
+    }
+  }
+}
+
+.recent-posts__grid > * {
+  justify-self: stretch;
+}

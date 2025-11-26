@@ -1,20 +1,17 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Logo() {
   return (
-    <Link
-      href="/"
-      className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
-    >
-      <span
-        className="
-      px-2 py-1 bg-gradient-to-r from-red-500 to-yellow-500
-      rounded-lg text-white
-      "
-      >
-        Site&apos;s
-      </span>
-      Logo
+    <Link href="/" className="flex items-center max-h-[30px]">
+      <Image
+        src="/images/pixel-tech-blog-logo-outfit.svg"
+        alt="Pixel Tech Blog Logo"
+        width={130}
+        height={64}
+        className="dark:invert"
+        priority
+      />
     </Link>
-  )
+  );
 }

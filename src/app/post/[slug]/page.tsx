@@ -1,6 +1,6 @@
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
-import RecentPosts from '@/app/components/RecentPosts';
+import RecentPosts from '@/app/components/RecentPosts/RecentPosts';
 import PostContent from '@/app/components/Post/PostContent';
 import styles from '../../components/Post/PostContent.module.scss';
 import NotFound from '@/app/not-found';
