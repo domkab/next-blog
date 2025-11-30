@@ -4,7 +4,7 @@ import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 import { EmailSubscribeWModal } from './components/CallToAction/EmailSubscribeWModal';
 // import FeaturedPostConsistent from './components/FeaturedPost/FeaturedPostConsistent';
 
-export const revalidate = 120;
+export const revalidate = 240;
 
 export default async function Home() {
   return (

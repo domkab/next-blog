@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [update-deps, main]
+    branches: [search-rework, main]
   workflow_dispatch:
 
 concurrency:

@@ -1,0 +1,20 @@
+@use '../../mixins' as *;
+
+
+.search-page {
+  &__sidebar {
+    padding: 1.75rem;
+
+    @include onTablet {
+      padding: 1.75rem 0 1.75rem 0;
+    }
+  }
+
+  &__results {
+    padding: 1.75rem;
+
+    @include onTablet {
+      padding-right: 0;
+    }
+  }
+}

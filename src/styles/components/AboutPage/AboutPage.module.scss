@@ -40,9 +40,12 @@
 
   &__paragraph {
     line-height: 1.6;
+    // &--next {
+    //   text-align: left;
+    // }
 
-    &--next {
-      // text-align: start;
+    @include onTablet {
+      text-align: left;
     }
   }
 }
