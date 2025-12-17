@@ -7,9 +7,15 @@ import Image from 'next/image';
 export default function AboutPage() {
   return (
     <main
-      className={`${styles['about-page']} min-h-screen mx-auto max-w-7xl`}
+      className={`${styles['about-page']} min-h-screen mx-auto`}
     >
-      <section className={`${styles['about-page__content']} gap-6 max-w-6xl my-0 sm:my-8 px-8 p-8`}>
+      <section className={
+        `
+        ${styles['about-page__content']} 
+        ${styles['about-page__content--first']} 
+        gap-6 my-0 sm:my-8 px-8 p-8
+        `
+      }>
         <h1 className="text-3xl font-bold lg:text-6xl">Welcome to {SITE_TITLE}</h1>
 
         <p className="text-sm sm:text-base">
@@ -27,7 +33,7 @@ export default function AboutPage() {
 
         <Link
           href="/search"
-          className="text-xs sm:text-sm text-teal-500 font-bold hover:underline"
+          className="text-xs sm:text-sm text-teal-500 font-bold hover:underline text-center"
         >
           View all posts
         </Link>
@@ -35,9 +41,9 @@ export default function AboutPage() {
         <Image
           src="/images/blog-desktop-1.png"
           alt="Illustration of a desktop with tech content"
-          width={800}
+          width={400}
           height={450}
-          className="rounded-lg border shadow-lg"
+          className={`${styles['about-page__content-image']} rounded-lg border shadow-lg`}
         />
 
         <div className="mt-5 text-center">
@@ -55,20 +61,15 @@ export default function AboutPage() {
       </section>
 
       <section
-        className={`${styles['about-page__container']} max-w-2xl text-center`}
+        className={`${styles['about-page__container']}`}
       >
         <h2
           className={`${styles['about-page__title']} text-3xl font font-semibold text-center my-7`}
         >
-          About {SITE_TITLE}
+          All About Us
         </h2>
 
         <div className={styles['about-page__content']}>
-          <h3 className={`${styles['about-page__heading']} flex items-center gap-2 text-xl font-semibold mt-5`}>
-            <FiSmile className="text-teal-500" />
-            About Us
-          </h3>
-
           <p className={styles['about-page__paragraph']}>
             Welcome to <strong>{SITE_TITLE}</strong> — a blog built for real people trying to make sense of modern tech.
             We write for folks who don’t live on tech forums, but still want smart,
