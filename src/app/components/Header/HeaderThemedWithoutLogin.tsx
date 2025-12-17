@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 import Logo from '../Logo';
@@ -136,14 +136,21 @@ export default function HeaderThemedWithoutLogin() {
           <button
             type="button"
             onClick={() => setIsMenuOpen((v) => !v)}
-            className={clsx(styles.header__burger, isMenuOpen && styles['header__burger--open'])}
-            aria-label="Toggle menu"
+            className={clsx(
+              styles.header__burger,
+              isMenuOpen && styles['header__burger--open']
+            )}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-nav"
           >
-            <span className={styles.header__burgerBar} />
-            <span className={styles.header__burgerBar} />
-            <span className={styles.header__burgerBar} />
+            {isMenuOpen ? <AiOutlineClose size={22} /> : (
+              <>
+                <span className={styles.header__burgerBar} />
+                <span className={styles.header__burgerBar} />
+                <span className={styles.header__burgerBar} />
+              </>
+            )}
           </button>
         </div>
       </div>

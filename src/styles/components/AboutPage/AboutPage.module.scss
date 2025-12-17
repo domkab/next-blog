@@ -1,6 +1,8 @@
 @use '../../mixins' as *;
 
 .about-page {
+  max-width: 1024px;
+  width: 100%;
   display: flex;
   flex-direction: row;
 
@@ -9,23 +11,43 @@
   }
 
   &__container {
-    max-width: 700px;
-    width: 100%;
     padding: 2rem;
     text-align: center;
+
+    @include onTablet {
+      padding: 0;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    width: 100%;
+    gap: 1.5rem;
+    font-size: 1rem;
+
+    @include onTablet {
+      padding: 0 00 0;
+
+      &--first {
+        padding-right: 6rem;
+      }
+    }
+
+    &-image {
+      margin: 0 auto;
+    }
   }
 
   &__title {
     font-size: 2rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
-  }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    font-size: 1rem;
+    @include onTablet {
+      text-align: left;
+    }
   }
 
   &__heading {
