@@ -1,117 +1,191 @@
 'use client';
 
-import { Button, Navbar, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from 'flowbite-react';
-import { useTheme } from 'next-themes';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useTheme } from 'next-themes';
 import { AiOutlineSearch } from 'react-icons/ai';
-import {
-  FaMoon,
-  FaSun
-} from 'react-icons/fa';
+import { FaMoon, FaSun } from 'react-icons/fa';
+
 import Logo from '../Logo';
-import clsx from 'clsx';
-import styles from './Header.module.scss';
+import styles from './HeaderCS.module.scss';
+
+type NavItem = {
+  href: string;
+  label: string;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/search', label: 'Search' },
+];
 
 export default function HeaderThemedWithoutLogin() {
-  const path = usePathname();
+  const pathname = usePathname();
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
-  const [searchTerm, setSearchTerm] = useState('');
   const searchParams = useSearchParams();
+  const { theme, setTheme } = useTheme();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(searchParams.toString());
-    urlParams.set('searchTerm', searchTerm);
-    router.push(`/search?${urlParams.toString()}`);
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleMobileSearch = () => {
-    router.push(`/search`);
-  }
+  const activeHref = useMemo(() => {
+    // If you later add nested routes, you can make this smarter.
+    return pathname;
+  }, [pathname]);
 
   useEffect(() => {
+    // Sync input with URL ?searchTerm=
     const urlParams = new URLSearchParams(searchParams.toString());
-    const searchTermFromUrl = urlParams.get('searchTerm');
-
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
+    const searchTermFromUrl = urlParams.get('searchTerm') ?? '';
+    setSearchTerm(searchTermFromUrl);
   }, [searchParams]);
 
-  return (
-    <Navbar className={clsx(
-      styles.header,
-      'border-b-2',
-      '!p-0 !px-0 !py-0 !m-0 border-b-2',
-      'header'
-    )}>
-      <Logo />
+  useEffect(() => {
+    // Close mobile menu on navigation
+    setIsMenuOpen(false);
+  }, [pathname]);
 
-      <form onSubmit={handleSubmit} className="hidden lg:block">
-        <div className="relative">
-          <TextInput
-            type="text"
-            placeholder="Search..."
+  const pushSearch = (nextTerm: string) => {
+    const urlParams = new URLSearchParams(searchParams.toString());
+
+    const trimmed = nextTerm.trim();
+    if (trimmed) urlParams.set('searchTerm', trimmed);
+    else urlParams.delete('searchTerm');
+
+    const qs = urlParams.toString();
+    router.push(qs ? `/search?${qs}` : '/search');
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    pushSearch(searchTerm);
+  };
+
+  const handleMobileSearchClick = () => {
+    router.push('/search');
+    setIsMenuOpen(false);
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <header className={styles.header}>
+      <div className={styles.header__inner}>
+        <div className={styles.header__left}>
+          <Logo />
+        </div>
+
+        <form onSubmit={handleSubmit} className={styles.header__search} role="search">
+          <label className={styles.header__srOnly} htmlFor="site-search">
+            Search
+          </label>
+
+          <input
+            id="site-search"
+            type="search"
+            placeholder="Search…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pr-10 relative"
+            className={styles.header__searchInput}
           />
+
+          <button type="submit" className={styles.header__iconButton} aria-label="Search">
+            <AiOutlineSearch size={20} />
+          </button>
+        </form>
+
+        <nav className={styles.header__nav} aria-label="Primary">
+          <ul className={styles.header__navList}>
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeHref === item.href;
+
+              return (
+                <li key={item.href} className={styles.header__navItem}>
+                  <Link
+                    href={item.href}
+                    className={clsx(styles.header__link, isActive && styles['header__link--active'])}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+
+            <li className={styles.header__navItem}>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className={styles.header__pillButton}
+                aria-label="Toggle theme"
+              >
+                {theme === 'light' ? <FaSun /> : <FaMoon />}
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <div className={styles.header__actions}>
+
+
           <button
-            className="absolute inset-y-0 right-12 flex items-center p-2 hover:scale-105 transition-transform duration-150"
-            type="submit"
+            type="button"
+            onClick={() => setIsMenuOpen((v) => !v)}
+            className={clsx(styles.header__burger, isMenuOpen && styles['header__burger--open'])}
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav"
           >
-            <AiOutlineSearch />
+            <span className={styles.header__burgerBar} />
+            <span className={styles.header__burgerBar} />
+            <span className={styles.header__burgerBar} />
           </button>
         </div>
-      </form>
+      </div>
 
-      <NavbarCollapse>
-        <Link className={clsx(styles.link)} href='/'>
-          <NavbarLink active={path === '/'} as={'div'}>
-            Home
-          </NavbarLink>
-        </Link>
-
-        <Link className={clsx(styles.link)} href='/about'>
-          <NavbarLink active={path === '/about'} as={'div'}>
-            About
-          </NavbarLink>
-        </Link>
-
-        <Link className={clsx(styles.link)} href='/search'>
-          <NavbarLink active={path === '/search'} as={'div'}>
-            Search
-          </NavbarLink>
-        </Link>
-      </NavbarCollapse>
-
-      <div className={clsx(
-        'md:hidden flex justify-center items-center gap-2',
-        styles.headerMobileActions
-      )}
+      <div
+        id="mobile-nav"
+        className={clsx(styles.header__mobile, isMenuOpen && styles['header__mobile--open'])}
       >
-        <button
-          onClick={handleMobileSearch}
-          className={clsx('header-search-button flex justify-center items-center')}
-        >
-          <AiOutlineSearch size={24} color='gray' />
-        </button>
+        <ul className={styles.header__mobileList}>
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeHref === item.href;
 
-        <div className="ml-auto flex gap-2">
-          <Button
-            className="w-12 h-10 hidden sm:inline"
-            color="gray"
-            pill
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={clsx(styles.header__mobileLink, isActive && styles['header__mobileLink--active'])}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className={styles.header__mobileMenuButtons}>
+          <button
+            type="button"
+            onClick={handleMobileSearchClick}
+            className={styles.header__mobileSearchBtn}
           >
+            <AiOutlineSearch size={20} />
+            <span>Search</span>
+          </button>
+
+          <button type="button" onClick={toggleTheme} className={styles.header__mobileThemeBtn}>
             {theme === 'light' ? <FaSun /> : <FaMoon />}
-          </Button>
-          <NavbarToggle />
+            <span>Theme</span>
+          </button>
         </div>
       </div>
-    </Navbar>
+    </header>
   );
 }
