@@ -1,5 +1,5 @@
 import { CHARACTER_NAME, SITE_TITLE } from '@/lib/constants';
-import { FiSmile, FiTarget, FiInfo, FiMail, FiTrendingUp } from 'react-icons/fi';
+import { FiTarget, FiInfo, FiMail } from 'react-icons/fi';
 import Link from 'next/link';
 import styles from '../../styles/components/AboutPage/AboutPage.module.scss';
 import Image from 'next/image';

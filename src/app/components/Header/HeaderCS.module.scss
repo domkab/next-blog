@@ -9,9 +9,9 @@
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
 
-  @include onTablet {
-    width: 1024px;
+  @include onLaptop {
     margin: 0 auto;
+    width: 1024px;
   }
 
   /* If you use dark mode via class on html/body, adjust this selector to match your setup */
@@ -28,7 +28,13 @@
     padding: 0.8rem 1rem;
 
     @include onTablet {
+      max-width: 100%;
       column-gap: 1rem;
+      padding: 1rem 0;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include onLaptop {
       padding: 1rem 0;
       grid-template-columns: 0.20fr 0.80fr 1fr;
     }
@@ -113,8 +119,8 @@
     display: none;
     justify-self: end;
 
-    @media (min-width: 768px) {
-      display: block;
+    @include onTablet {
+      display: flex;
     }
   }
 
@@ -256,6 +262,7 @@
   &__mobileInner {
     padding: 12px 16px 16px;
   }
+
   &__mobileMenuButtons {
     display: grid;
     grid-template-columns: 1fr 1fr;
