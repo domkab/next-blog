@@ -3,13 +3,14 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { use, useEffect, useMemo, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 import Logo from '../Logo';
 import styles from './HeaderCS.module.scss';
+import { useIsTabletOnly } from '@/hooks/useBreakPoint';
 
 type NavItem = {
   href: string;
@@ -27,6 +28,7 @@ export default function HeaderThemedWithoutLogin() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { theme, setTheme } = useTheme();
+  const isTabletOnly = useIsTabletOnly();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -117,7 +119,24 @@ export default function HeaderThemedWithoutLogin() {
               );
             })}
 
-            <li className={styles.header__navItem}>
+            {!isTabletOnly && (
+              <li className={clsx(styles.header__navItem, styles.header__navItemTheme)}>
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className={styles.header__pillButton}
+                  aria-label="Toggle theme"
+                >
+                  {theme === 'light' ? <FaSun /> : <FaMoon />}
+                </button>
+              </li>
+            )}
+          </ul>
+        </nav>
+
+        <div className={styles.header__actions}>
+          {isTabletOnly && (
+            <li className={clsx(styles.header__navItem, styles.header__navItemTheme)}>
               <button
                 type="button"
                 onClick={toggleTheme}
@@ -127,11 +146,7 @@ export default function HeaderThemedWithoutLogin() {
                 {theme === 'light' ? <FaSun /> : <FaMoon />}
               </button>
             </li>
-          </ul>
-        </nav>
-
-        <div className={styles.header__actions}>
-
+          )}
 
           <button
             type="button"
@@ -155,8 +170,7 @@ export default function HeaderThemedWithoutLogin() {
         </div>
       </div>
 
-      <div
-        id="mobile-nav"
+      <div id="mobile-nav"
         className={clsx(styles.header__mobile, isMenuOpen && styles['header__mobile--open'])}
       >
         <ul className={styles.header__mobileList}>
