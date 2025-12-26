@@ -1,0 +1,38 @@
+@use '../../mixins' as *;
+
+.search-page__resultsWrap[aria-busy="true"] .search-page__results {
+  opacity: 0.45;
+}
+
+.search-page {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+
+  &__resultsWrap {
+    position: relative;
+    min-height: 520px;
+  }
+
+  &__empty {
+    width: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  &__sidebar {
+    padding: 1.75rem;
+
+    @include onLaptop {
+      padding: 1.75rem 0 1.75rem 0;
+    }
+  }
+
+  &__results {
+    padding: 1.75rem;
+
+    @include onLaptop {
+      padding-right: 0;
+    }
+  }
+}

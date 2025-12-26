@@ -1,0 +1,10 @@
+@use '@/styles/_mixins' as *;
+@use '@/styles/vars' as *;
+
+.home {
+  padding: 0 1.5rem;
+
+  &__recentPostsSection {
+    margin-bottom: 1rem;
+  }
+}

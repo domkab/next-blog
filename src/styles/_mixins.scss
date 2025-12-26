@@ -16,6 +16,12 @@
   }
 }
 
+@mixin onTabletOnly {
+  @media (min-width: 767px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
 @mixin onLaptop {
   @media (min-width: 1023px) {
     @content;

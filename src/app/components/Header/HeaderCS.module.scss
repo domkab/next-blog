@@ -1,0 +1,318 @@
+@use '@/styles/_mixins' as *;
+@use '@/styles/vars' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+
+  @include onLaptop {
+    margin: 0 auto;
+    width: 1024px;
+  }
+
+  /* dark mode via class on html/body */
+  :global(html.dark) & {
+    background: rgb(17 24 39 / var(--tw-bg-opacity, 1));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    align-content: center;
+    padding: 0.8rem 1rem;
+
+    @include onTablet {
+      max-width: 100%;
+      column-gap: 1rem;
+      padding: 1rem 1.5rem;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include onLaptop {
+      padding: 1rem 0;
+      grid-template-columns: 0.20fr 0.80fr 1fr;
+    }
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  /* Desktop search */
+  &__search {
+    display: none;
+    position: relative;
+    align-items: center;
+    max-width: 560px;
+    width: 100%;
+    justify-self: center;
+
+    @media (min-width: 1024px) {
+      display: flex;
+    }
+  }
+
+  &__searchInput {
+    align-self: start;
+    width: 100%;
+    height: 40px;
+    padding: 0 44px 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.9);
+    outline: none;
+
+    :global(html.dark) & {
+      background: rgb(17 24 39 / var(--tw-bg-opacity, 1));
+      border-color: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    &:focus {
+      border-color: rgba(0, 0, 0, 0.22);
+
+      :global(html.dark) & {
+        border-color: rgba(255, 255, 255, 0.22);
+      }
+    }
+  }
+
+  &__iconButton {
+    position: absolute;
+    right: 6px;
+    height: 34px;
+    width: 34px;
+    border-radius: 999px;
+    border: 0;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 150ms ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Desktop nav */
+  &__nav {
+    display: none;
+    justify-self: end;
+
+    @include onTablet {
+      display: flex;
+    }
+  }
+
+  &__navList {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__navItem {
+    display: flex;
+  }
+
+  &__link {
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.75);
+    transition: background 150ms ease, transform 150ms ease;
+
+    :global(html.dark) & {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+      transform: translateY(-1px);
+
+      :global(html.dark) & {
+        background: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    &--active {
+      background: rgba(0, 0, 0, 0.08);
+
+      :global(html.dark) & {
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  &__pillButton {
+    height: 40px;
+    width: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    :global(html.dark) & {
+      background: rgba(20, 20, 24, 0.85);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.92);
+    }
+  }
+
+  /* Burger */
+  &__burger {
+    height: 40px;
+    width: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--ui-border);
+    background: var(--ui-bg);
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    :global(html.dark) & {
+      background: rgba(20, 20, 24, 0.85);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__burgerBar {
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.75);
+
+    :global(html.dark) & {
+      background: rgba(255, 255, 255, 0.86);
+    }
+  }
+
+  /* Mobile panel */
+  &__mobile {
+    @media (min-width: 768px) {
+      display: none;
+    }
+
+    /* Always in DOM, but visually collapsed */
+    display: block;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: max-height 220ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+    :global(html.dark) & {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    &--open {
+      max-height: 420px;
+      /* enough for your content */
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+
+  &__mobileInner {
+    padding: 12px 16px 16px;
+  }
+
+  &__mobileMenuButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem
+  }
+
+  &__mobileSearchBtn,
+  &__mobileThemeBtn {
+    border: 1px solid var(--ui-border);
+    background: var(--ui-bg);
+    color: var(--ui-text);
+    border-radius: 14px;
+    height: 44px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  &__mobileList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  &__mobileLink {
+    height: 46px;
+    padding: 0 1rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.04);
+
+    :global(html.dark) & {
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &--active {
+      background: rgba(0, 0, 0, 0.08);
+
+      :global(html.dark) & {
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+}
