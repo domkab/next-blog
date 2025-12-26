@@ -4,6 +4,10 @@
 .home {
   padding: 0 1.5rem;
 
+  @include onLaptop {
+    padding: 0;
+  }
+
   &__recentPostsSection {
     margin-bottom: 1rem;
   }
