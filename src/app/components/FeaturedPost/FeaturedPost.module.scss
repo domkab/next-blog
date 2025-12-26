@@ -4,7 +4,7 @@
 $border-radius: 0.25rem;
 
 .featured-post {
-  padding: 1.5rem 1rem ;
+  padding: 1.5rem 0;
 
   @include onTablet {
     padding: 2rem 0 3rem 0;

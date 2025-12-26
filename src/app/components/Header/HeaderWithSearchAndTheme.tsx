@@ -85,6 +85,8 @@ export default function HeaderWithSearchAndTheme() {
           {theme === 'light' ? <FaSun /> : <FaMoon />}
         </Button>
 
+        {/* auth sign in flows */}
+
         <SignedIn>
           <UserButton
             appearance={{

@@ -6,6 +6,9 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
 import { PostType } from '@/types/Post';
+import styles from '../../styles/components/SearchPage/SearchPage.module.scss';
+import clsx from 'clsx';
+import SimpleOverlayLoader from '../components/SimpleOverlayLoader/SimpleOverlayLoader';
 
 export default function SearchPageContent() {
   const router = useRouter();
@@ -96,19 +99,29 @@ export default function SearchPageContent() {
   };
 
   return (
-    <div className='flex flex-col md:flex-row'>
-      <div className='p-7 border-b md:border-r md:min-h-screen border-gray-500'>
+    <div
+      className={clsx(
+        'flex flex-col md:flex-row', styles['search-page']
+      )}
+    >
+      <div
+        aria-label="Search Filters"
+        className={clsx(
+          'border-b md:min-h-screen border-gray-500', styles['search-page__sidebar']
+        )}
+      >
         <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
           <div className='flex items-center gap-2'>
             <label className='whitespace-nowrap font-semibold'>Search Term:</label>
             <TextInput
-              placeholder='Search...'
+              placeholder=''
               id='searchTerm'
               type='text'
               value={sidebarData.searchTerm}
               onChange={handleChange}
             />
           </div>
+
           <div className='flex items-center gap-2'>
             <label className='font-semibold'>Sort:</label>
             <Select onChange={handleChange} id='sort'>
@@ -116,6 +129,7 @@ export default function SearchPageContent() {
               <option value='asc'>Oldest</option>
             </Select>
           </div>
+
           <div className='flex items-center gap-2'>
             <label className='font-semibold'>Category:</label>
             <Select onChange={handleChange} id='category'>
@@ -131,25 +145,37 @@ export default function SearchPageContent() {
           </Button>
         </form>
       </div>
-      <div className='w-full'>
-        <h1 className='text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5'>
-          Posts results:
-        </h1>
-        <div className='p-7 flex flex-wrap gap-4'>
-          {!loading && posts.length === 0 && (
-            <p className='text-xl text-gray-500'>No posts found.</p>
-          )}
-          {loading && <p className='text-xl text-gray-500'>Loading...</p>}
-          {!loading &&
-            posts.map((post) => <PostCard key={post._id} post={post} />)}
-          {showMore && (
-            <button
-              onClick={handleShowMore}
-              className='text-teal-500 text-lg hover:underline p-7 w-full'
-            >
-              Show More
-            </button>
-          )}
+
+      <div className="w-full">
+        <div className={styles['search-page__resultsWrap']}>
+          <div
+            className={clsx('flex flex-wrap gap-4', styles['search-page__results'])}
+            aria-label="Search Results"
+            aria-busy={loading}
+          >
+            {/* Keep posts rendered even while loading to avoid collapse */}
+            {posts.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))}
+
+            {/* Empty state that still keeps layout */}
+            {!loading && posts.length === 0 && (
+              <div className={styles['search-page__empty']}>
+                <p className={styles['search-page__emptyText']}>No posts found.</p>
+              </div>
+            )}
+
+            {!loading && showMore && posts.length > 0 && (
+              <button
+                onClick={handleShowMore}
+                className="text-teal-500 text-lg hover:underline p-7 w-full"
+              >
+                Show More
+              </button>
+            )}
+          </div>
+
+          <SimpleOverlayLoader isLoading={loading} />
         </div>
       </div>
     </div>
