@@ -14,7 +14,7 @@
     width: 1024px;
   }
 
-  /* If you use dark mode via class on html/body, adjust this selector to match your setup */
+  /* dark mode via class on html/body */
   :global(html.dark) & {
     background: rgb(17 24 39 / var(--tw-bg-opacity, 1));
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -24,7 +24,7 @@
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    align-content: center; 
+    align-content: center;
     padding: 0.8rem 1rem;
 
     @include onTablet {
@@ -81,7 +81,7 @@
     outline: none;
 
     :global(html.dark) & {
-      background: rgba(20, 20, 24, 0.85);
+      background: rgb(17 24 39 / var(--tw-bg-opacity, 1));
       border-color: rgba(255, 255, 255, 0.12);
       color: rgba(255, 255, 255, 0.92);
     }
@@ -197,8 +197,8 @@
     height: 40px;
     width: 44px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--ui-border);
+    background: var(--ui-bg);
     cursor: pointer;
     display: inline-flex;
     flex-direction: column;
@@ -272,21 +272,16 @@
 
   &__mobileSearchBtn,
   &__mobileThemeBtn {
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--ui-border);
+    background: var(--ui-bg);
+    color: var(--ui-text);
     border-radius: 14px;
-    background: rgba(255, 255, 255, 0.9);
     height: 44px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-
-    :global(html.dark) & {
-      background: rgba(20, 20, 24, 0.85);
-      border-color: rgba(255, 255, 255, 0.12);
-      color: rgba(255, 255, 255, 0.92);
-    }
   }
 
   &__mobileList {
@@ -295,7 +290,6 @@
     margin: 0;
     display: grid;
     gap: 8px;
-    // padding: 0 1rem;
   }
 
   &__mobileLink {
