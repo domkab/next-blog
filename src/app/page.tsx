@@ -2,18 +2,25 @@ import Link from 'next/link';
 import RecentPosts from './components/RecentPosts/RecentPosts';
 import FeaturedPost from './components/FeaturedPost/FeaturedPost';
 import { EmailSubscribeWModal } from './components/CallToAction/EmailSubscribeWModal';
+import clsx from 'clsx';
+import styles from '@/app/page.module.scss';
 // import FeaturedPostConsistent from './components/FeaturedPost/FeaturedPostConsistent';
 
 export const revalidate = 240;
 
 export default async function Home() {
   return (
-    <main className="flex flex-col items-stretch max-w-5xl mx-auto w-full">
+    <main
+      className={clsx(
+        styles.home,
+        'flex flex-col items-stretch max-w-5xl mx-auto w-full'
+      )}
+    >
       <section className='w-full' aria-label="Featured Post">
         <FeaturedPost />
       </section>
 
-      <section className="w-full pt-6 px-4 md:px-0 mx-auto" aria-label="Recent Articles">
+      <section aria-label="Recent Articles" className={clsx(styles.home__recentPostsSection, 'w-full md:px-0 mx-auto')}>
         <RecentPosts limit={9} />
         <Link
           href="/search?category"
@@ -23,7 +30,7 @@ export default async function Home() {
         </Link>
       </section>
 
-      <section className='p-4' aria-label="Subscribe to Newsletter">
+      <section className='' aria-label="Subscribe to Newsletter">
         <EmailSubscribeWModal />
       </section>
     </main>
