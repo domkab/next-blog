@@ -6,6 +6,10 @@
   display: flex;
   flex-direction: row;
 
+  @include onTabletOnly {
+    padding: 0 1.5rem;
+  }
+
   @include onMobile {
     flex-direction: column;
   }
@@ -28,7 +32,7 @@
     font-size: 1rem;
 
     @include onTablet {
-      padding: 0 00 0;
+      padding: 0;
 
       &--first {
         padding-left: 5rem;
@@ -63,9 +67,6 @@
 
   &__paragraph {
     line-height: 1.6;
-    // &--next {
-    //   text-align: left;
-    // }
 
     @include onTablet {
       text-align: left;
