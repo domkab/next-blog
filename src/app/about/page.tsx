@@ -88,7 +88,7 @@ export default function AboutPage() {
 
         <Link
           href="/search"
-          className="text-xs sm:text-sm text-teal-500 font-bold hover:underline text-center"
+          className="text-base text-teal-500 font-bold hover:underline text-center"
         >
           View all posts
         </Link>
