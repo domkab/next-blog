@@ -1,5 +1,4 @@
 import { contactMetadata } from '@/lib/metadata/contact';
-import styles from '@/styles/components/AboutPage/AboutPage.module.scss'
 import { clsx } from 'clsx';
 import { Label, TextInput, Textarea, Button, } from 'flowbite-react';
 import { FiMail } from 'react-icons/fi';
