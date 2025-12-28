@@ -3,6 +3,9 @@ import { FiTarget, FiInfo, FiMail } from 'react-icons/fi';
 import Link from 'next/link';
 import styles from '../../styles/components/AboutPage/AboutPage.module.scss';
 import Image from 'next/image';
+import { aboutMetadata } from '@/lib/metadata/about';
+
+export const metadata = aboutMetadata;
 
 export default function AboutPage() {
   return (
@@ -66,7 +69,7 @@ export default function AboutPage() {
         `
         ${styles['about-page__content']} 
         ${styles['about-page__content--first']} 
-        gap-6 my-0 sm:my-8 px-8 p-8
+        gap-6 my-0 sm:my-8 px-8
         `
       }>
         <h1 className="text-3xl font-bold lg:text-6xl">Welcome to {SITE_TITLE}</h1>
@@ -113,7 +116,6 @@ export default function AboutPage() {
             </Link>
           </div>
         </div>
-
       </section>
     </main >
   )

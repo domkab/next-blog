@@ -1,8 +1,13 @@
 import { Metadata } from 'next';
 import { SITE_NAME } from '../constants';
+import { seoDefaults } from './seoDefaults';
 
 export const layoutMetadata: Metadata = {
-  title: `${SITE_NAME} | Home`,
+  title: {
+    default: `${SITE_NAME} | home`,
+    template: `%s | ${SITE_NAME} | home`,
+  },
+  ...seoDefaults,
   keywords: [
     "tech blog",
     "technology",

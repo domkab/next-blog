@@ -1,12 +1,9 @@
 
 import { Suspense } from 'react';
 import SearchPageContent from './SearchPageContent';
-import { SITE_NAME } from '@/lib/constants';
+import { searchMetadata } from '@/lib/metadata/search';
 
-export const metadata = {
-  title: `Search | ${SITE_NAME}`,
-  description: `Search articles, posts, and more on ${SITE_NAME}.`,
-};
+export const metadata = searchMetadata
 
 export default function SearchPage() {
   return (
