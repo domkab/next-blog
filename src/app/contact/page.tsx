@@ -7,7 +7,7 @@ import { FiMail } from 'react-icons/fi';
 export default function ContactPage() {
   return (
     <main className="max-w-2xl mx-auto p-6 sm:p-12">
-      <h1 className="flex items-center justify-center text-3xl font-bold mb-6 gap-2
+      <h1 className="flex items-center justify-center text-3xl font-bold mb-6 gap-3
         text-gray-800 dark:text-gray-300"
       >
         Contact Us
