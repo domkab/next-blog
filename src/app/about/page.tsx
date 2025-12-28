@@ -9,9 +9,7 @@ export default function AboutPage() {
     <main
       className={`${styles['about-page']} min-h-screen mx-auto`}
     >
-      <section
-        className={`${styles['about-page__container']}`}
-      >
+      <section className={`${styles['about-page__container']}`}>
         <h2
           className={`${styles['about-page__title']} text-3xl font font-semibold text-center`}
         >

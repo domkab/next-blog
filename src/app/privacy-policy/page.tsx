@@ -384,9 +384,9 @@ const PrivacyPolicy = () => {
                 className="text-teal-600 dark:text-teal-400 hover:underline ml-1">contact@{SITE_NAME}.com
               </a>
             </li>
-            <li>
+            {/* <li>
               Postal: [Company Name], [Street Address], [City], [Postcode], Lithuania.
-            </li>
+            </li> */}
           </ul>
         </section>
 
