@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
-import { SITE_TITLE } from '../constants';
+import { SITE_NAME } from '../constants';
+import { seoDefaults } from './seoDefaults';
 
 export const aboutMetadata: Metadata = {
-  title: `About | ${SITE_TITLE}`,
-  description: `Learn more about ${SITE_TITLE} and what we're building.`,
+  ...seoDefaults,
+  title: { absolute: `${SITE_NAME} | about` },
+  description: `All about ${SITE_NAME} — a blog built for real people trying to make sense of modern tech.`,
+  alternates: { canonical: '/about' },
 };

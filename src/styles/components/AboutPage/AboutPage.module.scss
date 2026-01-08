@@ -32,7 +32,7 @@
     font-size: 1rem;
 
     @include onTablet {
-      padding: 0;
+      padding: 0 0 1rem 0;
 
       &--first {
         padding-left: 5rem;
@@ -79,5 +79,9 @@
     gap: 1rem;
     margin-top: 2rem;
     align-self: center;
+
+    @include onMobile {
+      margin-bottom: 2rem;
+    }
   }
 }

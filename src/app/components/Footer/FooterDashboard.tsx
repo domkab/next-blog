@@ -9,6 +9,7 @@ import {
   FooterTitle,
 } from 'flowbite-react';
 import Logo from '../Logo';
+import { SITE_TITLE } from '@/lib/constants';
 
 export default function FooterCom() {
   return (
@@ -50,7 +51,7 @@ export default function FooterCom() {
         <div className='w-full sm:flex sm:items-center sm:justify-between'>
           <FooterCopyright
             href='#'
-            by="© Consumer’s Prices, All rights reserved"
+            by={`© ${SITE_TITLE}, All rights reserved`}
             year={new Date().getFullYear()}
           />
         </div>

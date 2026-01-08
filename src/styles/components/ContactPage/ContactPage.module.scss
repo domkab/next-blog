@@ -1,0 +1,44 @@
+.submitBtn {
+  background: #fff;
+  color: #0d9488; // teal-600-ish
+  border: 1px solid #14b8a6; // teal-500
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background: #14b8a6;
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:disabled:hover {
+    background: #fff;
+    color: #0d9488;
+  }
+
+  :global(html.dark) & {
+    background: rgb(17 24 39); // gray-900
+    color: rgb(94 234 212); // teal-300
+    border-color: rgba(20, 184, 166, 0.5);
+
+    &:hover {
+      background: #0f766e; // teal-700
+      color: #fff;
+    }
+
+    &:disabled {
+      background: rgb(31 41 55); // gray-800
+      color: rgba(156, 163, 175, 1); // gray-400
+      border-color: rgba(55, 65, 81, 1); // gray-700
+      opacity: 1; // optional: keep it crisp
+    }
+
+    &:disabled:hover {
+      background: rgb(31 41 55);
+      color: rgba(156, 163, 175, 1);
+    }
+  }
+}

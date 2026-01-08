@@ -9,11 +9,6 @@
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
 
-  @include onLaptop {
-    margin: 0 auto;
-    width: 1024px;
-  }
-
   /* dark mode via class on html/body */
   :global(html.dark) & {
     background: rgb(17 24 39 / var(--tw-bg-opacity, 1));
@@ -35,6 +30,8 @@
     }
 
     @include onLaptop {
+      margin: 0 auto;
+      width: 1024px;
       padding: 1rem 0;
       grid-template-columns: 0.20fr 0.80fr 1fr;
     }

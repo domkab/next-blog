@@ -3,15 +3,16 @@ import { FiTarget, FiInfo, FiMail } from 'react-icons/fi';
 import Link from 'next/link';
 import styles from '../../styles/components/AboutPage/AboutPage.module.scss';
 import Image from 'next/image';
+import { aboutMetadata } from '@/lib/metadata/about';
+
+export const metadata = aboutMetadata;
 
 export default function AboutPage() {
   return (
     <main
       className={`${styles['about-page']} min-h-screen mx-auto`}
     >
-      <section
-        className={`${styles['about-page__container']}`}
-      >
+      <section className={`${styles['about-page__container']}`}>
         <h2
           className={`${styles['about-page__title']} text-3xl font font-semibold text-center`}
         >
@@ -35,7 +36,7 @@ export default function AboutPage() {
           </p>
           <div style={{ position: 'relative', width: '100%', height: '350px' }}>
             <Image
-              src="/images/cat-on-laptop-transparent-2-redacted.png"
+              src="/images/cat-on-laptop.svg"
               alt=""
               fill
               style={{ objectFit: 'contain' }}
@@ -68,7 +69,7 @@ export default function AboutPage() {
         `
         ${styles['about-page__content']} 
         ${styles['about-page__content--first']} 
-        gap-6 my-0 sm:my-8 px-8 p-8
+        gap-6 my-0 sm:my-8 px-8
         `
       }>
         <h1 className="text-3xl font-bold lg:text-6xl">Welcome to {SITE_TITLE}</h1>
@@ -95,7 +96,7 @@ export default function AboutPage() {
 
         <div className={`${styles['about-page__contact-card']}`}>
           <Image
-            src="/images/blog-desktop-1.png"
+            src="/images/blog-desktop-1.webp"
             alt="Illustration of a desktop with tech content"
             width={400}
             height={450}
@@ -115,7 +116,6 @@ export default function AboutPage() {
             </Link>
           </div>
         </div>
-
       </section>
     </main >
   )
