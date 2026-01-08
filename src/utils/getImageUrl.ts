@@ -20,3 +20,4 @@ export function getImageUrl(path?: string): string {
   // This avoids ever producing /undefined/...
   return path.startsWith('/') ? path : `/${path}`;
 }
+//test
