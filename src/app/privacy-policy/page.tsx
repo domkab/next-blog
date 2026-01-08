@@ -1,10 +1,8 @@
 import { FiMail, FiExternalLink } from 'react-icons/fi';
 import { DOMAIN_NAME, SITE_NAME, SITE_TITLE } from '@/lib/constants';
+import { privacyPolicyMetadata } from '@/lib/metadata/privacy-policy';
 
-export const metadata = {
-  title: `Privacy Policy | ${SITE_TITLE}`,
-  description: `Privacy policy of ${SITE_TITLE}`,
-};
+export const metadata = privacyPolicyMetadata
 
 const PrivacyPolicy = () => {
   return (
@@ -14,7 +12,7 @@ const PrivacyPolicy = () => {
       </h1>
 
       <div className="text-sm text-gray-500 dark:text-gray-400 mb-8 text-center">
-        Last updated: 10 June 2025
+        Last updated: 29th of December, 2025
       </div>
 
       <div className=" max-w-none">
@@ -384,9 +382,9 @@ const PrivacyPolicy = () => {
                 className="text-teal-600 dark:text-teal-400 hover:underline ml-1">contact@{SITE_NAME}.com
               </a>
             </li>
-            <li>
+            {/* <li>
               Postal: [Company Name], [Street Address], [City], [Postcode], Lithuania.
-            </li>
+            </li> */}
           </ul>
         </section>
 

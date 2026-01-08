@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { notFoundMetadata } from '@/lib/metadata/not-found';
+
+export const metadata = notFoundMetadata;
 
 export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-start text-center p-6">
       <div className="relative w-48 h-48 mb-6">
         <Image
-          src="/images/cat-sad-404-2.png"
+          src="/images/cat-sad-404.png"
           alt="Confused Pixel the Cat"
           fill
           className="object-contain"

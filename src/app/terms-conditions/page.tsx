@@ -15,7 +15,7 @@ const TermsAndConditions = () => {
       </h1>
 
       <div className="text-sm text-gray-500 dark:text-gray-400 mb-8 text-center">
-        Last updated:&nbsp;10&nbsp;June&nbsp;2025
+        Last updated:&nbsp;29&nbsp;December&nbsp;2025
       </div>
 
       <div className="max-w-none">  
@@ -24,8 +24,8 @@ const TermsAndConditions = () => {
         <section className="mb-10 prose dark:prose-invert">
           <p>
             These Terms&nbsp;&amp;&nbsp;Conditions (“<strong>Terms</strong>”) govern your access to and use
-            of <strong>{SITE_TITLE}</strong> (<em>“Site”</em>), operated by&nbsp;
-            <strong>[Company Name]</strong> (<em>“we”</em>, <em>“us”</em>, <em>“our”</em>). By continuing to use
+            of <strong>{SITE_TITLE}</strong> (<em>“Site”</em>), operated  independently by&nbsp;
+            <strong>the Pixel Tech Blog team</strong> (<em>“we”</em>, <em>“us”</em>, <em>“our”</em>). By continuing to use
             {` www.${DOMAIN_NAME}`} you agree to these Terms and to our&nbsp;
             <a href="/privacy-policy" className="text-teal-600 dark:text-teal-400 hover:underline">
               Privacy&nbsp;&amp;&nbsp;Cookie Policy
@@ -174,9 +174,9 @@ const TermsAndConditions = () => {
                 contact@{SITE_NAME}.com
               </a>
             </li>
-            <li>
+            {/* <li>
               Postal: [Company Name], [Street Address], [City], [Postcode], Lithuania.
-            </li>
+            </li> */}
           </ul>
         </section>
 
