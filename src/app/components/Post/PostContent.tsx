@@ -61,6 +61,24 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
           );
         }
 
+        const isEmptyParagraph = p.children.every((c) => {
+          if (c.type === 'text') {
+            const text = (c as DomText).data.replace(/\u00A0/g, ' ');
+            return text.trim() === '';
+          }
+          // Quill sometimes uses <br> inside empty paragraphs
+          if (c.type === 'tag' && (c as DomElement).name === 'br') return true;
+          return false;
+        });
+
+        if (isEmptyParagraph) {
+          return (
+            <p key={index} className={styles['post-content__empty-paragraph']}>
+              <br />
+            </p>
+          );
+        }
+
         const allText = p.children.every(
           c => c.type === 'text' && !((c as DomText).data.trim())
         );
