@@ -20,7 +20,7 @@ export function CallToAction2() {
       </div>
       <div className='flex-1 mt-6 sm:mt-0 sm:ml-6 flex justify-center'>
         <Image
-          src="/cat-holding-letter-signup-wink.png"
+          src="/cat-holding-letter-signup-wink.webp"
           alt="Cat holding email"
           width={300}
           height={300}

@@ -36,7 +36,7 @@ export default function AboutPage() {
           </p>
           <div style={{ position: 'relative', width: '100%', height: '350px' }}>
             <Image
-              src="/images/cat-on-laptop.svg"
+              src="/images/cat-on-laptop.webp"
               alt=""
               fill
               style={{ objectFit: 'contain' }}
