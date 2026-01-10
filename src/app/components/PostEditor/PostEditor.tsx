@@ -1,7 +1,7 @@
 /* @ts-nocheck */
 'use client';
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   addInlineImage,
@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type ReactQuillType from 'react-quill-new';
 import QuillNoSSRWrapper from './QuillNoSSRWrapper';
 import 'react-quill-new/dist/quill.snow.css';
+import styles from '@/styles/components/PostEditor/PostEditor.module.scss';
 
 interface PostEditorProps {
   formData: PostFormState;
@@ -25,6 +26,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
   imageUploadProgress,
   handleUploadImage,
 }) => {
+  const [localValue, setLocalValue] = useState(formData.content ?? '');
   const quillRef = useRef<ReactQuillType | null>(null);
   const dispatch = useDispatch();
 
@@ -89,16 +91,21 @@ const PostEditor: React.FC<PostEditorProps> = ({
   };
 
   return (
-    <QuillNoSSRWrapper
-      ref={quillRef}
-      value={formData.content}
-      onChange={handleContentChange}
-      modules={modules}
-      readOnly={Boolean(imageUploadProgress)}
-      theme="snow"
-      placeholder="Write something…"
-      className="mb-12"
-    />
+    <div className={styles['post-editor']}>
+      <QuillNoSSRWrapper
+        ref={quillRef}
+        // value={formData.content}
+        // onChange={handleContentChange}
+        value={localValue}
+        onChange={setLocalValue}
+        onBlur={() => setFormData({ content: localValue })}
+        modules={modules}
+        readOnly={Boolean(imageUploadProgress)}
+        theme="snow"
+        placeholder="Write something…"
+        className="mb-12"
+      />
+    </div>
   );
 };
 
