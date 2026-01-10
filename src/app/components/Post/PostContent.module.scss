@@ -45,6 +45,31 @@
     height: auto;
   }
 
+  :global(ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  // ordered lists
+  :global(ol) {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  :global(li) {
+    margin: 0.25rem 0;
+    line-height: 1.6;
+  }
+
+  :global(ul ul),
+  :global(ol ol),
+  :global(ul ol),
+  :global(ol ul) {
+    margin-top: 0.5rem;
+  }
+
   &__empty-paragraph {
     // margin: 0 0 1rem;
   }
