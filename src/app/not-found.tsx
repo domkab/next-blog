@@ -9,7 +9,7 @@ export default function NotFound() {
     <div className="min-h-screen flex flex-col items-center justify-start text-center p-6">
       <div className="relative w-48 h-48 mb-6">
         <Image
-          src="/images/cat-sad-404.png"
+          src="/images/cat-sad-404.webp"
           alt="Confused Pixel the Cat"
           fill
           className="object-contain"
