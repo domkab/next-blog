@@ -1,7 +1,79 @@
 .post-content {
-  // overall wrapper
-}
+  max-width: 100%;
+  overflow-x: hidden;
 
+  // Key: allow breaking long/unbreakable strings
+  overflow-wrap: anywhere;
+  word-break: break-word;
+
+  :global(h1),
+  :global(h2),
+  :global(h3),
+  :global(h4),
+  :global(h5),
+  :global(h6),
+  :global(p),
+  :global(li),
+  :global(blockquote) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+
+  // Links often contain long URLs
+  :global(a) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  // Code blocks / inline code are frequent overflow culprits
+  :global(pre) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  :global(code) {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  :global(img),
+  :global(video),
+  :global(iframe) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  :global(ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  // ordered lists
+  :global(ol) {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  :global(li) {
+    margin: 0.25rem 0;
+    line-height: 1.6;
+  }
+
+  :global(ul ul),
+  :global(ol ol),
+  :global(ul ol),
+  :global(ol ul) {
+    margin-top: 0.5rem;
+  }
+
+  &__empty-paragraph {
+    // margin: 0 0 1rem;
+  }
+}
 .post-content__figure {
   // margin: 2rem 0;
   text-align: center;
