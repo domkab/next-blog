@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, fix/styles]
+    branches: [main, search-content-fix]
   workflow_dispatch:
 
 concurrency:
