@@ -9,8 +9,11 @@ import { PostType } from '@/types/Post';
 import styles from '../../styles/components/SearchPage/SearchPage.module.scss';
 import clsx from 'clsx';
 import SimpleOverlayLoader from '../components/SimpleOverlayLoader/SimpleOverlayLoader';
+import { useCategories } from '@/hooks/useCategories';
 
 export default function SearchPageContent() {
+  const { categories, loading: categoriesLoading } = useCategories();
+
   const router = useRouter();
   const [sidebarData, setSidebarData] = useState({
     searchTerm: '',
@@ -112,7 +115,9 @@ export default function SearchPageContent() {
       >
         <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
           <div className='flex items-center gap-2'>
-            <label className='whitespace-nowrap font-semibold'>Search Term:</label>
+            <label className={clsx('font-semibold whitespace-nowrap', [styles['search-page__label']])}>
+              Search Term:
+            </label>
             <TextInput
               placeholder=''
               id='searchTerm'
@@ -123,7 +128,9 @@ export default function SearchPageContent() {
           </div>
 
           <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Sort:</label>
+            <label className={clsx('font-semibold whitespace-nowrap', [styles['search-page__label']])}>
+              Sort:
+            </label>
             <Select onChange={handleChange} id='sort'>
               <option value='desc'>Latest</option>
               <option value='asc'>Oldest</option>
@@ -131,13 +138,20 @@ export default function SearchPageContent() {
           </div>
 
           <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Category:</label>
-            <Select onChange={handleChange} id='category'>
-              <option value=''>All categories</option>
-              <option value='uncategorized'>Uncategorized</option>
-              <option value='reactjs'>React.js</option>
-              <option value='nextjs'>Next.js</option>
-              <option value='javascript'>JavaScript</option>
+            <label className={clsx('font-semibold whitespace-nowrap', [styles['search-page__label']])}>
+              Category:
+            </label>
+            <Select
+              onChange={handleChange}
+              id="category"
+              className={styles['search-page__select']}
+            >
+              <option value="">All categories</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat.slug}>
+                  {cat.name}
+                </option>
+              ))}
             </Select>
           </div>
           <Button type='submit' outline gradientDuoTone='purpleToPink'>
