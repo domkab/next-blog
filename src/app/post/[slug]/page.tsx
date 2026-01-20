@@ -8,6 +8,7 @@ import { getPostBySlug } from '@/lib/services/postService';
 import Image from 'next/image';
 import { EmailSubscribeWModal } from '@/app/components/CallToAction/EmailSubscribeWModal';
 import { getImageUrl } from '@/utils/getImageUrl';
+import { labelFromSlug } from '@/utils/generateSlug';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -28,7 +29,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         className='self-center my-5'
       >
         <Button color='gray' pill size='xs'>
-          {post && post.category}
+          {post && labelFromSlug(post.category)}
         </Button>
       </Link>
       <div>
