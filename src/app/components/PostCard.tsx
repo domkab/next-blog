@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PostType } from '@/types/Post';
 import Image from 'next/image';
 import { getImageUrl } from '@/utils/getImageUrl';
+import { labelFromSlug } from '@/utils/generateSlug';
 
 type PostCardProps = {
   post: PostType;
@@ -28,7 +29,7 @@ export default function PostCard({ post }: PostCardProps) {
         <p className='text-lg font-semibold line-clamp-2'>{post.title}</p>
 
         <div className="flex justify-between mb-3">
-          <span className='italic text-sm/4'>{post.category}</span>
+          <span className='italic text-sm/4'>{labelFromSlug(post.category)}</span>
           <span className='italic text-sm/4'>{post && new Date(post.createdAt).toLocaleDateString()}</span>
         </div>
 

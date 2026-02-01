@@ -1,7 +1,12 @@
 /* @ts-nocheck */
 'use client';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch } from 'react-redux';
 import {
   addInlineImage,
@@ -18,6 +23,7 @@ interface PostEditorProps {
   setFormData: (data: Partial<PostFormState>) => void;
   imageUploadProgress: string | null;
   handleUploadImage: (file: File) => Promise<string>;
+  onContentChange: (html: string) => void;
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
@@ -25,15 +31,15 @@ const PostEditor: React.FC<PostEditorProps> = ({
   setFormData,
   imageUploadProgress,
   handleUploadImage,
+  onContentChange,
 }) => {
   const [localValue, setLocalValue] = useState(formData.content ?? '');
   const quillRef = useRef<ReactQuillType | null>(null);
   const dispatch = useDispatch();
 
-  const handleContentChange = useCallback(
-    (value: string) => setFormData({ content: value }),
-    [setFormData],
-  );
+  useEffect(() => {
+    setLocalValue(formData.content ?? '');
+  }, [formData.content]);
 
   const imageHandler = useCallback(() => {
     if (typeof window === 'undefined') return;
@@ -93,11 +99,15 @@ const PostEditor: React.FC<PostEditorProps> = ({
   return (
     <div className={styles['post-editor']}>
       <QuillNoSSRWrapper
+        key={formData.slug}
         ref={quillRef}
         // value={formData.content}
         // onChange={handleContentChange}
         value={localValue}
-        onChange={setLocalValue}
+        onChange={(localValue: string) => {
+          setLocalValue(localValue);
+          onContentChange?.(localValue);
+        }}
         onBlur={() => setFormData({ content: localValue })}
         modules={modules}
         readOnly={Boolean(imageUploadProgress)}

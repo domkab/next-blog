@@ -28,6 +28,15 @@
     }
   }
 
+  &__select {
+  }
+
+  &__label {
+    @include onLaptop {
+      font-size: 0.875rem;
+    }
+  }
+
   &__results {
     padding: 1.75rem;
 

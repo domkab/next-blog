@@ -5,6 +5,11 @@ export const generateSlug = (text: string): string =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
-export function getSlugSource(title: { bold: string; regular?: string }) {
-  return [title.bold, title.regular].filter(Boolean).join(' ');
+export const labelFromSlug = (slug?: string | null) => {
+  if (!slug) return '';
+  return slug
+    .split('-')
+    .filter(Boolean)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 };
