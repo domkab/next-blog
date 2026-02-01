@@ -17,6 +17,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import { getImageUrl } from '@/utils/getImageUrl';
 import { DeleteMainImageButton } from '@/app/components/Dashboard/DeleteImage/DeleteMainImageButton';
 import { generateSlug } from '@/utils/generateSlug';
+import { useRef } from 'react';
 
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -30,21 +31,25 @@ export default function CreatePostPage() {
   const imageUploadProgress = useAppSelector((state) => state.postForm.imageUploadProgress);
   const imageUploadError = useAppSelector((state) => state.postForm.imageUploadError);
   const slug = generateSlug(formData.title);
+  const latestContentRef = useRef(formData.content || '');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const latestContent = latestContentRef.current;
+    const payload = {
+      ...formData,
+      content: latestContent && latestContent.length > 0
+        ? latestContent : formData.content,
+      userMongoId: user?.publicMetadata.userMongoId,
+      isAdmin: user?.publicMetadata?.isAdmin,
+    };
+
     try {
       const { data, status } = await axios.post(
-        '/api/post/create',
-        {
-          ...formData,
-          userMongoId: user?.publicMetadata.userMongoId,
-          isAdmin: user?.publicMetadata?.isAdmin,
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+        '/api/post/create', payload, {
+        headers: { 'Content-Type': 'application/json' }
+      });
 
       console.log('form data in submit:', data);
 
@@ -287,6 +292,9 @@ export default function CreatePostPage() {
           setFormData={(data) => dispatch(setFormData(data))}
           imageUploadProgress={imageUploadProgress}
           handleUploadImage={handleInlineImageUpload}
+          onContentChange={(html) => {
+            latestContentRef.current = html;
+          }}
         />
 
         <InlineImageEditor />
