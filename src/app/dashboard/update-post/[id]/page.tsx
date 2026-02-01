@@ -38,38 +38,6 @@ export default function UpdatePost() {
   const pathname = usePathname();
   const postId = pathname.split('/').pop() || '';
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     const { data, status } = await axios.put(
-  //       '/api/post/update',
-  //       {
-  //         ...formData,
-  //         userMongoId: user?.publicMetadata.userMongoId,
-  //         postId,
-  //       },
-  //       {
-  //         headers: { 'Content-Type': 'application/json' },
-  //       }
-  //     );
-
-  //     console.log('form data on submit:', formData);
-
-  //     if (status !== 200) {
-  //       setPublishError(data.message);
-
-  //       return;
-  //     }
-
-  //     localStorage.setItem('publishSuccess', 'Post published successfully!');
-  //     setPublishSuccess('Post published successfully!');
-
-  //     router.push(`/post/${data.slug}`);
-  //   } catch (error: unknown) {
-  //     setPublishError(`Something went wrong: ${error}`);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
