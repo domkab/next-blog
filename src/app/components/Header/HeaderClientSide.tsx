@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
-
 import Logo from '../Logo';
 import styles from './HeaderClientSide.module.scss';
 

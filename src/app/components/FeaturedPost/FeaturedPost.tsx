@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { getImageUrl } from '@/utils/getImageUrl';
 import clsx from 'clsx';
 import styles from './FeaturedPost.module.scss';
+import { labelFromSlug } from '@/utils/generateSlug';
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
@@ -46,7 +47,7 @@ export default async function FeaturedPost() {
             <h3 className="text-xl font-bold mb-2">{post.title}</h3>
 
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 italic">
-              {post.category && <span>{post.category}</span>}
+              {post.category && <span>{(labelFromSlug(post.category))}</span>}
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
 
