@@ -18,8 +18,10 @@ import 'react-quill-new/dist/quill.snow.css';
 import { getImageUrl } from '@/utils/getImageUrl';
 import { generateSlug } from '@/utils/generateSlug';
 import { DeleteMainImageButton } from '@/app/components/Dashboard/DeleteImage/DeleteMainImageButton';
+import { useRef } from 'react';
 
 export default function UpdatePost() {
+  const latestContentRef = useRef<string>('');
   const { isSignedIn, user, isLoaded } = useUser();
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
@@ -36,26 +38,59 @@ export default function UpdatePost() {
   const pathname = usePathname();
   const postId = pathname.split('/').pop() || '';
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   try {
+  //     const { data, status } = await axios.put(
+  //       '/api/post/update',
+  //       {
+  //         ...formData,
+  //         userMongoId: user?.publicMetadata.userMongoId,
+  //         postId,
+  //       },
+  //       {
+  //         headers: { 'Content-Type': 'application/json' },
+  //       }
+  //     );
+
+  //     console.log('form data on submit:', formData);
+
+  //     if (status !== 200) {
+  //       setPublishError(data.message);
+
+  //       return;
+  //     }
+
+  //     localStorage.setItem('publishSuccess', 'Post published successfully!');
+  //     setPublishSuccess('Post published successfully!');
+
+  //     router.push(`/post/${data.slug}`);
+  //   } catch (error: unknown) {
+  //     setPublishError(`Something went wrong: ${error}`);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const { data, status } = await axios.put(
-        '/api/post/update',
-        {
-          ...formData,
-          userMongoId: user?.publicMetadata.userMongoId,
-          postId,
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
 
-      console.log('form data on submit:', formData);
+    const latestContent = latestContentRef.current?.trim();
+    const payload = {
+      ...formData,
+      content: latestContent && latestContent.length > 0
+        ? latestContent : formData.content,
+      userMongoId: user?.publicMetadata.userMongoId,
+      postId,
+    };
+
+    try {
+      const { data, status } = await axios.put('/api/post/update', payload, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      console.log('payload on submit:', payload);
 
       if (status !== 200) {
         setPublishError(data.message);
-
         return;
       }
 
@@ -67,6 +102,7 @@ export default function UpdatePost() {
       setPublishError(`Something went wrong: ${error}`);
     }
   };
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setFormData({ title: e.target.value }));
   };
@@ -319,6 +355,9 @@ export default function UpdatePost() {
           setFormData={(data) => dispatch(setFormData(data))}
           imageUploadProgress={imageUploadProgress}
           handleUploadImage={handleInlineImageUpload}
+          onContentChange={(html) => {
+            latestContentRef.current = html;
+          }}
         />
 
         <InlineImageEditor />
