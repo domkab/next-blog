@@ -1,5 +1,5 @@
 .post-editor {
-  overflow-anchor: none;
+  // overflow-anchor: none;
 
   :global(.ql-container),
   :global(.ql-editor),
@@ -10,12 +10,12 @@
   }
 
   :global(.ql-editor) {
-    overflow-wrap: anywhere;
+    // overflow-wrap: anywhere;
     word-break: break-word;
   }
 
   :global(.ql-toolbar.ql-snow) {
     white-space: nowrap;
-    overflow-x: auto;
+    // overflow-x: auto;
   }
 }

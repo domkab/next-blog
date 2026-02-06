@@ -17,5 +17,11 @@
 
 .ql-editor {
   min-height: 10rem;
-  overflow-y: hidden;
+  font-size: 1rem;
+  // overflow-y: hidden;
+}
+
+.ql-snow .ql-editor h1 {
+  font-size: 1rem !important;
+  font-weight: 500;
 }
