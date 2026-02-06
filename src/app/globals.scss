@@ -7,7 +7,7 @@
 //  // components
 
 @use '../styles/components/PostEditor/ReactQuil.scss';
-@use '../styles/components/Navigation/nprogress-custom.scss';
+@use 'components/Navigation/nprogress-custom.scss';
 
 body.front {
   font-family: Inter, sans-serif, system-ui;
