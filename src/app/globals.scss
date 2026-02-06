@@ -1,6 +1,5 @@
 //  base and utils
 
-@use '../styles/base/_layout.scss';
 @use '../styles/_mixins.scss';
 @use '../styles/_vars.scss';
 
@@ -8,6 +7,10 @@
 
 @use '../styles/components/PostEditor/ReactQuil.scss';
 @use 'components/Navigation/nprogress-custom.scss';
+
+.background {
+  background-color: rgb(0, 0, 0);
+}
 
 body.front {
   font-family: Inter, sans-serif, system-ui;
