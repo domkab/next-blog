@@ -1,7 +1,7 @@
 import { CHARACTER_NAME, SITE_TITLE } from '@/lib/constants';
 import { FiTarget, FiInfo, FiMail } from 'react-icons/fi';
 import Link from 'next/link';
-import styles from '../../styles/components/AboutPage/AboutPage.module.scss';
+import styles from './AboutPage.module.scss'
 import Image from 'next/image';
 import { aboutMetadata } from '@/lib/metadata/about';
 
