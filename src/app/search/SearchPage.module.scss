@@ -1,4 +1,4 @@
-@use '../../mixins' as *;
+@use '../../styles/mixins' as *;
 
 .search-page__resultsWrap[aria-busy="true"] .search-page__results {
   opacity: 0.45;
