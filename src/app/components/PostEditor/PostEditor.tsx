@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type ReactQuillType from 'react-quill-new';
 import QuillNoSSRWrapper from './QuillNoSSRWrapper';
 import 'react-quill-new/dist/quill.snow.css';
-import styles from '@/styles/components/PostEditor/PostEditor.module.scss';
+import styles from './PostEditor.module.scss';
 
 interface PostEditorProps {
   formData: PostFormState;
