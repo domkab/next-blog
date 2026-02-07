@@ -1,4 +1,5 @@
 @use '@/styles/_mixins' as *;
+@use '@/styles/_vars' as vars;
 
 .post {
   padding: 0.75rem;
@@ -77,6 +78,53 @@
   :global(ul ol),
   :global(ol ul) {
     margin-top: 0.5rem;
+  }
+
+  :global(p),
+  :global(li) {
+    font-size: vars.$type-body;
+    line-height: vars.$type-line;
+  }
+  :global(h1) {
+    font-size: vars.$type-h1;
+    line-height: vars.$type-headline-line;
+  }
+  :global(h2) {
+    font-size: vars.$type-h2;
+    line-height: 1.25;
+  }
+  :global(h3) {
+    font-size: vars.$type-h3;
+    line-height: 1.3;
+  }
+  :global(h4) {
+    font-size: vars.$type-h4;
+    line-height: 1.35;
+  }
+
+  @include onMobile {
+    :global(p),
+    :global(li) {
+      font-size: vars.$type-body-sm;
+      line-height: vars.$type-line-sm;
+    }
+
+    :global(h1) {
+      font-size: vars.$type-h1-sm;
+      line-height: vars.$type-headline-line-sm;
+    }
+    :global(h2) {
+      font-size: vars.$type-h2-sm;
+      line-height: 1.22;
+    }
+    :global(h3) {
+      font-size: vars.$type-h3-sm;
+      line-height: 1.25;
+    }
+    :global(h4) {
+      font-size: vars.$type-h4-sm;
+      line-height: 1.28;
+    }
   }
 
   &__empty-paragraph {
