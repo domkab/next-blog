@@ -86,7 +86,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
   const modules = {
     toolbar: {
       container: [
-        [{ header: [1, 2, false] }],
+        [{ header: [2, 3, 4, false] }],
         ['bold', 'italic', 'underline'],
         ['link', 'image'],
         [{ list: 'ordered' }, { list: 'bullet' }],
