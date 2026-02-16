@@ -1,22 +1,14 @@
 /* @ts-nocheck */
-'use client';
+"use client";
 
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  addInlineImage,
-  PostFormState,
-} from '@/redux/slices/postFormSlice';
-import { v4 as uuidv4 } from 'uuid';
-import type ReactQuillType from 'react-quill-new';
-import QuillNoSSRWrapper from './QuillNoSSRWrapper';
-import 'react-quill-new/dist/quill.snow.css';
-import styles from './PostEditor.module.scss';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addInlineImage, PostFormState } from "@/redux/slices/postFormSlice";
+import { v4 as uuidv4 } from "uuid";
+import type ReactQuillType from "react-quill-new";
+import QuillNoSSRWrapper from "./QuillNoSSRWrapper";
+import "react-quill-new/dist/quill.snow.css";
+import styles from "./PostEditor.module.scss";
 
 interface PostEditorProps {
   formData: PostFormState;
@@ -33,20 +25,21 @@ const PostEditor: React.FC<PostEditorProps> = ({
   handleUploadImage,
   onContentChange,
 }) => {
-  const [localValue, setLocalValue] = useState(formData.content ?? '');
+  const [localValue, setLocalValue] = useState(formData.content ?? "");
+  const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
   const quillRef = useRef<ReactQuillType | null>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLocalValue(formData.content ?? '');
+    setLocalValue(formData.content ?? "");
   }, [formData.content]);
 
   const imageHandler = useCallback(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
     input.click();
 
     input.onchange = async () => {
@@ -61,7 +54,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
           addInlineImage({
             id: imageId,
             url: imagePath,
-            meta: { author: '', description: '' },
+            meta: { author: "", description: "" },
           }),
         );
 
@@ -71,14 +64,13 @@ const PostEditor: React.FC<PostEditorProps> = ({
         const range = quill.getSelection(true);
         if (!range) return;
 
-        quill.insertEmbed(range.index, 'image', imagePath, 'user');
+        quill.insertEmbed(range.index, "image", imagePath, "user");
         quill.formatText(range.index, 1, { imageId });
         quill.setSelection(range.index + 1);
 
         setFormData({ content: quill.root.innerHTML });
-
       } catch (err) {
-        console.error('Image upload failed', err);
+        console.error("Image upload failed", err);
       }
     };
   }, [handleUploadImage, dispatch, setFormData]);
@@ -87,34 +79,57 @@ const PostEditor: React.FC<PostEditorProps> = ({
     toolbar: {
       container: [
         [{ header: [2, 3, 4, false] }],
-        ['bold', 'italic', 'underline'],
-        ['link', 'image'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['clean'],
+        ["bold", "italic", "underline"],
+        ["link", "image"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["clean"],
       ],
       handlers: { image: imageHandler },
     },
   };
 
   return (
-    <div className={styles['post-editor']}>
-      <QuillNoSSRWrapper
-        key={formData.slug}
-        ref={quillRef}
-        // value={formData.content}
-        // onChange={handleContentChange}
-        value={localValue}
-        onChange={(localValue: string) => {
-          setLocalValue(localValue);
-          onContentChange?.(localValue);
-        }}
-        onBlur={() => setFormData({ content: localValue })}
-        modules={modules}
-        readOnly={Boolean(imageUploadProgress)}
-        theme="snow"
-        placeholder="Write something…"
-        className="mb-12"
-      />
+    <div className={styles["post-editor"]}>
+      <div className={styles["view-toggle"]} aria-label="Editor width preview">
+        <button
+          type="button"
+          className={`${styles["view-toggle__btn"]} ${
+            viewMode === "mobile" ? styles["view-toggle__btn--active"] : ""
+          }`}
+          onClick={() => setViewMode("mobile")}
+        >
+          Mobile
+        </button>
+        <button
+          type="button"
+          className={`${styles["view-toggle__btn"]} ${
+            viewMode === "desktop" ? styles["view-toggle__btn--active"] : ""
+          }`}
+          onClick={() => setViewMode("desktop")}
+        >
+          Desktop
+        </button>
+      </div>
+
+      <div className={styles["editor-shell"]}>
+        <div className={styles["editor-frame"]} data-view={viewMode}>
+          <QuillNoSSRWrapper
+            key={formData.slug}
+            ref={quillRef}
+            value={localValue}
+            onChange={(localValue: string) => {
+              setLocalValue(localValue);
+              onContentChange?.(localValue);
+            }}
+            onBlur={() => setFormData({ content: localValue })}
+            modules={modules}
+            readOnly={Boolean(imageUploadProgress)}
+            theme="snow"
+            placeholder="Write something…"
+            className={styles.quill}
+          />
+        </div>
+      </div>
     </div>
   );
 };
