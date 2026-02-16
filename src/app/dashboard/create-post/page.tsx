@@ -119,7 +119,7 @@ export default function CreatePostPage() {
   }
 
   return (
-    <div className="p-3 mx-10 min-h-screen">
+    <div className="p-3 min-h-screen">
       {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
 
       {publishError && <Alert color="failure">{publishError}</Alert>}
@@ -161,6 +161,7 @@ export default function CreatePostPage() {
 
         <div
           className="
+          max-w-2xl w-full mx-auto
           flex gap-4 items-center justify-between border-4 
           border-teal-500 border-dotted p-3"
         >
@@ -204,7 +205,7 @@ export default function CreatePostPage() {
                 src={getImageUrl(formData.images.main.url)}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
-                className="object-cover"
+                className="object-cover mx-auto max-w-2xl"
               />
 
               <div className="absolute top-1 right-1 z-10">
