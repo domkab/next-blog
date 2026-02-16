@@ -26,7 +26,7 @@ export default async function PostPage({
     <main
       className={`${styles.post} post flex flex-col max-w-5xl mx-auto min-h-screen`}
     >
-      <h1 className="post__title text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
+      <h1 className="post__title text-3xl mt-6 p-3 text-center max-w-2xl mx-auto lg:text-4xl">
         {post && post.title}
       </h1>
 
@@ -47,8 +47,8 @@ export default async function PostPage({
             <Image
               src={getImageUrl(post.images.main.url)}
               alt={post.images.main.meta?.description || "Main Image"}
-              width={1024}
-              height={576}
+              width={660}
+              height={480}
               unoptimized
               className={styles["post-content__image"]}
             />

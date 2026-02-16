@@ -10,7 +10,7 @@
 
 .post-content {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 
   // Key: allow breaking long/unbreakable strings
   overflow-wrap: anywhere;
@@ -28,7 +28,6 @@
     overflow-wrap: anywhere;
     word-break: break-word;
     hyphens: auto;
-    max-width: 100%;
   }
 
   // Links often contain long URLs
@@ -127,11 +126,19 @@
     }
   }
 
+  p:not(:last-child) {
+    margin-bottom: 0.25rem;
+  }
+
   &__empty-paragraph {
+    // cia reikes patvarkyti su spacing nes dabar naudoju vietomis 2x tarpus, 
+    // galima butu tiesiog 1 tuscia eilute, o jei reikia daugiau tarpo, tai naudoti margin bottom, 
+    // o ne 2 tuscias eilutes
+
     // margin: 0 0 1rem;
   }
 
-  &__figutre {
+  &__figure {
     // margin: 2rem 0;
     text-align: center;
   }
