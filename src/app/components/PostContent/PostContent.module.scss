@@ -2,13 +2,9 @@
 @use "@/styles/_vars" as vars;
 
 .post-content {
-  // width: 100%;
-  flex-basis: 0;
   max-width: 100%;
   min-width: 0; // let flex parents shrink on mobile
-  // overflow-x: hidden;
   margin-top: 1.5rem;
-
 
   overflow-wrap: normal;
   hyphens: auto;
