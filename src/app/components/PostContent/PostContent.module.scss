@@ -1,20 +1,17 @@
-@use '@/styles/_mixins' as *;
-@use '@/styles/_vars' as vars;
-
-.post {
-  padding: 0.75rem;
-  @include onLaptop {
-    padding: 0;
-  }
-}
+@use "@/styles/_mixins" as *;
+@use "@/styles/_vars" as vars;
 
 .post-content {
+  // width: 100%;
+  flex-basis: 0;
   max-width: 100%;
-  overflow-x: clip;
+  min-width: 0; // let flex parents shrink on mobile
+  // overflow-x: hidden;
+  margin-top: 1.5rem;
 
-  // Key: allow breaking long/unbreakable strings
-  overflow-wrap: anywhere;
-  word-break: break-word;
+
+  overflow-wrap: normal;
+  hyphens: auto;
 
   :global(h1),
   :global(h2),
@@ -25,8 +22,8 @@
   :global(p),
   :global(li),
   :global(blockquote) {
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    overflow-wrap: normal;
+    // word-break: normal;
     hyphens: auto;
   }
 
@@ -131,8 +128,8 @@
   }
 
   &__empty-paragraph {
-    // cia reikes patvarkyti su spacing nes dabar naudoju vietomis 2x tarpus, 
-    // galima butu tiesiog 1 tuscia eilute, o jei reikia daugiau tarpo, tai naudoti margin bottom, 
+    // cia reikes patvarkyti su spacing nes dabar naudoju vietomis 2x tarpus,
+    // galima butu tiesiog 1 tuscia eilute, o jei reikia daugiau tarpo, tai naudoti margin bottom,
     // o ne 2 tuscias eilutes
 
     // margin: 0 0 1rem;
@@ -141,6 +138,17 @@
   &__figure {
     // margin: 2rem 0;
     text-align: center;
+  }
+
+  &__imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  &__image {
+    object-fit: contain;
   }
 
   &__image {
