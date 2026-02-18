@@ -68,7 +68,6 @@ export default async function PostPage({
 
         <PostContent post={post} />
       </div>
-
       <RecentPosts limit={3} />
       <EmailSubscribeWModal />
     </main>
