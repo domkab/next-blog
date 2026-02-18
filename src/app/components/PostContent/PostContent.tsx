@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import parse, {
   HTMLReactParserOptions,
   Element as DomElement,
   Text as DomText,
-} from 'html-react-parser';
-import Image from 'next/image';
-import { PostType } from '@/types/Post';
-import styles from './PostContent.module.scss';
-import { getImageUrl } from '@/utils/getImageUrl';
+} from "html-react-parser";
+import Image from "next/image";
+import { PostType } from "@/types/Post";
+import styles from "./PostContent.module.scss";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 interface PostContentProps {
   post: PostType;
@@ -16,11 +16,11 @@ interface PostContentProps {
 const PostContent: React.FC<PostContentProps> = ({ post }) => {
   const options: HTMLReactParserOptions = {
     replace: (domNode, index) => {
-      if (domNode.type === 'tag' && domNode.name === 'p') {
+      if (domNode.type === "tag" && domNode.name === "p") {
         const p = domNode as DomElement;
 
         const imgNode = p.children.find(
-          (child) => child.type === 'tag' && (child as DomElement).name === 'img'
+          child => child.type === "tag" && (child as DomElement).name === "img",
         ) as DomElement | undefined;
 
         if (imgNode) {
@@ -40,18 +40,18 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
             (meta.author && meta.author.trim());
 
           return (
-            <figure key={index} className={styles['post-content__figure']}>
+            <figure key={index} className={styles["post-content__figure"]}>
               <Image
                 src={getImageUrl(path)}
-                alt={alt || meta.description || 'inline image'}
+                alt={alt || meta.description || "inline image"}
                 width={800}
                 height={450}
                 unoptimized
                 priority
-                className={styles['post-content__image']}
+                className={styles["post-content__image"]}
               />
               {hasCaption && (
-                <figcaption className={styles['post-content__caption']}>
+                <figcaption className={styles["post-content__caption"]}>
                   {meta.author && meta.description
                     ? `${meta.description} — ${meta.author}`
                     : meta.description || meta.author}
@@ -61,26 +61,26 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
           );
         }
 
-        const isEmptyParagraph = p.children.every((c) => {
-          if (c.type === 'text') {
-            const text = (c as DomText).data.replace(/\u00A0/g, ' ');
-            return text.trim() === '';
+        const isEmptyParagraph = p.children.every(c => {
+          if (c.type === "text") {
+            const text = (c as DomText).data.replace(/\u00A0/g, " ");
+            return text.trim() === "";
           }
           // Quill sometimes uses <br> inside empty paragraphs
-          if (c.type === 'tag' && (c as DomElement).name === 'br') return true;
+          if (c.type === "tag" && (c as DomElement).name === "br") return true;
           return false;
         });
 
         if (isEmptyParagraph) {
           return (
-            <p key={index} className={styles['post-content__empty-paragraph']}>
+            <p key={index} className={styles["post-content__empty-paragraph"]}>
               <br />
             </p>
           );
         }
 
         const allText = p.children.every(
-          c => c.type === 'text' && !((c as DomText).data.trim())
+          c => c.type === "text" && !(c as DomText).data.trim(),
         );
 
         if (allText) {
@@ -90,7 +90,26 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
     },
   };
 
-  return <div className={styles['post-content']}>{parse(post.content, options)}</div>;
+  // IMPLEMENT IN DB ON SAVE:
+
+  // later implement clean up on back end submission:
+
+  // const normalized = content
+  // .replace(/&nbsp;/g, " ")
+  // .replace(/\u00A0/g, " ");
+
+  //  also strip unneccessary inline styling:
+  // <span style="color: rgb(...); background-color: rgb(...);"></span>
+
+  const cleanHtml = post.content
+    .replace(/&nbsp;/g, " ")
+    .replace(/\u00A0/g, " ");
+
+  return (
+    <article className={styles["post-content"]}>
+      {parse(cleanHtml, options)}
+    </article>
+  );
 };
 
 export default PostContent;
