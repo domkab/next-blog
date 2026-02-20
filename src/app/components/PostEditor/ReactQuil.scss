@@ -29,20 +29,27 @@
   max-width: none;
   margin: 0 auto;
   min-height: 10rem;
-  padding: 0.5rem !important
+  padding: 1rem !important;
 }
 
 .ql-snow .ql-editor h1 {
   font-size: vars.$type-h1 !important;
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 .ql-snow .ql-editor h2 {
   font-size: vars.$type-h2 !important;
-  font-weight: vars.$type-headline-weight;
+  font-weight: vars.$type-headline-weight !important;
 }
 
 .ql-snow .ql-editor p {
   font-size: vars.$type-body !important;
-  font-weight: vars.$type-body-weight;
+  line-height: vars.$type-line !important;
+  font-weight: vars.$type-body-weight !important;
+}
+
+.ql-snow .ql-editor span {
+  font-size: vars.$type-body !important;
+  line-height: vars.$type-line !important;
+  font-weight: vars.$type-body-weight !important;
 }

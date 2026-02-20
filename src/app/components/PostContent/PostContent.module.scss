@@ -3,7 +3,7 @@
 
 .post-content {
   max-width: 100%;
-  min-width: 0; // let flex parents shrink on mobile
+  min-width: 0;
   margin-top: 1.5rem;
 
   overflow-wrap: normal;
@@ -19,8 +19,8 @@
   :global(li),
   :global(blockquote) {
     overflow-wrap: normal;
-    // word-break: normal;
-    hyphens: auto;
+    word-break: normal;
+    hyphens: none;
   }
 
   // Links often contain long URLs
@@ -76,6 +76,11 @@
   :global(li) {
     font-size: vars.$type-body;
     line-height: vars.$type-line;
+
+    @include onMobile {
+      font-size: vars.$type-body-sm;
+      line-height: vars.$type-line-sm;
+    }
   }
   :global(h1) {
     font-size: vars.$type-h1;
