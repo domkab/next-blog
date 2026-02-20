@@ -14,6 +14,8 @@ export default async function FeaturedPost() {
 
   const { post, overrideImage, overrideSummary } = first;
 
+  console.log('Featured post:', featured)
+
   return (
     <div className={clsx(styles['featured-post'], 'mx-auto max-w-7xl')}>
       <LinkTracker
