@@ -248,6 +248,7 @@ export default function UpdatePost() {
                 src={getImageUrl(formData.images.main.url)}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
+                unoptimized
                 className="object-cover mx-auto max-w-2xl"
               />
 
