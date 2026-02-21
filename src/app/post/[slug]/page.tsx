@@ -70,8 +70,10 @@ export default async function PostPage({
 
         <PostContent post={post} />
       </div>
-      <RecentPosts limit={3} />
-      <EmailSubscribeWModal />
+      <div className={styles.post__extras}>
+        <RecentPosts limit={3} />
+        <EmailSubscribeWModal />
+      </div>
     </main>
   );
 }

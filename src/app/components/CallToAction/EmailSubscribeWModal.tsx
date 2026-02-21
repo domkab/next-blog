@@ -3,7 +3,7 @@
 import { Button, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 import Image from "next/image";
-import styles from "./EmailSubscribeWModal.module.scss"
+import styles from "./EmailSubscribeWModal.module.scss";
 import confetti from "canvas-confetti";
 import axios from "axios";
 import type { AxiosError } from "axios";
@@ -89,9 +89,11 @@ export function EmailSubscribeWModal() {
               className={clsx(styles["subscribe__image"])}
               src="/images/cat-holding-letter-signup-wink-2.webp"
               alt="Cat holding email"
-              width={500}
+              // width={500}
+              // height={600}
+              width={300}
+              height={300}
               unoptimized
-              height={600}
             />
           </div>
         </div>
