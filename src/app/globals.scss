@@ -1,14 +1,16 @@
 //  base and utils
 
-@use '../styles/base/_layout.scss';
 @use '../styles/_mixins.scss';
 @use '../styles/_vars.scss';
 
 //  // components
 
-@use '../styles/components/Dashboard/DashProfile.module.scss';
-@use '../styles/components/PostEditor/ReactQuil.scss';
-@use '../styles/components/Navigation/nprogress-custom.scss';
+@use 'components/PostEditor/ReactQuil.scss';
+@use 'components/Navigation/nprogress-custom.scss';
+
+.background {
+  background-color: rgb(0, 0, 0);
+}
 
 body.front {
   font-family: Inter, sans-serif, system-ui;

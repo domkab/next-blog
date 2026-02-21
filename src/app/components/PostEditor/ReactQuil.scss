@@ -1,0 +1,55 @@
+@use "@/styles/_mixins" as *;
+@use "@/styles/_vars" as vars;
+
+.dark .ql-toolbar .ql-stroke {
+  stroke: #fff;
+}
+
+.dark .ql-toolbar .ql-fill {
+  fill: #fff;
+}
+
+.dark .ql-snow .ql-picker.ql-header .ql-picker-label:not(.ql-selected)::before,
+.dark .ql-snow .ql-picker.ql-header .ql-picker-item:not(.ql-selected)::before {
+  color: #fff;
+}
+
+.dark .ql-picker-item:not(.ql-selected)::before {
+  color: initial !important;
+}
+
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.ql-editor {
+  max-width: none;
+  margin: 0 auto;
+  min-height: 10rem;
+  padding: 1rem !important;
+}
+
+.ql-snow .ql-editor h1 {
+  font-size: vars.$type-h1 !important;
+  font-weight: 600 !important;
+}
+
+.ql-snow .ql-editor h2 {
+  font-size: vars.$type-h2 !important;
+  font-weight: vars.$type-headline-weight !important;
+}
+
+.ql-snow .ql-editor p {
+  font-size: vars.$type-body !important;
+  line-height: vars.$type-line !important;
+  font-weight: vars.$type-body-weight !important;
+}
+
+.ql-snow .ql-editor span {
+  font-size: vars.$type-body !important;
+  line-height: vars.$type-line !important;
+  font-weight: vars.$type-body-weight !important;
+}

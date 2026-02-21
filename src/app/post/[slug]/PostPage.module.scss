@@ -1,0 +1,75 @@
+@use "@/styles/_mixins" as *;
+@use "@/styles/_vars" as vars;
+
+.post {
+  min-height: 100vh;
+  max-width: 1024px;
+  margin: 0 auto;
+  
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    max-width: 680px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1rem;
+
+    @include onLaptop {
+      padding: 0;
+    }
+  }
+
+  &__title {
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    font-size: vars.$type-h1;
+    line-height: vars.$type-headline-line;
+
+    @include onMobile {
+      font-size: vars.$type-h1-sm;
+      line-height: vars.$type-headline-line-sm;
+    }
+  }
+
+  &__category {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  &__hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 2rem 0;
+    overflow: hidden;
+  }
+
+  // &__heroImage {
+  //   // object-fit: contain;
+  // }
+
+  &__caption {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #64748b;
+    padding-bottom: 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  &__readTime {
+    font-style: italic;
+  }
+
+  &__extras {
+    padding: 0 1rem;
+  }
+}
