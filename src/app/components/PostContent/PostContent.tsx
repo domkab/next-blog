@@ -4,6 +4,7 @@ import parse, {
   Element as DomElement,
   Text as DomText,
 } from "html-react-parser";
+import DOMPurify from "isomorphic-dompurify";
 import Image from "next/image";
 import { PostType } from "@/types/Post";
 import styles from "./PostContent.module.scss";
@@ -101,9 +102,17 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
   //  also strip unneccessary inline styling:
   // <span style="color: rgb(...); background-color: rgb(...);"></span>
 
-  const cleanHtml = post.content
+  // const cleanHtml = post.content
+  //   .replace(/&nbsp;/g, " ")
+  //   .replace(/\u00A0/g, " ");
+
+  const normalized = post.content
     .replace(/&nbsp;/g, " ")
     .replace(/\u00A0/g, " ");
+
+  const cleanHtml = DOMPurify.sanitize(normalized, {
+    USE_PROFILES: { html: true },
+  });
 
   return (
     <article className={styles["post-content"]}>
