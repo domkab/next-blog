@@ -4,7 +4,7 @@ import axios from 'axios';
 import { TextInput, Select, Button } from 'flowbite-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import PostCard from '../components/PostCard';
+import PostCard from '../components/PostCard/PostCard';
 import { PostType } from '@/types/Post';
 import styles from './SearchPage.module.scss';
 import clsx from 'clsx';
