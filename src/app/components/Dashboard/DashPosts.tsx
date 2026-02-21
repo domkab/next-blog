@@ -184,8 +184,8 @@ export default function DashPosts() {
               >
                 Category <HiChevronUpDown className="inline ml-2" />
               </TableHeadCell>
-              <TableHeadCell>Delete</TableHeadCell>
               <TableHeadCell>Edit</TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
             </TableHead>
             <TableBody className="divide-y">
               {sortedPosts.map(post => (
@@ -224,6 +224,14 @@ export default function DashPosts() {
                   </TableCell>
                   <TableCell>{post.category}</TableCell>
                   <TableCell>
+                    <Link
+                      className="text-teal-500 hover:underline"
+                      href={`/dashboard/update-post/${post._id}`}
+                    >
+                      Edit
+                    </Link>
+                  </TableCell>
+                  <TableCell>
                     <span
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                       onClick={() => {
@@ -233,14 +241,6 @@ export default function DashPosts() {
                     >
                       Delete
                     </span>
-                  </TableCell>
-                  <TableCell>
-                    <Link
-                      className="text-teal-500 hover:underline"
-                      href={`/dashboard/update-post/${post._id}`}
-                    >
-                      Edit
-                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
