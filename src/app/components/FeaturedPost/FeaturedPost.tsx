@@ -47,14 +47,16 @@ export default async function FeaturedPost() {
           <div className="p-4 flex flex-col gap-2">
             <h3 className="text-xl font-bold mb-2">{post.title}</h3>
 
+            {post.description && (
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                {overrideSummary || post?.description}
+              </p>
+            )}
+
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 italic">
               {post.category && <span>{labelFromSlug(post.category)}</span>}
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
-
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-              {overrideSummary || post.description}
-            </p>
 
             <span className="text-teal-500 hover:underline cursor-pointer flex items-center gap-1 w-fit">
               Read article →
