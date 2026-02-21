@@ -118,6 +118,8 @@ export default function CreatePostPage() {
     );
   }
 
+  console.log(getImageUrl(formData.images.main.url))
+
   return (
     <div className="p-3 min-h-screen">
       {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
@@ -205,6 +207,7 @@ export default function CreatePostPage() {
                 src={getImageUrl(formData.images.main.url)}
                 alt={formData.images.main.meta?.description || "Uploaded image"}
                 fill
+                unoptimized
                 className="object-cover mx-auto max-w-2xl"
               />
 
