@@ -118,8 +118,6 @@ export default function CreatePostPage() {
     );
   }
 
-  console.log(getImageUrl(formData.images.main.url))
-
   return (
     <div className="p-3 min-h-screen">
       {publishSuccess && <Alert color="success">{publishSuccess}</Alert>}
