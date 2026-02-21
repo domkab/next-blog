@@ -45,6 +45,8 @@ export default async function PostPage({
               alt={post.images.main.meta?.description || "Main Image"}
               sizes="(max-width: 768px) 100vw, 680px"
               fill
+              unoptimized
+              priority
               className={styles.post__heroImage}
             />
 
