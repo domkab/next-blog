@@ -1,9 +1,9 @@
-@use '@/styles/_mixins' as *;
-@use '@/styles/vars' as *;
+@use "@/styles/_mixins" as *;
+@use "@/styles/vars" as *;
 
 $border-radius: 0.25rem;
 
-.featured-post {
+.featuredPost {
   padding: 1.5rem 0;
 
   @include onTablet {
@@ -14,8 +14,27 @@ $border-radius: 0.25rem;
     border-radius: $border-radius;
   }
 
+  &__imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+
   &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
+
+    transform: scale(1.04);
+    transition: transform 8s ease-out;
   }
+}
+
+.featuredPost__article:hover .featuredPost__image {
+  transform: scale(1);
 }

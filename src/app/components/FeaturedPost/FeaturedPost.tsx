@@ -15,7 +15,7 @@ export default async function FeaturedPost() {
   const { post, overrideImage, overrideSummary } = first;
 
   return (
-    <div className={clsx(styles["featured-post"], "mx-auto max-w-7xl")}>
+    <div className={clsx(styles.featuredPost, "mx-auto max-w-7xl")}>
       <LinkTracker
         href={`/post/${post.slug}`}
         eventName="featured_post_click"
@@ -28,19 +28,24 @@ export default async function FeaturedPost() {
       >
         <article
           className={clsx(
-            styles["featured-post__article"],
+            styles.featuredPost__article,
             "flex flex-col bg-white dark:bg-slate-800 rounded-lg shadow-md border",
             "border-teal-300 hover:shadow-lg hover:translate-y-[-1px] transition-all duration-300",
           )}
         >
-          <div className="w-full h-64 md:h-96 relative">
+          <div
+            className={clsx(
+              styles.featuredPost__imageWrapper,
+              "w-full h-64 md:h-96 relative",
+            )}
+          >
             <Image
               src={getImageUrl(overrideImage || post.images?.main?.url)}
               alt={post.title}
               fill
               unoptimized
               priority
-              className={clsx(styles["featured-post__image"], "object-cover")}
+              className={styles.featuredPost__image}
             />
           </div>
 
@@ -53,7 +58,12 @@ export default async function FeaturedPost() {
               </p>
             )}
 
-            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 italic">
+            <div
+              className={clsx(
+                styles.featuredPost__meta,
+                "flex justify-between text-sm text-gray-600 dark:text-gray-300 italic",
+              )}
+            >
               {post.category && <span>{labelFromSlug(post.category)}</span>}
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
