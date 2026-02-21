@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
 import { PostType } from '@/types/Post';
-import styles from '../../styles/components/SearchPage/SearchPage.module.scss';
+import styles from './SearchPage.module.scss';
 import clsx from 'clsx';
 import SimpleOverlayLoader from '../components/SimpleOverlayLoader/SimpleOverlayLoader';
 import { useCategories } from '@/hooks/useCategories';
