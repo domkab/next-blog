@@ -4,17 +4,17 @@ export interface ImageMeta {
 }
 
 export interface PostImage {
-  id: string
+  id: string;
   url: string;
   meta?: ImageMeta;
 }
 
 export enum PostCategory {
-  All = '',
-  Uncategorized = 'uncategorized',
-  JavaScript = 'javascript',
-  ReactJS = 'reactjs',
-  NextJS = 'nextjs'
+  All = "",
+  Uncategorized = "uncategorized",
+  JavaScript = "javascript",
+  ReactJS = "reactjs",
+  NextJS = "nextjs",
 }
 
 export interface PostType {
@@ -57,11 +57,12 @@ export interface PostUpdateInput {
     main: PostImage;
     inline?: PostImage[];
   };
-};
+}
 
 export interface FeaturedPostType {
   _id?: string;
   post: PostType;
   overrideSummary?: string;
   overrideImage?: string;
+  __v?: number;
 }

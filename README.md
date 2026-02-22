@@ -1,4 +1,5 @@
 # next-blog
+
 next-blog with dash for my data driven project
 
 mock geo for eu countries
@@ -6,7 +7,6 @@ http://localhost:3000/?mockGeo=lt
 
 theme Component - can be used if we want to have a theme light/dark on our app
 use ENV variables to toggle: NEXT_PUBLIC_USE_THEME
-
 
 text gray dark:text-gray we can use that combo for dark light mode text colours
 
@@ -27,12 +27,11 @@ text gray dark:text-gray we can use that combo for dark light mode text colours
 
 2025-05-14 - PostCard: max 20 words short description, height 420px on mobile
 
-  variables:
+variables:
 
       for h1: text-gray-800 dark:text-gray-300
       for p: text-gray-600 dark:text-gray-300
       .max-w-7xl - max-width 1200px
-
 
 updating packgaes:
 
@@ -46,14 +45,16 @@ finally:
 
 npm i
 
-
 # how to run gh actions secret variables migration:
 
-  run from root folder of the project
+run from root folder of the project
 
-  If your production env file is env.production:
+If your production env file is env.production:
 
     chmod +x scripts/upload-secrets-gh.sh (optional if not already)
     ./scripts/upload-secrets-gh.sh
 
-  (If you don’t pass a file, it defaults to .env.production)
+(If you don’t pass a file, it defaults to .env.production)
+
+DB migrations, this command will trigger moving posts live > staging or staging > live
+npx ts-node --esm src/lib/mongodb/migrations/migrate-posts.ts

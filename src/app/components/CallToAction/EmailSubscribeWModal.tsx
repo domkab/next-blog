@@ -71,10 +71,17 @@ export function EmailSubscribeWModal() {
             <h2 className="text-2xl">
               Stay ahead with the latest gadget insights.
             </h2>
-            <p className="text-gray-500 my-2">
+
+            <p
+              className={clsx(
+                styles.subscribe__paragraph,
+                "text-gray-400 my-2",
+              )}
+            >
               Join our newsletter and get updates right to your inbox — no spam,
               just tech that matters.
             </p>
+
             <Button
               gradientDuoTone="purpleToPink"
               className="w-full rounded-tl-xl rounded-bl-none"

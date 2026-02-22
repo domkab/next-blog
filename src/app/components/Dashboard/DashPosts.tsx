@@ -1,4 +1,3 @@
-
 import {
   Button,
   Checkbox,
@@ -11,80 +10,70 @@ import {
   TableHead,
   TableHeadCell,
   TableRow,
-} from 'flowbite-react';
-import { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs';
-import Link from 'next/link';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import axios from 'axios';
-import { HiChevronUpDown } from 'react-icons/hi2';
-import { PostType } from '@/types/Post';
-import Image from 'next/image';
-import { getImageUrl } from '@/utils/getImageUrl';
+} from "flowbite-react";
+import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import axios from "axios";
+import { HiChevronUpDown } from "react-icons/hi2";
+import { PostType } from "@/types/Post";
+import Image from "next/image";
+import { getImageUrl } from "@/utils/getImageUrl";
 
-type SortablePostField = 'title' | 'updatedAt' | 'category';
+type SortablePostField = "title" | "updatedAt" | "category";
 
 export default function DashPosts() {
   const { user } = useUser();
   const [userPosts, setUserPosts] = useState<PostType[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [postIdToDelete, setPostIdToDelete] = useState('');
+  const [postIdToDelete, setPostIdToDelete] = useState("");
 
-  const [sortField, setSortField] = useState<SortablePostField | ''>('');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortField, setSortField] = useState<SortablePostField | "">("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const { data } = await axios.post(
-          `/api/post/get`,
-          {
-            userId: user?.publicMetadata?.userMongoId,
-            isAdmin: user?.publicMetadata?.isAdmin, // render all posts if admin
-          }
-        );
+        const { data } = await axios.post(`/api/post/get`, {
+          userId: user?.publicMetadata?.userMongoId,
+          isAdmin: user?.publicMetadata?.isAdmin, // render all posts if admin
+        });
 
-        setUserPosts(data.posts)
-
+        setUserPosts(data.posts);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     fetchPosts();
-  }, [user?.publicMetadata?.isAdmin, user?.publicMetadata?.userMongoId])
+  }, [user?.publicMetadata?.isAdmin, user?.publicMetadata?.userMongoId]);
 
   const handleDeletePost = async () => {
     setShowModal(false);
 
     try {
-      await axios.delete(
-        `/api/post/delete`,
-        {
-          data: {
-            postId: postIdToDelete,
-            userId: user?.publicMetadata.userMongoId,
-          }
-        }
-      )
+      await axios.delete(`/api/post/delete`, {
+        data: {
+          postId: postIdToDelete,
+          userId: user?.publicMetadata.userMongoId,
+        },
+      });
 
-      const newPosts = userPosts.filter(
-        (post) => post._id !== postIdToDelete
-      )
+      const newPosts = userPosts.filter(post => post._id !== postIdToDelete);
 
-      setUserPosts(newPosts)
-      setPostIdToDelete('');
-
+      setUserPosts(newPosts);
+      setPostIdToDelete("");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleDeleteSelectedPosts = async () => {
     if (selectedPosts.length === 0) return;
 
     const confirmed = window.confirm(
-      `Are you sure you want to delete ${selectedPosts.length} post(s)?`
+      `Are you sure you want to delete ${selectedPosts.length} post(s)?`,
     );
     if (!confirmed) return;
 
@@ -96,19 +85,19 @@ export default function DashPosts() {
         },
       });
 
-      setUserPosts((prev) =>
-        prev.filter((post) => !selectedPosts.includes(post._id))
+      setUserPosts(prev =>
+        prev.filter(post => !selectedPosts.includes(post._id)),
       );
       setSelectedPosts([]);
     } catch (error) {
-      console.error('Bulk delete failed:', error);
+      console.error("Bulk delete failed:", error);
     }
   };
 
-  const handleSort = (field: SortablePostField | '') => {
-    let order = 'asc';
-    if (sortField === field && sortOrder === 'asc') {
-      order = 'desc';
+  const handleSort = (field: SortablePostField | "") => {
+    let order = "asc";
+    if (sortField === field && sortOrder === "asc") {
+      order = "desc";
     }
     setSortField(field);
     setSortOrder(order);
@@ -116,7 +105,7 @@ export default function DashPosts() {
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      const allIds = userPosts.map((post) => post._id);
+      const allIds = userPosts.map(post => post._id);
       setSelectedPosts(allIds);
     } else {
       setSelectedPosts([]);
@@ -125,7 +114,7 @@ export default function DashPosts() {
 
   const handleSelectRow = (postId: string) => {
     if (selectedPosts.includes(postId)) {
-      setSelectedPosts(selectedPosts.filter((id) => id !== postId));
+      setSelectedPosts(selectedPosts.filter(id => id !== postId));
     } else {
       setSelectedPosts([...selectedPosts, postId]);
     }
@@ -135,8 +124,8 @@ export default function DashPosts() {
 
   if (sortField) {
     sortedPosts.sort((a, b) => {
-      if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
-      if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
+      if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1;
 
       return 0;
     });
@@ -144,8 +133,8 @@ export default function DashPosts() {
 
   if (!user?.publicMetadata?.isAdmin) {
     return (
-      <div className='flex flex-col items-center justify-center h-full w-full py-7'>
-        <h1 className='text-2xl font-semibold'>You are not an admin!</h1>
+      <div className="flex flex-col items-center justify-center h-full w-full py-7">
+        <h1 className="text-2xl font-semibold">You are not an admin!</h1>
       </div>
     );
   }
@@ -153,7 +142,6 @@ export default function DashPosts() {
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.publicMetadata?.isAdmin && userPosts.length > 0 ? (
-
         <>
           <Link href="/dashboard/create-post">
             <Button className="mb-5">Create Post</Button>
@@ -179,28 +167,28 @@ export default function DashPosts() {
               </TableHeadCell>
               <TableHeadCell
                 className="cursor-pointer"
-                onClick={() => handleSort('updatedAt')}
+                onClick={() => handleSort("updatedAt")}
               >
                 Date updated <HiChevronUpDown className="inline ml-2" />
               </TableHeadCell>
               <TableHeadCell>Post image</TableHeadCell>
               <TableHeadCell
                 className="cursor-pointer"
-                onClick={() => handleSort('title')}
+                onClick={() => handleSort("title")}
               >
                 Post title <HiChevronUpDown className="inline ml-2" />
               </TableHeadCell>
               <TableHeadCell
                 className="cursor-pointer"
-                onClick={() => handleSort('category')}
+                onClick={() => handleSort("category")}
               >
                 Category <HiChevronUpDown className="inline ml-2" />
               </TableHeadCell>
-              <TableHeadCell>Delete</TableHeadCell>
               <TableHeadCell>Edit</TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
             </TableHead>
             <TableBody className="divide-y">
-              {sortedPosts.map((post) => (
+              {sortedPosts.map(post => (
                 <TableRow
                   key={post._id}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -236,6 +224,14 @@ export default function DashPosts() {
                   </TableCell>
                   <TableCell>{post.category}</TableCell>
                   <TableCell>
+                    <Link
+                      className="text-teal-500 hover:underline"
+                      href={`/dashboard/update-post/${post._id}`}
+                    >
+                      Edit
+                    </Link>
+                  </TableCell>
+                  <TableCell>
                     <span
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                       onClick={() => {
@@ -246,21 +242,13 @@ export default function DashPosts() {
                       Delete
                     </span>
                   </TableCell>
-                  <TableCell>
-                    <Link
-                      className="text-teal-500 hover:underline"
-                      href={`/dashboard/update-post/${post._id}`}
-                    >
-                      Edit
-                    </Link>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </>
       ) : (
-        <div className='flex flex-col items-center justify-center h-full w-full py-7'>
+        <div className="flex flex-col items-center justify-center h-full w-full py-7">
           <p>You have no posts yet!</p>
           <Link href="/dashboard/create-post">
             <Button className="mb-5">Create Post</Button>
