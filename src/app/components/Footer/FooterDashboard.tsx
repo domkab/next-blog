@@ -13,15 +13,18 @@ import clsx from "clsx";
 
 export default function FooterCom() {
   return (
-    <Footer container className="border border-t-8 border-teal-500">
+    <Footer
+      container
+      className={clsx(styles.footer, "border-t-8 border-teal-500")}
+    >
       <div className="w-full max-w-5xl mx-auto">
-        <div className="grid w-full md:justify-between sm:flex md:grid-cols-1">
+        <div className="grid md:grid-cols-3 gap-12 ">
           <div className="mb-8">
             <Logo />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 sm:gap-6">
             <div>
-              <FooterTitle title="Blog" />
+              <FooterTitle title="Navigation" />
               <FooterLinkGroup col>
                 <FooterLink href="/">Home</FooterLink>
                 <FooterLink href="/about">About Us</FooterLink>
@@ -47,16 +50,14 @@ export default function FooterCom() {
             </div>
           </div>
         </div>
-        <FooterDivider />
-        <div className="footer__copyright w-full sm:flex sm:items-center sm:justify-between text-center">
-          <div className="w-full text-center text-sm text-gray-400 leading-relaxed">
-            <span className="block sm:inline">
-              © {new Date().getFullYear()} {SITE_TITLE}.
-            </span>
-            <span className="block sm:inline sm:ml-1">
-              All rights reserved.
-            </span>
+
+        <FooterDivider className="my-8 opacity-50" />
+
+        <div className="text-center text-xs text-gray-400 leading-relaxed">
+          <div>
+            © {new Date().getFullYear()} {SITE_TITLE}.
           </div>
+          <div>All rights reserved.</div>
         </div>
       </div>
     </Footer>

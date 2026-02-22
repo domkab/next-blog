@@ -1,3 +1,17 @@
+@use "@/styles/_mixins" as *;
+
 .footer {
-  
+  padding: 2.5rem 1rem 2rem 1rem;
+
+  @include onTablet {
+    padding: 4rem 1rem 2.5rem 1rem;
+  }
+}
+
+.footer a {
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: #14b8a6; // your teal
 }
