@@ -1,5 +1,10 @@
-import { FeaturedPostType, PostType } from "@/types/Post";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Connection, Schema, Types } from "mongoose";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+
+type PostType = any;
+type FeaturedPostType = any;
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -68,7 +73,7 @@ async function migrate() {
       console.warn(`Skip featured for missing postId ${f.postId}`);
       continue;
     }
-    delete (f as FeaturedPostType).__v;
+    delete (f as unknown as FeaturedPostType).__v;
     const res = await TargetFeatured.replaceOne({ _id: f._id }, f, {
       upsert: true,
     });
