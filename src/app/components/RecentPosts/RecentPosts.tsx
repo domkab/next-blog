@@ -1,4 +1,4 @@
-import PostCard from '../PostCard';
+import PostCard from '../PostCard/PostCard';
 import { PostType } from '../../../types/Post';
 import { getRecentPosts } from '@/lib/services/postService';
 import styles from './RecentPosts.module.scss';
