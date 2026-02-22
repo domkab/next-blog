@@ -79,7 +79,7 @@ export default function HeaderThemedWithoutLogin() {
     <header className={styles.header}>
       <div className={styles.header__inner}>
         <div className={styles.header__left}>
-          <Logo />
+          <Logo className={styles.header__logo} />
         </div>
 
         <form
