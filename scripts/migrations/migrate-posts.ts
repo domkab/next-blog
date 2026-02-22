@@ -34,6 +34,18 @@ async function connect(uri: string, dbName: string): Promise<Connection> {
   return conn;
 }
 
+/**
+ * Migration script to copy posts and featured posts from source to target MongoDB.
+ * Usage:
+ * 1. Set SOURCE_MONGODB_URI, SOURCE_MONGODB_DBNAME, TARGET_MONGODB_URI, TARGET_MONGODB_DBNAME in .env.local
+ * 2. Run with `npm run migrate:posts`
+ *
+ * Notes:
+ * - This script uses upsert logic: it will insert new documents and update existing ones based on _id.
+ * - It also ensures that there are no duplicate slugs in the target collection by deleting any conflicting documents before upserting.
+ * - Featured posts are only migrated if their referenced post exists in the target database.
+ */
+
 async function migrate() {
   const source = await connect(SOURCE_URI, SOURCE_DB);
   const target = await connect(TARGET_URI, TARGET_DB);

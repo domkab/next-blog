@@ -57,4 +57,4 @@ If your production env file is env.production:
 (If you don’t pass a file, it defaults to .env.production)
 
 DB migrations, this command will trigger moving posts live > staging or staging > live
-npx ts-node --esm src/lib/mongodb/migrations/migrate-posts.ts
+ (check package.json)
