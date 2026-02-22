@@ -2,7 +2,6 @@
 import { SITE_TITLE } from "@/lib/constants";
 import {
   Footer,
-  FooterCopyright,
   FooterDivider,
   FooterLink,
   FooterLinkGroup,
@@ -17,7 +16,7 @@ export default function FooterCom() {
     <Footer container className="border border-t-8 border-teal-500">
       <div className="w-full max-w-5xl mx-auto">
         <div className="grid w-full md:justify-between sm:flex md:grid-cols-1">
-          <div className="">
+          <div className="mb-8">
             <Logo />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 sm:gap-6">
@@ -49,12 +48,15 @@ export default function FooterCom() {
           </div>
         </div>
         <FooterDivider />
-        <div className="w-full sm:flex sm:items-center sm:justify-between">
-          <FooterCopyright
-            href="#"
-            by={`© ${SITE_TITLE}, All rights reserved`}
-            year={new Date().getFullYear()}
-          />
+        <div className="footer__copyright w-full sm:flex sm:items-center sm:justify-between text-center">
+          <div className="w-full text-center text-sm text-gray-400 leading-relaxed">
+            <span className="block sm:inline">
+              © {new Date().getFullYear()} {SITE_TITLE}.
+            </span>
+            <span className="block sm:inline sm:ml-1">
+              All rights reserved.
+            </span>
+          </div>
         </div>
       </div>
     </Footer>
