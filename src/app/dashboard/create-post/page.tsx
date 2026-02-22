@@ -5,7 +5,7 @@ import InlineImageEditor from "@/app/components/PostEditor/InlineImageEditor";
 import PostEditor from "@/app/components/PostEditor/PostEditor";
 import Image from "next/image";
 import { uploadPostImage, useAppDispatch, useAppSelector } from "@/redux";
-import { setFormData } from "@/redux/slices/postFormSlice";
+import { setFormData, resetForm } from "@/redux/slices/postFormSlice";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { Alert, Button, FileInput, TextInput } from "flowbite-react";
@@ -66,6 +66,7 @@ export default function CreatePostPage() {
 
       localStorage.setItem("publishSuccess", "Post published successfully!");
       setPublishSuccess("Post published successfully!");
+      dispatch(resetForm());
 
       // setTimeout(() => window.location.reload(), 2000);
     } catch (error: unknown) {
