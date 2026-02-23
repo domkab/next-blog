@@ -127,6 +127,7 @@ export default function UpdatePost() {
         );
 
         dispatch(setFormData(data.posts[0]));
+        latestContentRef.current = data.posts[0].content;
 
         console.log("raw data posts:", data.posts[0]);
       } catch (error) {
@@ -147,7 +148,7 @@ export default function UpdatePost() {
 
   // debug
   useEffect(() => {
-    console.log("form data:", formData);
+    console.log("form data in update:", formData);
   }, [formData]);
 
   if (!isLoaded) return null;
@@ -349,6 +350,7 @@ export default function UpdatePost() {
           onContentChange={html => {
             latestContentRef.current = html;
           }}
+          postId={postId}
         />
 
         <InlineImageEditor />

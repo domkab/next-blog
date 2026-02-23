@@ -10,7 +10,7 @@ import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { Alert, Button, FileInput, TextInput } from "flowbite-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "react-quill-new/dist/quill.snow.css";
@@ -36,6 +36,8 @@ export default function CreatePostPage() {
   );
   const slug = generateSlug(formData.title);
   const latestContentRef = useRef(formData.content || "");
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,6 +110,11 @@ export default function CreatePostPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.[0] || null);
   };
+
+  // debug
+  useEffect(() => {
+    console.log("form data in create:", formData);
+  }, [formData]);
 
   if (!isLoaded || !user) return null;
 
@@ -307,6 +314,7 @@ export default function CreatePostPage() {
           onContentChange={html => {
             latestContentRef.current = html;
           }}
+          postId={"new-post"} // use a fixed postId for create page
         />
 
         <InlineImageEditor />
