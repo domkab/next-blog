@@ -144,7 +144,7 @@ export default function DashPosts() {
       {user?.publicMetadata?.isAdmin && userPosts.length > 0 ? (
         <>
           <Link href="/dashboard/create-post">
-            <Button className="mb-5">Create Poste</Button>
+            <Button className="mb-5">Create Post</Button>
           </Link>
 
           {selectedPosts.length > 0 && (

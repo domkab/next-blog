@@ -14,7 +14,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import "react-quill-new/dist/quill.snow.css";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { generateSlug } from "@/utils/generateSlug";
 import { DeleteMainImageButton } from "@/app/components/Dashboard/DeleteImage/DeleteMainImageButton";
@@ -25,6 +24,7 @@ export default function UpdatePost() {
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [isPostLoading, setIsPostLoading] = useState(true);
 
   const dispatch = useAppDispatch();
   const formData = useAppSelector(state => state.postForm);
@@ -136,7 +136,7 @@ export default function UpdatePost() {
     };
 
     if (isSignedIn && user?.publicMetadata?.isAdmin) {
-      fetchPost();
+      fetchPost().finally(() => setIsPostLoading(false));
     }
   }, [
     postId,
@@ -342,22 +342,34 @@ export default function UpdatePost() {
           </>
         )}
 
-        <PostEditor
-          formData={formData}
-          setFormData={data => dispatch(setFormData(data))}
-          imageUploadProgress={imageUploadProgress}
-          handleUploadImage={handleInlineImageUpload}
-          onContentChange={html => {
-            latestContentRef.current = html;
-          }}
-          postId={postId}
-        />
+        <>
+          {isPostLoading ? (
+            <div className="flex items-center justify-center h-48">
+              <div className="w-24 h-24">
+                <CircularProgressbar value={100} text="Loading post..." />
+              </div>
+            </div>
+          ) : (
+            <>
+              <PostEditor
+                formData={formData}
+                setFormData={data => dispatch(setFormData(data))}
+                imageUploadProgress={imageUploadProgress}
+                handleUploadImage={handleInlineImageUpload}
+                onContentChange={html => {
+                  latestContentRef.current = html;
+                }}
+                postId={postId}
+              />
 
-        <InlineImageEditor />
+              <InlineImageEditor />
 
-        <Button type="submit" gradientDuoTone="purpleToPink">
-          Update
-        </Button>
+              <Button type="submit" gradientDuoTone="purpleToPink">
+                Update
+              </Button>
+            </>
+          )}
+        </>
       </form>
     </div>
   );

@@ -34,7 +34,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
   useEffect(() => {
     setLocalValue(formData.content ?? "");
-  }, [formData.content]);
+  }, [postId, formData.content]);
 
   const imageHandler = useCallback(() => {
     if (typeof window === "undefined") return;
@@ -90,9 +90,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
     },
   };
 
-  console.log('formData:', formData);
-  
-
   return (
     <div className={styles["post-editor"]}>
       <div className={styles["view-toggle"]} aria-label="Editor width preview">
@@ -119,7 +116,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
       <div className={styles["editor-shell"]}>
         <div className={styles["editor-frame"]} data-view={viewMode}>
           <QuillNoSSRWrapper
-            key={postId} // reset editor when loading different post
+            key={postId}
             ref={quillRef}
             value={localValue}
             onChange={(localValue: string) => {
