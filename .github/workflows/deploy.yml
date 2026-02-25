@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, fix/editor-state]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -85,9 +85,9 @@ jobs:
           MONGODB_DBNAME: ${{ secrets.MONGODB_DBNAME }}
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-          NEXT_PUBLIC_USE_THEME: '${{ secrets.NEXT_PUBLIC_USE_THEME }}'
-          NEXT_PUBLIC_CLIENT_SIDE_HEADER: '${{ secrets.NEXT_PUBLIC_CLIENT_SIDE_HEADER }}'
-          NEXT_PUBLIC_CLIENT_SIDE_FOOTER: '${{ secrets.NEXT_PUBLIC_CLIENT_SIDE_FOOTER }}'
+          NEXT_PUBLIC_USE_THEME: "${{ secrets.NEXT_PUBLIC_USE_THEME }}"
+          NEXT_PUBLIC_CLIENT_SIDE_HEADER: "${{ secrets.NEXT_PUBLIC_CLIENT_SIDE_HEADER }}"
+          NEXT_PUBLIC_CLIENT_SIDE_FOOTER: "${{ secrets.NEXT_PUBLIC_CLIENT_SIDE_FOOTER }}"
 
       - name: Debug build output
         run: |
