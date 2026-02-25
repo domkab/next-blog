@@ -5,15 +5,14 @@ import InlineImageEditor from "@/app/components/PostEditor/InlineImageEditor";
 import PostEditor from "@/app/components/PostEditor/PostEditor";
 import Image from "next/image";
 import { uploadPostImage, useAppDispatch, useAppSelector } from "@/redux";
-import { setFormData } from "@/redux/slices/postFormSlice";
+import { setFormData, resetForm } from "@/redux/slices/postFormSlice";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { Alert, Button, FileInput, TextInput } from "flowbite-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import "react-quill-new/dist/quill.snow.css";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { DeleteMainImageButton } from "@/app/components/Dashboard/DeleteImage/DeleteMainImageButton";
 import { generateSlug } from "@/utils/generateSlug";
@@ -24,6 +23,7 @@ export default function CreatePostPage() {
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   const dispatch = useAppDispatch();
   const formData = useAppSelector(state => state.postForm);
@@ -66,6 +66,7 @@ export default function CreatePostPage() {
 
       localStorage.setItem("publishSuccess", "Post published successfully!");
       setPublishSuccess("Post published successfully!");
+      dispatch(resetForm());
 
       // setTimeout(() => window.location.reload(), 2000);
     } catch (error: unknown) {
@@ -108,6 +109,30 @@ export default function CreatePostPage() {
     setFile(e.target.files?.[0] || null);
   };
 
+  // debug
+  // useEffect(() => {
+  //   console.log("form data in create:", formData);
+  // }, [formData]);
+
+  useEffect(() => {
+    // block first paint of editor, then reset, then allow render
+    setIsReady(false);
+
+    dispatch(resetForm());
+    latestContentRef.current = "";
+    setFile(null);
+    setPublishError(null);
+    setPublishSuccess(null);
+
+    // allow next render after reset dispatch has been processed
+    // (one microtask / one frame is enough)
+    queueMicrotask(() => setIsReady(true));
+
+    return () => {
+      dispatch(resetForm());
+    };
+  }, [dispatch]);
+
   if (!isLoaded || !user) return null;
 
   if (!(isSignedIn && user.publicMetadata.isAdmin)) {
@@ -117,6 +142,7 @@ export default function CreatePostPage() {
       </h1>
     );
   }
+  console.log("formData in create:", formData);
 
   return (
     <div className="p-3 min-h-screen">
@@ -298,21 +324,32 @@ export default function CreatePostPage() {
           </>
         )}
 
-        <PostEditor
-          formData={formData}
-          setFormData={data => dispatch(setFormData(data))}
-          imageUploadProgress={imageUploadProgress}
-          handleUploadImage={handleInlineImageUpload}
-          onContentChange={html => {
-            latestContentRef.current = html;
-          }}
-        />
+        {!isReady ? (
+          <div className="flex items-center justify-center h-48">
+            <div className="w-24 h-24">
+              <CircularProgressbar value={66} text="Loading..." />
+            </div>
+          </div>
+        ) : (
+          <>
+            <PostEditor
+              formData={formData}
+              setFormData={data => dispatch(setFormData(data))}
+              imageUploadProgress={imageUploadProgress}
+              handleUploadImage={handleInlineImageUpload}
+              onContentChange={html => {
+                latestContentRef.current = html;
+              }}
+              postId="new-post"
+            />
 
-        <InlineImageEditor />
+            <InlineImageEditor />
 
-        <Button type="submit" gradientDuoTone="purpleToPink">
-          Publish
-        </Button>
+            <Button type="submit" gradientDuoTone="purpleToPink">
+              Publish
+            </Button>
+          </>
+        )}
       </form>
     </div>
   );
