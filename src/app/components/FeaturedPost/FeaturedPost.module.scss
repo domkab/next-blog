@@ -11,7 +11,7 @@ $border-radius: 0.25rem;
   }
 
   &__article {
-    border-radius: $border-radius;
+    // border-radius: $border-radius;
   }
 
   &__imageWrapper {
@@ -19,8 +19,8 @@ $border-radius: 0.25rem;
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
   }
 
   &__image {
