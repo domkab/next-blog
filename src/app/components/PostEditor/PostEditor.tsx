@@ -16,6 +16,7 @@ interface PostEditorProps {
   imageUploadProgress: string | null;
   handleUploadImage: (file: File) => Promise<string>;
   onContentChange: (html: string) => void;
+  postId: string;
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
@@ -24,6 +25,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
   imageUploadProgress,
   handleUploadImage,
   onContentChange,
+  postId,
 }) => {
   const [localValue, setLocalValue] = useState(formData.content ?? "");
   const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
@@ -32,7 +34,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
   useEffect(() => {
     setLocalValue(formData.content ?? "");
-  }, [formData.content]);
+  }, [postId, formData.content]);
 
   const imageHandler = useCallback(() => {
     if (typeof window === "undefined") return;
@@ -114,7 +116,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
       <div className={styles["editor-shell"]}>
         <div className={styles["editor-frame"]} data-view={viewMode}>
           <QuillNoSSRWrapper
-            key={formData.slug}
+            key={postId}
             ref={quillRef}
             value={localValue}
             onChange={(localValue: string) => {

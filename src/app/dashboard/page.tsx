@@ -1,7 +1,8 @@
-'use client';
-
 import { Suspense } from 'react';
 import DashboardContent from '../components/Dashboard/DashboardContent';
+import { dashboardMetadata } from '@/lib/metadata/dashboard';
+
+export const metadata = dashboardMetadata
 
 export default function DashboardPage() {
   return (
