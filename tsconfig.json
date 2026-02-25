@@ -27,3 +27,4 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/PostEditor/PostEditor.tsx"],
   "exclude": ["e2e/**", "node_modules"]
 }
+//
