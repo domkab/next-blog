@@ -29,8 +29,8 @@ export default async function FeaturedPost() {
         <article
           className={clsx(
             styles.featuredPost__article,
-            "flex flex-col bg-white dark:bg-slate-800 rounded-lg shadow-md border",
-            "border-teal-500 hover:shadow-lg hover:translate-y-[-1px] transition-all duration-300",
+            "flex flex-col bg-white dark:bg-slate-800 rounded-lg border",
+            "border-teal-500 hover:translate-y-[-1px] transition-all duration-300",
           )}
         >
           <div

@@ -115,8 +115,7 @@ export default function CreatePostPage() {
   // }, [formData]);
 
   useEffect(() => {
-    // block first paint of editor, then reset, then allow render
-    setIsReady(false);
+    // setIsReady(false);
 
     dispatch(resetForm());
     latestContentRef.current = "";

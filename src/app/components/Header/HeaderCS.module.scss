@@ -43,8 +43,8 @@
   }
 
   &__logo {
-    height: 1.875rem; // 30px
-    width: 3.125rem;  // 50px
+    height: 3rem; // 30px
+    width: 4.125rem;  // 50px
 
     @include onTablet {
       width: 4.375rem; // 70px
