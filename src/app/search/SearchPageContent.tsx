@@ -5,11 +5,11 @@ import { TextInput, Select, Button } from 'flowbite-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard/PostCard';
-import { PostType } from '@/types/Post';
 import styles from './SearchPage.module.scss';
 import clsx from 'clsx';
 import SimpleOverlayLoader from '../components/SimpleOverlayLoader/SimpleOverlayLoader';
 import { useCategories } from '@/hooks/useCategories';
+import { PostWithCategoryName } from '@/lib/services/postService';
 
 export default function SearchPageContent() {
   const { categories, loading: categoriesLoading } = useCategories();
@@ -20,7 +20,7 @@ export default function SearchPageContent() {
     sort: 'desc',
     category: ''
   });
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<PostWithCategoryName[]>([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const searchParams = useSearchParams();

@@ -37,7 +37,7 @@ async function withCategoryNames(
 export async function getRecentPosts(
   limit = 9,
   order = "desc",
-): Promise<PostType[]> {
+): Promise<PostWithCategoryName[]> {
   await connect();
   const sort = order === "asc" ? 1 : -1;
 
