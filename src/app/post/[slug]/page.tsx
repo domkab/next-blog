@@ -33,7 +33,7 @@ export default async function PostPage({
             className={styles.post__category}
           >
             <Button color="gray" pill size="xs">
-              {labelFromSlug(post.category)}
+              <span>{post.categoryName ?? labelFromSlug(post.category)}</span>
             </Button>
           </Link>
         )}

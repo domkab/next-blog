@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { PostType } from "@/types/Post";
 import Image from "next/image";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
 import styles from "./PostCard.module.scss";
 import clsx from "clsx";
+import { PostWithCategoryName } from '@/lib/services/postService';
 
 type PostCardProps = {
-  post: PostType;
+  post: PostWithCategoryName;
   limit?: number;
 };
 
@@ -43,7 +43,7 @@ export default function PostCard({ post }: PostCardProps) {
 
         <div className="flex justify-between mb-3">
           <span className="italic text-sm/4">
-            {labelFromSlug(post.category)}
+            <span>{post.categoryName ?? labelFromSlug(post.category)}</span>
           </span>
           <span className="italic text-sm/4">
             {post && new Date(post.createdAt).toLocaleDateString()}
