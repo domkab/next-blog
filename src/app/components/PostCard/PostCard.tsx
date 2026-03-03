@@ -4,7 +4,7 @@ import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
 import styles from "./PostCard.module.scss";
 import clsx from "clsx";
-import { PostWithCategoryName } from '@/lib/services/postService';
+import { PostWithCategoryName } from "@/lib/services/postService";
 
 type PostCardProps = {
   post: PostWithCategoryName;
@@ -25,21 +25,23 @@ export default function PostCard({ post }: PostCardProps) {
             "relative w-full h-[260px] group-hover:h-[200px] transition-all duration-300",
           )}
         >
-          <figure>
+          <figure className={styles.postCard__imageWrapper}>
             <Image
               src={getImageUrl(post.images.main.url)}
               alt="post cover"
               fill
               unoptimized
               priority
-              className={clsx("object-cover z-20", styles.postCard__image)}
+              className={clsx("object-cover", styles.postCard__image)}
             />
           </figure>
         </div>
       </Link>
 
       <div className="p-3 flex flex-col gap-2">
-        <p className="text-lg font-semibold line-clamp-2">{post.title}</p>
+        <p className="text-lg font-semibold leading-[1.25] line-clamp-2 mb-1">
+          {post.title}
+        </p>
 
         <div className="flex justify-between mb-3">
           <span className="italic text-sm/4">
@@ -50,7 +52,25 @@ export default function PostCard({ post }: PostCardProps) {
           </span>
         </div>
 
-        <p className="text-sm">{post.description}</p>
+        {/* try hiding desc on mobile */}
+        {/* fix lineheights and spacings */}
+        {/* see your notes for more details */}
+
+        {/* <p className="text-sm">{post.description}</p> */}
+
+        {/* <p className="text-sm leading-[1.4] line-clamp-1 md:line-clamp-2">
+          {post.description}
+        </p> */}
+
+        <p
+          className={clsx(
+            styles.postCard__description,
+            "text-sm text-gray-500 leading-[1.4] line-clamp-2",
+          )}
+        >
+          {post.description}
+        </p>
+
         <Link
           href={`/post/${post.slug}`}
           className={clsx(
