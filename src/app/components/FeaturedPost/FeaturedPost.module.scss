@@ -14,6 +14,17 @@ $border-radius: 0.25rem;
     // border-radius: $border-radius;
   }
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem 0.75rem 1rem;
+    // @include onTablet {
+    //   padding: 1rem;
+    // }
+    flex: 1 1 0%;
+    gap: 0.5rem;
+  }
+
   &__imageWrapper {
     position: relative;
     width: 100%;
@@ -30,6 +41,10 @@ $border-radius: 0.25rem;
 
     transform: scale(1.04);
     transition: transform 8s ease-out;
+  }
+
+  &__meta {
+    font-style: oblique;
   }
 }
 

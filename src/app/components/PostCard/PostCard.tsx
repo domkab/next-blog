@@ -15,7 +15,7 @@ export default function PostCard({ post }: PostCardProps) {
   return (
     <div
       className={clsx(
-        "group relative w-full border md:min-w-[320px] border-teal-500 hover:border-2 h-[420px] overflow-hidden rounded-lg sm:w-full transition-all",
+        "group relative w-full border md:min-w-[320px] border-teal-500 hover:border-2 overflow-hidden rounded-lg sm:w-full transition-all",
         styles.postCard,
       )}
     >

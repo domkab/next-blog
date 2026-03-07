@@ -49,11 +49,11 @@ export default async function FeaturedPost() {
             />
           </div>
 
-          <div className="p-4 flex flex-col gap-2">
+          <div className={styles.featuredPost__content}>
             <h3 className="text-xl font-bold mb-2">{post.title}</h3>
 
             {(overrideSummary || post.description) && (
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                 {overrideSummary || post?.description}
               </p>
             )}
@@ -71,7 +71,12 @@ export default async function FeaturedPost() {
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
 
-            <span className="text-teal-500 hover:underline cursor-pointer flex items-center gap-1 w-fit">
+            <span
+              className={clsx(
+                "text-teal-500 hover:underline cursor-pointer flex items-center gap-1 w-fit mt-auto",
+                styles.featuredPost__readMore,
+              )}
+            >
               Read article →
             </span>
           </div>
