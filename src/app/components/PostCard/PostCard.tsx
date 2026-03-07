@@ -52,16 +52,6 @@ export default function PostCard({ post }: PostCardProps) {
           </span>
         </div>
 
-        {/* try hiding desc on mobile */}
-        {/* fix lineheights and spacings */}
-        {/* see your notes for more details */}
-
-        {/* <p className="text-sm">{post.description}</p> */}
-
-        {/* <p className="text-sm leading-[1.4] line-clamp-1 md:line-clamp-2">
-          {post.description}
-        </p> */}
-
         <p
           className={clsx(
             styles.postCard__description,
