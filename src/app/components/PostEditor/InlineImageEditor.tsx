@@ -1,24 +1,25 @@
-'use client';
+"use client";
 
-import React, { ChangeEvent, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@/redux/store';
+import React, { ChangeEvent, memo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
 import {
   updateInlineImageMeta,
   removeInlineImage,
   ImageMeta,
-} from '@/redux/slices/postFormSlice';
-
-import { Button, Label, TextInput } from 'flowbite-react';
-import Image from 'next/image';
-import axios from 'axios';
-import { getImageUrl } from '@/utils/getImageUrl';
+} from "@/redux/slices/postFormSlice";
+import { Button, Label, TextInput } from "flowbite-react";
+import Image from "next/image";
+import axios from "axios";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 const InlineImageEditor: React.FC = () => {
   const dispatch = useDispatch();
   const inlineImages = useSelector(
     (state: RootState) => state.postForm.images.inline,
   );
+
+  const [localImageMeta, setLocalImageMeta] = useState();
 
   const handleMetaChange = (
     id: string,
@@ -34,18 +35,18 @@ const InlineImageEditor: React.FC = () => {
   };
 
   const handleDeleteInlineImage = async (id: string) => {
-    const img = inlineImages.find((img) => img.id === id);
+    const img = inlineImages.find(img => img.id === id);
     if (!img?.url) return;
 
     try {
-      await axios.delete('/api/image/delete', {
+      await axios.delete("/api/image/delete", {
         data: { url: img.url },
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
 
       dispatch(removeInlineImage(id));
     } catch (err) {
-      console.error('Failed to delete image via API:', err);
+      console.error("Failed to delete image via API:", err);
     }
   };
 
@@ -70,8 +71,8 @@ const InlineImageEditor: React.FC = () => {
               <Label htmlFor={`author-${id}`} value="Author" />
               <TextInput
                 id={`author-${id}`}
-                value={meta?.author ?? ''}
-                onChange={(e) => handleMetaChange(id, 'author', e)}
+                value={meta?.author ?? ""}
+                onChange={e => handleMetaChange(id, "author", e)}
                 className="text-gray-600 dark:text-gray-300"
               />
             </div>
@@ -80,8 +81,8 @@ const InlineImageEditor: React.FC = () => {
               <Label htmlFor={`desc-${id}`} value="Description" />
               <TextInput
                 id={`desc-${id}`}
-                value={meta?.description ?? ''}
-                onChange={(e) => handleMetaChange(id, 'description', e)}
+                value={meta?.description ?? ""}
+                onChange={e => handleMetaChange(id, "description", e)}
                 className="text-gray-600 dark:text-gray-300"
               />
             </div>
