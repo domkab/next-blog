@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, memo, useState } from "react";
+import React, { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import {

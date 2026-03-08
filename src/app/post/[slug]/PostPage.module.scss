@@ -22,7 +22,7 @@
   &__title {
     text-align: center;
     margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 
     font-size: vars.$type-h1;
     line-height: vars.$type-headline-line;
@@ -36,14 +36,14 @@
   &__category {
     display: flex;
     justify-content: center;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
   }
 
   &__hero {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.5rem 0;
     overflow: hidden;
 
     &::after {
@@ -73,6 +73,7 @@
     justify-content: space-between;
     border-bottom: 1px solid #64748b;
     padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
     font-size: 0.75rem;
   }
 
