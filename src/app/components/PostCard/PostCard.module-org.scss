@@ -1,0 +1,36 @@
+@use "@/styles/_mixins" as *;
+@use "@/styles/vars" as *;
+
+.postCard {
+  height: 26.25rem;
+  @include onTablet {
+    height: 24.375rem;
+  }
+
+  &__imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+  }
+
+  &__image {
+    z-index: 0;
+  }
+
+  &__description {
+
+  }
+
+  &__readMore {
+    
+  }
+}
