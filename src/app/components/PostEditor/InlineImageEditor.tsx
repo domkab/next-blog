@@ -19,17 +19,37 @@ const InlineImageEditor: React.FC = () => {
     (state: RootState) => state.postForm.images.inline,
   );
 
-  const [localImageMeta, setLocalImageMeta] = useState();
+  const [drafts, setDrafts] = useState<Record<string, ImageMeta>>({});
 
-  const handleMetaChange = (
+  const handleLocalChange = (
     id: string,
     field: keyof ImageMeta,
-    e: ChangeEvent<HTMLInputElement>,
+    value: string,
   ) => {
+    setDrafts(prev => ({
+      ...prev,
+      [id]: {
+        author:
+          prev[id]?.author ??
+          inlineImages.find(img => img.id === id)?.meta?.author ??
+          "",
+        description:
+          prev[id]?.description ??
+          inlineImages.find(img => img.id === id)?.meta?.description ??
+          "",
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleBlur = (id: string) => {
+    const draft = drafts[id];
+    if (!draft) return;
+
     dispatch(
       updateInlineImageMeta({
         id,
-        meta: { [field]: e.target.value },
+        meta: draft,
       }),
     );
   };
@@ -71,8 +91,10 @@ const InlineImageEditor: React.FC = () => {
               <Label htmlFor={`author-${id}`} value="Author" />
               <TextInput
                 id={`author-${id}`}
-                value={meta?.author ?? ""}
-                onChange={e => handleMetaChange(id, "author", e)}
+                // value={meta?.author ?? ""}
+                value={drafts[id]?.author ?? meta?.author ?? ""}
+                onChange={e => handleLocalChange(id, "author", e.target.value)}
+                onBlur={() => handleBlur(id)}
                 className="text-gray-600 dark:text-gray-300"
               />
             </div>
@@ -81,8 +103,12 @@ const InlineImageEditor: React.FC = () => {
               <Label htmlFor={`desc-${id}`} value="Description" />
               <TextInput
                 id={`desc-${id}`}
-                value={meta?.description ?? ""}
-                onChange={e => handleMetaChange(id, "description", e)}
+                // value={meta?.description ?? ""}
+                value={drafts[id]?.description ?? meta?.description ?? ""}
+                onChange={e =>
+                  handleLocalChange(id, "description", e.target.value)
+                }
+                onBlur={() => handleBlur(id)}
                 className="text-gray-600 dark:text-gray-300"
               />
             </div>
