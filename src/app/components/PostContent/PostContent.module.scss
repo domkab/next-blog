@@ -140,7 +140,7 @@
   }
 
   &__empty-paragraph {
-    margin: 0 0 0.5rem !important;
+    margin: 0 !important;
     padding: 0;
     line-height: 0;
     min-height: 0;
@@ -170,6 +170,7 @@
     height: auto;
     margin: 0 auto;
     object-fit: contain;
+    border-radius: 0.5rem;
   }
 
   &__caption {

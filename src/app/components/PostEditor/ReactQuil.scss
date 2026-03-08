@@ -89,31 +89,37 @@
   margin: 1.5rem auto;
 }
 
-@include onMobile {
-  .ql-snow .ql-editor h1 {
-    font-size: vars.$type-h1-sm !important;
-    line-height: vars.$type-headline-line-sm !important;
-  }
-
-  .ql-snow .ql-editor h2 {
-    font-size: vars.$type-h2-sm !important;
-    line-height: 1.22 !important;
-  }
-
-  .ql-snow .ql-editor h3 {
-    font-size: vars.$type-h3-sm !important;
-    line-height: 1.25 !important;
-  }
-
-  .ql-snow .ql-editor h4 {
-    font-size: vars.$type-h4-sm !important;
-    line-height: 1.28 !important;
-  }
-
-  .ql-snow .ql-editor p,
-  .ql-snow .ql-editor li,
-  .ql-snow .ql-editor span {
-    font-size: vars.$type-body-sm !important;
-    line-height: vars.$type-line-sm !important;
-  }
+.ql-snow .ql-editor p:has(> br:only-child) {
+  margin: 0 !important;
+  line-height: 0 !important;
+  min-height: 0 !important;
 }
+
+// @include onMobile {
+//   .ql-snow .ql-editor h1 {
+//     font-size: vars.$type-h1-sm !important;
+//     line-height: vars.$type-headline-line-sm !important;
+//   }
+
+//   .ql-snow .ql-editor h2 {
+//     font-size: vars.$type-h2-sm !important;
+//     line-height: 1.22 !important;
+//   }
+
+//   .ql-snow .ql-editor h3 {
+//     font-size: vars.$type-h3-sm !important;
+//     line-height: 1.25 !important;
+//   }
+
+//   .ql-snow .ql-editor h4 {
+//     font-size: vars.$type-h4-sm !important;
+//     line-height: 1.28 !important;
+//   }
+
+//   .ql-snow .ql-editor p,
+//   .ql-snow .ql-editor li,
+//   .ql-snow .ql-editor span {
+//     font-size: vars.$type-body-sm !important;
+//     line-height: vars.$type-line-sm !important;
+//   }
+// }
