@@ -124,8 +124,21 @@
     }
   }
 
+  p {
+    margin-bottom: 1.1rem;
+  }
+
   p:not(:last-child) {
     margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    margin-top: 2.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  ul {
+    margin: 1rem 0 1.3rem;
   }
 
   &__empty-paragraph {
@@ -134,6 +147,11 @@
     // o ne 2 tuscias eilutes
 
     // margin: 0 0 1rem;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    min-height: 0;
+    height: 0;
   }
 
   &__figure {
