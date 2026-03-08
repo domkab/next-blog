@@ -1,20 +1,22 @@
-import { withAdminAuth } from '@/lib/auth/withAdminAuth';
-import Post from '@/lib/models/postModel';
-import { connect } from '@/lib/mongodb/mongoose';
-import { PostCreateInput } from '@/types/Post';
+import { withAdminAuth } from "@/lib/auth/withAdminAuth";
+import Post from "@/lib/models/postModel";
+import { connect } from "@/lib/mongodb/mongoose";
+import { PostCreateInput } from "@/types/Post";
 
 export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
   await connect();
 
   try {
-    console.log('req data:', body);
-    console.log('inline images', body.images.inline);
+    console.log("req data:", body);
+    console.log("inline images", body.images.inline);
 
     const slug = body.title
-      .split(' ')
-      .join('-')
+      .split(" ")
+      .join("-")
       .toLowerCase()
-      .replace(/[^a-zA-Z0-9-]/g, '');
+      .replace(/[^a-zA-Z0-9-]/g, "");
+
+    const cleanUpContent = body.content.replace(/<p><br><\/p>/g, "");
 
     const newPost = await Post.create({
       userId: user.publicMetadata.userMongoId,
@@ -38,8 +40,8 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
       status: 200,
     });
   } catch (err) {
-    console.error('Error creating post:', err);
+    console.error("Error creating post:", err);
 
-    return new Response('Error creating post', { status: 500 });
+    return new Response("Error creating post", { status: 500 });
   }
 });
