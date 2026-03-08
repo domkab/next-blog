@@ -1,3 +1,6 @@
+@use "@/styles/_mixins" as *;
+@use "@/styles/_vars" as vars;
+
 .post-editor {
   display: flex;
   flex-direction: column;
@@ -26,14 +29,43 @@
   margin-bottom: 3rem;
 }
 
-.editor-frame[data-view='mobile'] :global(.ql-editor) {
-  max-width: 375px;
+.editor-frame[data-view="mobile"] :global(.ql-editor) {
+  max-width: 23.438rem;
   margin: 0 auto;
 }
 
-.editor-frame[data-view='desktop'] :global(.ql-editor) {
+.editor-frame[data-view="desktop"] :global(.ql-editor) {
   max-width: 42rem;
   margin: 0 auto;
+}
+
+.editor-frame[data-view="mobile"] {
+  :global(.ql-snow .ql-editor h1) {
+    font-size: vars.$type-h1-sm !important;
+    line-height: vars.$type-headline-line-sm !important;
+  }
+
+  :global(.ql-snow .ql-editor h2) {
+    font-size: vars.$type-h2-sm !important;
+    line-height: 1.22 !important;
+  }
+
+  :global(.ql-snow .ql-editor h3) {
+    font-size: vars.$type-h3-sm !important;
+    line-height: 1.25 !important;
+  }
+
+  :global(.ql-snow .ql-editor h4) {
+    font-size: vars.$type-h4-sm !important;
+    line-height: 1.28 !important;
+  }
+
+  :global(.ql-snow .ql-editor p),
+  :global(.ql-snow .ql-editor li),
+  :global(.ql-snow .ql-editor span) {
+    font-size: vars.$type-body-sm !important;
+    line-height: vars.$type-line-sm !important;
+  }
 }
 
 .view-toggle {
@@ -51,7 +83,8 @@
   color: #111;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
+  transition: border-color 120ms ease, background-color 120ms ease,
+    color 120ms ease;
 }
 
 .view-toggle__btn:hover {
