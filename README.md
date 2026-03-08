@@ -25,8 +25,6 @@ text gray dark:text-gray we can use that combo for dark light mode text colours
         Maybe head back home or tell Pixel what went wrong — he’ll paw through the code himself.
       </p>
 
-2025-05-14 - PostCard: max 20 words short description, height 420px on mobile
-
 variables:
 
       for h1: text-gray-800 dark:text-gray-300
@@ -57,4 +55,11 @@ If your production env file is env.production:
 (If you don’t pass a file, it defaults to .env.production)
 
 DB migrations, this command will trigger moving posts live > staging or staging > live
- (check package.json)
+(check package.json) + other type of migrations are there
+
+# docker validations
+
+  docker compose run --rm nextblog-dev npm run build
+  
+  # type check
+  docker compose run --rm nextblog-dev npm run type-check

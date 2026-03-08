@@ -3,7 +3,6 @@ import { Button } from "flowbite-react";
 import Link from "next/link";
 import RecentPosts from "@/app/components/RecentPosts/RecentPosts";
 import PostContent from "@/app/components/PostContent/PostContent";
-// import styles from "../../components/PostContent/PostContent.module.scss";
 import styles from "./PostPage.module.scss";
 import NotFound from "@/app/not-found";
 import { getPostBySlug } from "@/lib/services/postService";
