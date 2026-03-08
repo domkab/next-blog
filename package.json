@@ -11,7 +11,8 @@
     "dev:debug": "node --inspect-brk node_modules/next/dist/bin/next dev",
     "type-check": "tsc --noEmit",
     "migrate:posts": "tsx scripts/migrations/migrate-posts.ts",
-    "migrate:db": "tsx scripts/migrations/migrate-db.ts"
+    "migrate:db": "tsx scripts/migrations/migrate-db.ts",
+    "migrate:clean-content": "tsx scripts/migrations/migrateCleanPostContent.ts"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.53.8",

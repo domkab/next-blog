@@ -13,7 +13,7 @@ async function withCategoryNames(
   posts: PostType[],
 ): Promise<PostWithCategoryName[]> {
   const slugs = Array.from(
-    new Set(posts.map(p => p.category).filter(Boolean) as string[]),
+    new Set(posts.map(p => p?.category).filter(Boolean) as string[]),
   );
 
   if (slugs.length === 0) {

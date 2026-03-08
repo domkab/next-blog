@@ -2,6 +2,7 @@ import { withAdminAuth } from "@/lib/auth/withAdminAuth";
 import Post from "@/lib/models/postModel";
 import { connect } from "@/lib/mongodb/mongoose";
 import { PostCreateInput } from "@/types/Post";
+import { normalizePostContent } from '@/utils/utils';
 
 export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
   await connect();
@@ -16,13 +17,13 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
       .toLowerCase()
       .replace(/[^a-zA-Z0-9-]/g, "");
 
-    const cleanUpContent = body.content.replace(/<p><br><\/p>/g, "");
+    const cleanedContent = normalizePostContent(body.content);
 
     const newPost = await Post.create({
       userId: user.publicMetadata.userMongoId,
       title: body.title,
       description: body.description,
-      content: body.content,
+      content: cleanedContent,
       category: body.category,
       images: {
         main: {

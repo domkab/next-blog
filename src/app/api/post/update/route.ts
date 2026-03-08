@@ -2,9 +2,13 @@ import { withAdminAuth } from '@/lib/auth/withAdminAuth';
 import Post from '@/lib/models/postModel';
 import { connect } from '@/lib/mongodb/mongoose';
 import { PostUpdateInput } from '@/types/Post';
+import { normalizePostContent } from '@/utils/utils';
+
 
 export const PUT = withAdminAuth<PostUpdateInput>(async (user, body) => {
   await connect();
+
+  const cleanedContent = normalizePostContent(body.content);
 
   try {
     const updatedPost = await Post.findByIdAndUpdate(
@@ -13,7 +17,7 @@ export const PUT = withAdminAuth<PostUpdateInput>(async (user, body) => {
         $set: {
           title: body.title,
           description: body.description,
-          content: body.content,
+          content: cleanedContent,
           category: body.category,
           images: {
             main: {
