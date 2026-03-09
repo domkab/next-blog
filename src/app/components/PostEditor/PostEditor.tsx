@@ -1,7 +1,7 @@
 /* @ts-nocheck */
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addInlineImage, PostFormState } from "@/redux/slices/postFormSlice";
 import { v4 as uuidv4 } from "uuid";
@@ -31,10 +31,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
   const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
   const quillRef = useRef<ReactQuillType | null>(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setLocalValue(formData.content ?? "");
-  }, [postId, formData.content]);
 
   const imageHandler = useCallback(() => {
     if (typeof window === "undefined") return;
@@ -90,6 +86,16 @@ const PostEditor: React.FC<PostEditorProps> = ({
     },
   };
 
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "link",
+    "image",
+    "list",
+  ];
+
   return (
     <div className={styles["post-editor"]}>
       <div className={styles["view-toggle"]} aria-label="Editor width preview">
@@ -119,7 +125,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
           data-view={viewMode}
           onBlur={e => {
             const next = e.relatedTarget as Node | null;
-            // If focus stays inside Quill (toolbar, link tooltip, etc.), skip syncing to Redux.
             if (next && e.currentTarget.contains(next)) return;
             setFormData({ content: localValue });
           }}
@@ -133,6 +138,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
               onContentChange?.(localValue);
             }}
             modules={modules}
+            formats={formats}
             readOnly={false}
             theme="snow"
             placeholder="Write something…"
