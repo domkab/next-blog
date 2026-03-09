@@ -15,7 +15,37 @@
 }
 
 .dark .ql-picker-item:not(.ql-selected)::before {
-  color: initial !important;
+  color: #e5e7eb !important;
+}
+
+.dark .ql-toolbar.ql-snow,
+.dark .ql-container.ql-snow {
+  background-color: #0f172a;
+  border-color: #1f2937;
+}
+
+.dark .ql-snow .ql-picker-label,
+.dark .ql-snow .ql-picker-item {
+  color: #e5e7eb;
+}
+
+.dark .ql-snow .ql-picker-options {
+  background-color: #0f172a;
+  border-color: #1f2937;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.dark .ql-snow .ql-picker-item:hover,
+.dark .ql-snow .ql-picker-item.ql-selected {
+  color: #38bdf8;
+}
+
+.dark .ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  color: #cbd5e1;
+}
+
+.dark .ql-editor.ql-blank::before {
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .ql-toolbar.ql-snow,
