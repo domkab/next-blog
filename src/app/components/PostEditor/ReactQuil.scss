@@ -23,6 +23,8 @@
   width: 100%;
   max-width: none;
   margin: 0;
+  /* allow tooltips to overflow the container (Quill inserts them inside) */
+  overflow: visible !important;
 }
 
 .ql-snow .ql-editor {
@@ -89,8 +91,17 @@
   margin: 1.5rem auto;
 }
 
+.ql-snow .ql-tooltip {
+  z-index: 20;
+}
+
+/* Don't hide link tooltip when editor is temporarily disabled */
+.ql-container.ql-disabled .ql-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .ql-snow .ql-editor p:has(> br:only-child) {
-  /* Keep empty paragraphs visible so users can create blank lines */
   margin: 0 0 1rem !important;
   line-height: vars.$type-line !important;
   min-height: vars.$type-line !important;

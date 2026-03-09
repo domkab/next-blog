@@ -147,9 +147,9 @@ export default function UpdatePost() {
   ]);
 
   // debug
-  useEffect(() => {
-    console.log("form data in update:", formData);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log("form data in update:", formData);
+  // }, [formData]);
 
   if (!isLoaded) return null;
 

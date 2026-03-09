@@ -114,7 +114,16 @@ const PostEditor: React.FC<PostEditorProps> = ({
       </div>
 
       <div className={styles["editor-shell"]}>
-        <div className={styles["editor-frame"]} data-view={viewMode}>
+        <div
+          className={styles["editor-frame"]}
+          data-view={viewMode}
+          onBlur={e => {
+            const next = e.relatedTarget as Node | null;
+            // If focus stays inside Quill (toolbar, link tooltip, etc.), skip syncing to Redux.
+            if (next && e.currentTarget.contains(next)) return;
+            setFormData({ content: localValue });
+          }}
+        >
           <QuillNoSSRWrapper
             key={postId}
             ref={quillRef}
@@ -123,9 +132,8 @@ const PostEditor: React.FC<PostEditorProps> = ({
               setLocalValue(localValue);
               onContentChange?.(localValue);
             }}
-            onBlur={() => setFormData({ content: localValue })}
             modules={modules}
-            readOnly={Boolean(imageUploadProgress)}
+            readOnly={false}
             theme="snow"
             placeholder="Write something…"
             className={styles.quill}
