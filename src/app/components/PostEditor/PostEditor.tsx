@@ -1,13 +1,13 @@
 /* @ts-nocheck */
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { registerQuillSmartLink } from "@/utils/registerQuillSmartLink";
 import { useDispatch } from "react-redux";
 import { addInlineImage, PostFormState } from "@/redux/slices/postFormSlice";
 import { v4 as uuidv4 } from "uuid";
 import type ReactQuillType from "react-quill-new";
 import QuillNoSSRWrapper from "./QuillNoSSRWrapper";
-import "@/utils/quillSmartLink";
 import "react-quill-new/dist/quill.snow.css";
 import styles from "./PostEditor.module.scss";
 
@@ -73,6 +73,10 @@ const PostEditor: React.FC<PostEditorProps> = ({
       }
     };
   }, [handleUploadImage, dispatch, setFormData]);
+
+  useEffect(() => {
+    registerQuillSmartLink();
+  }, []);
 
   const modules = {
     toolbar: {

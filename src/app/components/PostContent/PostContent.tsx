@@ -3,20 +3,68 @@ import parse, {
   HTMLReactParserOptions,
   Element as DomElement,
   Text as DomText,
+  domToReact,
 } from "html-react-parser";
 import DOMPurify from "isomorphic-dompurify";
 import Image from "next/image";
 import { PostType } from "@/types/Post";
 import styles from "./PostContent.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
+import Link from "next/link";
 
 interface PostContentProps {
   post: PostType;
 }
 
+const isInternalHref = (href: string) => {
+  return (
+    href.startsWith("/") ||
+    href.startsWith("#") ||
+    href.startsWith("./") ||
+    href.startsWith("../")
+  );
+};
+
 const PostContent: React.FC<PostContentProps> = ({ post }) => {
   const options: HTMLReactParserOptions = {
     replace: (domNode, index) => {
+      if (domNode.type === "tag" && domNode.name === "a") {
+        const linkNode = domNode as DomElement;
+        const href = linkNode.attribs?.href?.trim();
+
+        if (!href) {
+          <span key={index} className={styles["post-content__link-invalid"]}>
+            {domToReact(linkNode.children as never, options)}
+          </span>;
+        }
+
+        const children = domToReact(linkNode.children as never, options);
+
+        if (isInternalHref(href)) {
+          return (
+            <Link
+              key={index}
+              href={href}
+              className={styles["post-content__link"]}
+            >
+              {children}
+            </Link>
+          );
+        }
+
+        return (
+          <Link
+            key={index}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles["post-content__link"]}
+          >
+            {children}
+          </Link>
+        );
+      }
+
       if (domNode.type === "tag" && domNode.name === "p") {
         const p = domNode as DomElement;
 
@@ -91,26 +139,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
     },
   };
 
-  // IMPLEMENT IN DB ON SAVE:
-
-  // later implement clean up on back end submission:
-
-  // const normalized = content
-  // .replace(/&nbsp;/g, " ")
-  // .replace(/\u00A0/g, " ");
-
-  //  also strip unneccessary inline styling:
-  // <span style="color: rgb(...); background-color: rgb(...);"></span>
-
-  // const cleanHtml = post.content
-  //   .replace(/&nbsp;/g, " ")
-  //   .replace(/\u00A0/g, " ");
-
-  const normalized = post.content
-    .replace(/&nbsp;/g, " ")
-    .replace(/\u00A0/g, " ");
-
-  const cleanHtml = DOMPurify.sanitize(normalized, {
+  const cleanHtml = DOMPurify.sanitize(post.content, {
     USE_PROFILES: { html: true },
   });
 
