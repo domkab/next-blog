@@ -90,7 +90,8 @@
 }
 
 .ql-snow .ql-editor p:has(> br:only-child) {
-  margin: 0 !important;
-  line-height: 0 !important;
-  min-height: 0 !important;
+  /* Keep empty paragraphs visible so users can create blank lines */
+  margin: 0 0 1rem !important;
+  line-height: vars.$type-line !important;
+  min-height: vars.$type-line !important;
 }
