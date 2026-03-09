@@ -120,15 +120,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
       </div>
 
       <div className={styles["editor-shell"]}>
-        <div
-          className={styles["editor-frame"]}
-          data-view={viewMode}
-          onBlur={e => {
-            const next = e.relatedTarget as Node | null;
-            if (next && e.currentTarget.contains(next)) return;
-            setFormData({ content: localValue });
-          }}
-        >
+        <div className={styles["editor-frame"]} data-view={viewMode}>
           <QuillNoSSRWrapper
             key={postId}
             ref={quillRef}
