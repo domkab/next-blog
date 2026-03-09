@@ -7,6 +7,7 @@ import { addInlineImage, PostFormState } from "@/redux/slices/postFormSlice";
 import { v4 as uuidv4 } from "uuid";
 import type ReactQuillType from "react-quill-new";
 import QuillNoSSRWrapper from "./QuillNoSSRWrapper";
+import "@/utils/quillSmartLink";
 import "react-quill-new/dist/quill.snow.css";
 import styles from "./PostEditor.module.scss";
 
