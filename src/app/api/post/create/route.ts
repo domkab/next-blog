@@ -2,7 +2,7 @@ import { withAdminAuth } from "@/lib/auth/withAdminAuth";
 import Post from "@/lib/models/postModel";
 import { connect } from "@/lib/mongodb/mongoose";
 import { PostCreateInput } from "@/types/Post";
-import { normalizePostContent } from '@/utils/utils';
+import { normalizePostContent } from "@/utils/utils";
 
 export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
   await connect();
@@ -29,6 +29,10 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
         main: {
           url: body.images.main.url,
           meta: body.images.main.meta || {},
+          altText:
+            body.images.main.meta?.altText ||
+            body.images.main.meta?.description ||
+            "",
         },
         inline: body.images.inline || [],
       },

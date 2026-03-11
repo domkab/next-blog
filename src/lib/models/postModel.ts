@@ -1,26 +1,27 @@
-import { PostCategory } from '@/types/Post';
-import mongoose from 'mongoose';
+import { PostCategory } from "@/types/Post";
+import mongoose from "mongoose";
 
 const InlineImageSchema = new mongoose.Schema(
   {
     id: {
       type: String,
-      required: true
+      required: true,
     },
     url: {
       type: String,
-      required: true
+      required: true,
     },
     meta: {
-      author: { type: String, default: '' },
-      description: { type: String, default: '' }
-    }
+      author: { type: String, default: "" },
+      description: { type: String, default: "" },
+      altText: { type: String, default: "" },
+    },
   },
   {
     _id: false,
     id: false,
-    strict: true
-  }
+    strict: true,
+  },
 );
 
 const postSchema = new mongoose.Schema(
@@ -47,17 +48,19 @@ const postSchema = new mongoose.Schema(
       main: {
         url: {
           type: String,
-          default: 'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/09/how-to-write-a-blog-post.png',
+          default:
+            "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/09/how-to-write-a-blog-post.png",
         },
         meta: {
-          author: { type: String, default: '' },
-          description: { type: String, default: '' },
+          author: { type: String, default: "" },
+          description: { type: String, default: "" },
+          altText: { type: String, default: "" },
         },
       },
       inline: {
         type: [InlineImageSchema],
-        default: []
-      }
+        default: [],
+      },
     },
     category: {
       type: String,
@@ -69,9 +72,9 @@ const postSchema = new mongoose.Schema(
       unique: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
+const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
 
 export default Post;
