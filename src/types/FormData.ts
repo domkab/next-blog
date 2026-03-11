@@ -10,6 +10,7 @@ export interface FormData {
       meta?: {
         author?: string
         description?: string
+        altText?: string
       };
     };
     inline: Array<{
@@ -18,6 +19,7 @@ export interface FormData {
       meta?: {
         author?: string
         description?: string
+        altText?: string
       };
     }>;
   };
