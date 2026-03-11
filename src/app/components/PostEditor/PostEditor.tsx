@@ -111,16 +111,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
     [imageHandler],
   );
 
-  // const formats = [
-  //   "header",
-  //   "bold",
-  //   "italic",
-  //   "underline",
-  //   "link",
-  //   "image",
-  //   "list",
-  // ];
-
   return (
     <div className={styles["post-editor"]}>
       <div className={styles["view-toggle"]} aria-label="Editor width preview">
