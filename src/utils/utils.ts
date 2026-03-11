@@ -5,6 +5,8 @@
 //     .trim();
 // }
 
+// created ehanched util, needs more testing
+
 export function normalizePostContent(content: string): string {
   return content
     .replace(/&nbsp;|&#160;/gi, " ")

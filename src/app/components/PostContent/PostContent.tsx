@@ -82,6 +82,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
           const meta = (inlineImage?.meta || {}) as {
             author?: string;
             description?: string;
+            altText?: string;
           };
 
           const hasCaption =
@@ -92,7 +93,7 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
             <figure key={index} className={styles["post-content__figure"]}>
               <Image
                 src={getImageUrl(path)}
-                alt={alt || meta.description || "inline image"}
+                alt={meta?.altText || meta?.description || "inline image"}
                 width={800}
                 height={450}
                 unoptimized
