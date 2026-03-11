@@ -41,7 +41,11 @@ export default async function PostPage({
           <figure className={styles.post__hero}>
             <Image
               src={getImageUrl(post.images.main.url)}
-              alt={post.images.main.meta?.description || "Main Image"}
+              alt={
+                post.images.main.meta?.altText ||
+                post.images.main.meta?.description ||
+                "Main Image"
+              }
               sizes="(max-width: 768px) 100vw, 680px"
               fill
               unoptimized

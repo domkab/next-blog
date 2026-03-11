@@ -5,6 +5,7 @@ import { uploadPostImage } from '../thunks/postFormThunks';
 export interface ImageMeta {
   author?: string
   description?: string
+  altText?: string
 }
 
 export interface ImageData {
@@ -28,7 +29,11 @@ const initialState: PostFormState = {
   images: {
     main: {
       url: '',
-      meta: {},
+      meta: {
+        author: '',
+        description: '',
+        altText: '',
+      },
     },
     inline: []
   },

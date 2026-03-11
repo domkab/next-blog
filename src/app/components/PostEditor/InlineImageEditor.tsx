@@ -38,6 +38,11 @@ const InlineImageEditor: React.FC = () => {
           inlineImages.find(img => img.id === id)?.meta?.description ??
           "",
         [field]: value,
+        altText:
+          prev[id]?.altText ??
+          inlineImages.find(img => img.id === id)?.meta?.altText ??
+          "",
+        [field]: value,
       },
     }));
   };
@@ -79,7 +84,7 @@ const InlineImageEditor: React.FC = () => {
         >
           <Image
             src={getImageUrl(url)}
-            alt={meta?.description ?? `inline image ${id}`}
+            alt={meta?.altText || meta?.description || `inline image ${id}`}
             width={128}
             height={128}
             unoptimized
@@ -108,6 +113,17 @@ const InlineImageEditor: React.FC = () => {
                 onChange={e =>
                   handleLocalChange(id, "description", e.target.value)
                 }
+                onBlur={() => handleBlur(id)}
+                className="text-gray-600 dark:text-gray-300"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor={`alt-${id}`} value="Alt text" />
+              <TextInput
+                id={`alt-${id}`}
+                value={drafts[id]?.altText ?? meta?.altText ?? ""}
+                onChange={e => handleLocalChange(id, "altText", e.target.value)}
                 onBlur={() => handleBlur(id)}
                 className="text-gray-600 dark:text-gray-300"
               />

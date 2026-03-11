@@ -53,7 +53,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
           addInlineImage({
             id: imageId,
             url: imagePath,
-            meta: { author: "", description: "" },
+            meta: { author: "", description: "", altText: "" },
           }),
         );
 
@@ -74,6 +74,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
     };
   }, [handleUploadImage, dispatch, setFormData]);
 
+  // added dynamic import to ensure CSR only.
   useEffect(() => {
     registerQuillSmartLink();
   }, []);

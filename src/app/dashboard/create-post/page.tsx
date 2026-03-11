@@ -228,7 +228,11 @@ export default function CreatePostPage() {
             >
               <Image
                 src={getImageUrl(formData.images.main.url)}
-                alt={formData.images.main.meta?.description || "Uploaded image"}
+                alt={
+                  formData.images.main.meta?.altText ||
+                  formData.images.main.meta?.description ||
+                  "Uploaded image"
+                }
                 fill
                 unoptimized
                 className="object-cover mx-auto max-w-2xl"
@@ -246,6 +250,7 @@ export default function CreatePostPage() {
                             meta: {
                               author: "",
                               description: "",
+                              altText: "",
                             },
                           },
                           inline: inlineImages,
@@ -311,6 +316,37 @@ export default function CreatePostPage() {
                             meta: {
                               ...formData.images.main.meta,
                               description: e.target.value,
+                            },
+                          },
+                        },
+                      }),
+                    )
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="main-image-alt-text"
+                  className="text-sm font-medium"
+                >
+                  Image Alt Text
+                </label>
+                <TextInput
+                  id="main-image-alt-text"
+                  type="text"
+                  placeholder="Alt text"
+                  value={formData.images.main.meta?.altText || ""}
+                  onChange={e =>
+                    dispatch(
+                      setFormData({
+                        images: {
+                          ...formData.images,
+                          main: {
+                            ...formData.images.main,
+                            meta: {
+                              ...formData.images.main.meta,
+                              altText: e.target.value,
                             },
                           },
                         },
