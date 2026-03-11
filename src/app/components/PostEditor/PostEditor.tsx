@@ -1,7 +1,13 @@
 /* @ts-nocheck */
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { registerQuillSmartLink } from "@/utils/registerQuillSmartLink";
 import { useDispatch } from "react-redux";
 import { addInlineImage, PostFormState } from "@/redux/slices/postFormSlice";
@@ -19,6 +25,16 @@ interface PostEditorProps {
   onContentChange: (html: string) => void;
   postId: string;
 }
+
+const FORMATS = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "link",
+  "image",
+  "list",
+];
 
 const PostEditor: React.FC<PostEditorProps> = ({
   formData,
@@ -79,28 +95,31 @@ const PostEditor: React.FC<PostEditorProps> = ({
     registerQuillSmartLink();
   }, []);
 
-  const modules = {
-    toolbar: {
-      container: [
-        [{ header: [2, 3, 4, false] }],
-        ["bold", "italic", "underline"],
-        ["link", "image"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["clean"],
-      ],
-      handlers: { image: imageHandler },
-    },
-  };
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [2, 3, 4, false] }],
+          ["bold", "italic", "underline"],
+          ["link", "image"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["clean"],
+        ],
+        handlers: { image: imageHandler },
+      },
+    }),
+    [imageHandler],
+  );
 
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "link",
-    "image",
-    "list",
-  ];
+  // const formats = [
+  //   "header",
+  //   "bold",
+  //   "italic",
+  //   "underline",
+  //   "link",
+  //   "image",
+  //   "list",
+  // ];
 
   return (
     <div className={styles["post-editor"]}>
@@ -136,7 +155,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
               onContentChange?.(localValue);
             }}
             modules={modules}
-            formats={formats}
+            formats={FORMATS}
             readOnly={false}
             theme="snow"
             placeholder="Write something…"
