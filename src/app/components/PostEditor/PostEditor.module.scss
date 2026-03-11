@@ -1,6 +1,12 @@
 @use "@/styles/_mixins" as *;
 @use "@/styles/_vars" as vars;
 
+:global(.dark) .post-editor :global(.ql-toolbar.ql-snow) {
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom: 1px solid #334155;
+  backdrop-filter: blur(6px);
+}
+
 .post-editor {
   display: flex;
   flex-direction: column;
@@ -10,8 +16,17 @@
     word-break: break-word;
   }
 
+  /* Light mode */
   :global(.ql-toolbar.ql-snow) {
+    display: flex;
+    justify-content: center;
     white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
   }
 }
 
