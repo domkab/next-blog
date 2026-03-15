@@ -27,13 +27,13 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
     let resized: Buffer;
     if (target === "main" || target === "featured") {
       resized = await sharp(buffer)
-        .resize({ width: 1200, height: 800, fit: "cover" })
-        .webp()
+        .resize({ width: 1920, height: 1080, fit: "cover" })
+        .webp({ quality: 82 })
         .toBuffer();
     } else if (target === "inline") {
       resized = await sharp(buffer)
-        .resize({ width: 640, height: 480, fit: "inside" })
-        .webp()
+        .resize({ width: 900, fit: "inside" })
+        .webp({ quality: 80 })
         .toBuffer();
     } else {
       return NextResponse.json({ error: "Invalid target" }, { status: 400 });
