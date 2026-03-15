@@ -32,7 +32,7 @@ export const POST = withAdminAuth(async (_user, req: NextRequest) => {
         .toBuffer();
     } else if (target === "inline") {
       resized = await sharp(buffer)
-        .resize({ width: 900, fit: "inside" })
+        .resize({ width: 900, withoutEnlargement: true })
         .webp({ quality: 80 })
         .toBuffer();
     } else {
