@@ -46,7 +46,7 @@ export default async function PostPage({
                 post.images.main.meta?.description ||
                 "Main Image"
               }
-              sizes="(max-width: 768px) 100vw, 680px"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 92vw, 1200px"
               fill
               unoptimized
               priority
