@@ -104,3 +104,14 @@ export async function getFeaturedPosts(): Promise<
       ({ ...item.post, categoryName: null } as PostWithCategoryName),
   }));
 }
+
+// later this service can be improved when we will have more posts and more complex needs for the project
+
+export async function getAllPosts(): Promise<PostWithCategoryName[]> {
+  await connect();
+  const posts = (await Post.find().lean()) as PostType[];
+
+  console.log("posts", posts);
+
+  return withCategoryNames(posts);
+}
