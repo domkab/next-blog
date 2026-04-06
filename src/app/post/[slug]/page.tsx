@@ -11,7 +11,8 @@ import { EmailSubscribeWModal } from "@/app/components/CallToAction/EmailSubscri
 import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
 import { Metadata } from "next";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { normalizePostContent } from "@/utils/utils";
 
 export async function generateMetadata({
   params,
@@ -20,7 +21,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  console.log("post:", post);
 
   if (!post) {
     return {
@@ -29,27 +29,52 @@ export async function generateMetadata({
     };
   }
 
-  const titleText = post.title;
-  const desc = post.description || "";
+  const title = post.title;
+  const description =
+    post.description?.trim() ||
+    normalizePostContent(post.content).slice(0, 155).trim();
+
   const heroUrl = post.images?.main?.url
     ? getImageUrl(post.images.main.url)
     : undefined;
 
+  const postUrl = `${SITE_URL}/post/${post.slug}`;
+
   return {
-    title: { absolute: `${titleText} — ${SITE_NAME}` },
-    description: desc,
+    title,
+    description,
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       type: "article",
-      title: titleText,
-      description: desc,
+      url: postUrl,
+      title,
+      description,
+      siteName: SITE_NAME,
+      publishedTime: new Date(post.createdAt).toISOString(),
+      modifiedTime: new Date(post.updatedAt).toISOString(),
+      section: post.categoryName ?? post.category,
       ...(heroUrl
-        ? { images: [{ url: heroUrl, width: 1200, height: 630 }] }
+        ? {
+            images: [
+              {
+                url: heroUrl,
+                width: 1200,
+                height: 630,
+                alt:
+                  post.images?.main?.meta?.altText ||
+                  post.images?.main?.meta?.description ||
+                  post.title,
+              },
+            ],
+          }
         : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title: titleText,
-      description: desc,
+      title,
+      description,
       ...(heroUrl ? { images: [heroUrl] } : {}),
     },
   };
