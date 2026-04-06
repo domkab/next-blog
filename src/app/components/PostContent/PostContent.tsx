@@ -33,9 +33,11 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
         const href = linkNode.attribs?.href?.trim();
 
         if (!href) {
-          <span key={index} className={styles["post-content__link-invalid"]}>
-            {domToReact(linkNode.children as never, options)}
-          </span>;
+          return (
+            <span key={index} className={styles["post-content__link-invalid"]}>
+              {domToReact(linkNode.children as never, options)}
+            </span>
+          );
         }
 
         const children = domToReact(linkNode.children as never, options);
