@@ -10,6 +10,45 @@ import Image from "next/image";
 import { EmailSubscribeWModal } from "@/app/components/CallToAction/EmailSubscribeWModal";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
+import { Metadata } from 'next';
+import { SITE_NAME } from '@/lib/constants';
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+  console.log('post:', post);
+  
+
+  if (!post) {
+    return {
+      title: { absolute: 'Not found' },
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const titleText = post.title;
+  const desc = post.description || '';
+  const heroUrl = post.images?.main?.url ? getImageUrl(post.images.main.url) : undefined;
+
+  return {
+    title: { absolute: `${titleText} — ${SITE_NAME}` },
+    description: desc,
+    openGraph: {
+      type: 'article',
+      title: titleText,
+      description: desc,
+      ...(heroUrl ? { images: [{ url: heroUrl, width: 1200, height: 630 }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: titleText,
+      description: desc,
+      ...(heroUrl ? { images: [heroUrl] } : {}),
+    },
+  };
+}
 
 export default async function PostPage({
   params,
