@@ -12,7 +12,7 @@ import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
 import { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
-import { normalizePostContent } from "@/utils/utils";
+import { getReadTimeMinutes, normalizePostContent } from "@/utils/utils";
 
 export async function generateMetadata({
   params,
@@ -136,7 +136,7 @@ export default async function PostPage({
         <div className={styles.post__meta}>
           <span>{new Date(post.createdAt).toLocaleDateString()}</span>
           <span className={styles.post__readTime}>
-            {(post.content.length / 1000).toFixed(0)} mins read
+            {getReadTimeMinutes(post.content)} min read
           </span>
         </div>
 

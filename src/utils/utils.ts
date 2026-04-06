@@ -24,4 +24,12 @@ export function extractPlainText(html: string): string {
   return sanitized.replace(/\s+/g, " ").trim();
 }
 
-export default extractPlainText;
+export function getReadTimeMinutes(html: string, wordsPerMinute = 200): number {
+  const plainText = extractPlainText(html);
+
+  if (!plainText) return 1;
+
+  const wordCount = plainText.split(/\s+/).filter(Boolean).length;
+
+  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+}
