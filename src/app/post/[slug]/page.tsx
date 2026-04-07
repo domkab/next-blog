@@ -13,6 +13,7 @@ import { labelFromSlug } from "@/utils/generateSlug";
 import { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { getReadTimeMinutes, normalizePostContent } from "@/utils/utils";
+import PostJsonLd from "./PostJsonLd";
 
 export async function generateMetadata({
   params,
@@ -92,6 +93,8 @@ export default async function PostPage({
 
   return (
     <main className={styles.post}>
+      <PostJsonLd post={post} slug={slug} />
+
       <div className={styles.post__layout}>
         <h1 className={styles.post__title}>{post.title}</h1>
 
