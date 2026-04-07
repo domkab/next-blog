@@ -7,20 +7,18 @@ export const layoutMetadata: Metadata = {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  // needs more better description i think ?
-  // needs to be dynamic based on the content of the page?
   description:
-    "Practical tech buying guides, laptop comparisons, and gadget advice for people who want clarity without the jargon.",
+    "Practical tech buying guides, laptop comparisons, and clear gadget advice for people who want to make smart choices without getting lost in specs.",
   keywords: [
     "tech buying guides",
     "laptop buying guide",
     "laptop comparisons",
+    "MacBook Air vs MacBook Pro",
     "RAM explained",
     "SSD explained",
-    "MacBook Air vs MacBook Pro",
     "how to choose a laptop",
-    "tech blog",
     "gadget advice",
+    "practical tech blog",
   ],
   ...seoDefaults,
 };
