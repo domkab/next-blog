@@ -32,7 +32,7 @@
     @include onLaptop {
       margin: 0 auto;
       width: 1024px;
-      padding: 0.5rem 0;
+      padding: 0.5rem 1rem;
       grid-template-columns: 0.2fr 0.8fr 1fr;
     }
   }
