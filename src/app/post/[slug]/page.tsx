@@ -10,6 +10,76 @@ import Image from "next/image";
 import { EmailSubscribeWModal } from "@/app/components/CallToAction/EmailSubscribeWModal";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
+import { Metadata } from "next";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { getReadTimeMinutes, normalizePostContent } from "@/utils/utils";
+import PostJsonLd from "./PostJsonLd";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: { absolute: "Not found" },
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = post.title;
+  const description =
+    post.description?.trim() ||
+    normalizePostContent(post.content).slice(0, 155).trim();
+
+  const heroUrl = post.images?.main?.url
+    ? getImageUrl(post.images.main.url)
+    : undefined;
+
+  const postUrl = `${SITE_URL}/post/${post.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: postUrl,
+    },
+    openGraph: {
+      type: "article",
+      url: postUrl,
+      title,
+      description,
+      siteName: SITE_NAME,
+      publishedTime: new Date(post.createdAt).toISOString(),
+      modifiedTime: new Date(post.updatedAt).toISOString(),
+      section: post.categoryName ?? post.category,
+      ...(heroUrl
+        ? {
+            images: [
+              {
+                url: heroUrl,
+                width: 1200,
+                height: 630,
+                alt:
+                  post.images?.main?.meta?.altText ||
+                  post.images?.main?.meta?.description ||
+                  post.title,
+              },
+            ],
+          }
+        : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(heroUrl ? { images: [heroUrl] } : {}),
+    },
+  };
+}
 
 export default async function PostPage({
   params,
@@ -23,6 +93,8 @@ export default async function PostPage({
 
   return (
     <main className={styles.post}>
+      <PostJsonLd post={post} slug={slug} />
+
       <div className={styles.post__layout}>
         <h1 className={styles.post__title}>{post.title}</h1>
 
@@ -67,7 +139,7 @@ export default async function PostPage({
         <div className={styles.post__meta}>
           <span>{new Date(post.createdAt).toLocaleDateString()}</span>
           <span className={styles.post__readTime}>
-            {(post.content.length / 1000).toFixed(0)} mins read
+            {getReadTimeMinutes(post.content)} min read
           </span>
         </div>
 

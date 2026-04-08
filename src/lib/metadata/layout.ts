@@ -1,20 +1,24 @@
-import { Metadata } from 'next';
-import { SITE_NAME } from '../constants';
-import { seoDefaults } from './seoDefaults';
+import { Metadata } from "next";
+import { SITE_NAME } from "../constants";
+import { seoDefaults } from "./seoDefaults";
 
 export const layoutMetadata: Metadata = {
   title: {
-    default: `${SITE_NAME} | home`,
-    template: `%s | ${SITE_NAME} | home`,
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  ...seoDefaults,
+  description:
+    "Practical tech buying guides, laptop comparisons, and clear gadget advice for people who want to make smart choices without getting lost in specs.",
   keywords: [
-    "tech blog",
-    "technology",
-    "gadgets",
-    "reviews",
-    "news",
-    "articles",
+    "tech buying guides",
+    "laptop buying guide",
+    "laptop comparisons",
+    "MacBook Air vs MacBook Pro",
+    "RAM explained",
+    "SSD explained",
+    "how to choose a laptop",
+    "gadget advice",
+    "practical tech blog",
   ],
-  description: "Tech blog with articles on technology, gadgets, and more.",
+  ...seoDefaults,
 };

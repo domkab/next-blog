@@ -1,20 +1,13 @@
-import type { Metadata } from 'next';
-import { SITE_NAME } from '@/lib/constants';
+import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
+import { seoDefaults } from "./seoDefaults";
 
 export const termsConditionsMetadata: Metadata = {
-  title: { absolute: `${SITE_NAME} | terms and conditions` },
-  description: `Read the terms and conditions of ${SITE_NAME} to understand the rules and guidelines for using our website.`,
-  keywords: [
-    "terms and conditions",
-    "user agreement",
-    "website policies",
-    "legal terms",
-    "site usage",
-    "liability",
-    "intellectual property",
-    "user responsibilities",
-    "disclaimer",
-    "governing law",
-  ],
-  alternates: { canonical: '/terms-and-conditions' },
+  ...seoDefaults,
+  title: "Terms and Conditions",
+  description:
+    "Read Pixel Tech’s Terms and Conditions to understand the rules and guidelines for using the website.",
+  alternates: {
+    canonical: `${SITE_URL}/terms-and-conditions`,
+  },
 };
