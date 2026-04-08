@@ -111,7 +111,5 @@ export async function getAllPosts(): Promise<PostWithCategoryName[]> {
   await connect();
   const posts = (await Post.find().lean()) as PostType[];
 
-  console.log("posts", posts);
-
   return withCategoryNames(posts);
 }
