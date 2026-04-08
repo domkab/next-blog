@@ -52,9 +52,7 @@ export default function AboutPage() {
           />
 
           <div
-            className={
-              `${styles["about-page__contact-section--desktop"]} mt-5 text-center`
-            }
+            className={`${styles["about-page__contact-section--desktop"]} mt-5 text-center`}
           >
             <p className="flex items-center justify-center text-x mb-2 gap-2">
               Got feedback or want to collaborate?
@@ -131,7 +129,6 @@ export default function AboutPage() {
           >
             <p className="flex items-center justify-center text-x mb-2 gap-2">
               Got feedback or want to collaborate?
-              <FiMail className="text-teal-500" />
             </p>
 
             <Link

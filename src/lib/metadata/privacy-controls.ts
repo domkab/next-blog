@@ -1,22 +1,13 @@
-import { Metadata } from 'next';
-import { SITE_NAME } from '../constants';
-import { seoDefaults } from './seoDefaults';
+import { Metadata } from "next";
+import { SITE_URL } from "../constants";
+import { seoDefaults } from "./seoDefaults";
 
 export const privacyControlsMetadata: Metadata = {
-  title: { absolute: `${SITE_NAME} | privacy controls` },
   ...seoDefaults,
-  keywords: [
-    "privacy controls",
-    "data protection",
-    "user privacy settings",
-    "information security",
-    "cookie management",
-    "personal data control",
-    "data collection preferences",
-    "data usage options",
-    "GDPR settings",
-    "privacy management",
-  ],
-  description: "Manage your privacy settings and control how your data is used on Pixel Tech Blog.",
-  alternates: { canonical: '/privacy-controls' },
+  title: "Privacy Controls",
+  description:
+    "Manage your privacy preferences and control how data and cookies are used on Pixel Tech.",
+  alternates: {
+    canonical: `${SITE_URL}/privacy-controls`,
+  },
 };

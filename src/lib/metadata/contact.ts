@@ -1,20 +1,13 @@
-import type { Metadata } from 'next';
-import { SITE_NAME } from '@/lib/constants';
+import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
+import { seoDefaults } from "./seoDefaults";
 
 export const contactMetadata: Metadata = {
-  title: { absolute: `${SITE_NAME} | contact` },
-  description: `Get in touch with the team at ${SITE_NAME}. We'd love to hear from you!`,
-  keywords: [
-    "contact",
-    "get in touch",
-    "support",
-    "customer service",
-    "inquiries",
-    "feedback",
-    "help",
-    "questions",
-    "reach out",
-    "communication",
-  ],
-  alternates: { canonical: '/contact' },
+  ...seoDefaults,
+  title: "Contact Pixel Tech",
+  description:
+    "Get in touch with Pixel Tech for feedback, questions, or collaboration inquiries.",
+  alternates: {
+    canonical: `${SITE_URL}/contact`,
+  },
 };
