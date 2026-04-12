@@ -1,4 +1,4 @@
-name: CI/CD Preview
+name: CI/CD staging
 
 on:
   push:
@@ -13,14 +13,14 @@ jobs:
   # --- 1) One-time / idempotent server prep (dirs, perms, ACLs) ---
   bootstrap-server:
     runs-on: ubuntu-latest
-    environment: production
+    environment: staging
     steps:
       - name: Bootstrap uploads dir / ACLs (deploy+domka write, caddy read)
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             set -euo pipefail
 
@@ -32,26 +32,26 @@ jobs:
             sudo apt-get install -y acl
 
             # Create tree (edit this for project-specific cases)
-            sudo mkdir -p /var/www/next-blog/uploads/{posts,featured-posts}
+            sudo mkdir -p /var/www/pixeltech/uploads/{posts,featured-posts}
 
             # Base ownership & perms
-            sudo chown -R deploy:deploy /var/www/next-blog
-            sudo chmod -R 755 /var/www/next-blog
+            sudo chown -R deploy:deploy /var/www/pixeltech
+            sudo chmod -R 755 /var/www/pixeltech
 
             # ACLs (existing files/dirs)
             sudo setfacl -R  \
               -m u:deploy:rwx \
               -m u:${CADDY_USER}:rx \
-              /var/www/next-blog
+              /var/www/pixeltech
 
             # Default ACLs (inherit for NEW files/dirs)
             sudo setfacl -dR \
               -m u:deploy:rwx \
               -m u:${CADDY_USER}:rx \
-              /var/www/next-blog
+              /var/www/pixeltech
 
             echo "== getfacl =="
-            getfacl /var/www/next-blog | sed -n '1,80p'
+            getfacl /var/www/pixeltech | sed -n '1,80p'
 
   # --- 2) Build in CI ---
   build:
@@ -106,7 +106,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: next-blog-release
+          name: pixeltech-release
           path: release.tgz
           if-no-files-found: error
           retention-days: 7
@@ -115,44 +115,44 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: production
+    environment: staging
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v7
         with:
-          name: next-blog-release
+          name: pixeltech-release
           path: .
 
       - name: Ensure app dir exists
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            mkdir -p /home/deploy/next-blog
+            mkdir -p /home/deploy/apps/pixeltech-staging
 
       - name: Upload tarball
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           source: release.tgz
-          target: /home/deploy/next-blog
+          target: /home/deploy/apps/pixeltech-staging
           debug: true
 
       - name: Extract & restart (PM2)
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
             source ~/.profile || true
             source ~/.nvm/nvm.sh || true
-            cd /home/deploy/next-blog
+            cd /home/deploy/apps/pixeltech-staging
             echo "📦 Extracting release.tgz"
             tar -xzf release.tgz
             rm -f release.tgz
@@ -166,5 +166,5 @@ jobs:
             # Install pm2 if missing, install prod deps, restart
             command -v pm2 >/dev/null 2>&1 || npm i -g pm2
             npm ci --omit=dev
-            pm2 reload next-blog --update-env || pm2 start npm --name "next-blog" -- run start
+            pm2 reload pixeltech-staging --update-env || pm2 start npm --name "pixeltech-staging" -- run start
             pm2 save
