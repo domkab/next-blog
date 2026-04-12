@@ -10,7 +10,7 @@ import DashboardComponent from './DashboardComponent';
 import DashFeaturedPosts from './DashFeaturedPosts';
 import DashCategories from './Categories/DashCategories';
 import DashImageSettings from './DashImageSettings';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/nextjs';
 
 export default function DashboardContent() {
   const searchParams = useSearchParams();

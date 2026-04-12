@@ -1,6 +1,6 @@
 "use client";
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import {
   Button,
@@ -24,6 +24,7 @@ export default function HeaderWithSearchAndTheme() {
   const { theme, setTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   const searchParams = useSearchParams();
+  const { isSignedIn } = useAuth();
 
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
@@ -90,16 +91,14 @@ export default function HeaderWithSearchAndTheme() {
 
         {/* auth sign in flows */}
 
-        <SignedIn>
+        {isSignedIn ? (
           <UserButton
             appearance={{
               baseTheme: theme === "light" ? undefined : dark,
             }}
             userProfileUrl="/dashboard?tab=profile"
           />
-        </SignedIn>
-
-        <SignedOut>
+        ) : (
           <Link href="sign-in">
             <Button gradientDuoTone="redToYellow" outline>
               <span className="hidden md:inline">Sign In</span>
@@ -108,7 +107,7 @@ export default function HeaderWithSearchAndTheme() {
               </span>
             </Button>
           </Link>
-        </SignedOut>
+        )}
         <NavbarToggle />
       </div>
 
