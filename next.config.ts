@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'laurynogargasoapiserver.xyz',
+        hostname: 'pixeltechblog.com',
         pathname: '/uploads/**',
       },
             {
