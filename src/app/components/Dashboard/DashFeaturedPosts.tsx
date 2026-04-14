@@ -7,7 +7,7 @@ import { uploadFeaturedImage } from '@/firebase/uploadFeaturedImage';
 import { useAppDispatch } from '@/redux';
 import { deleteFeaturedPost, fetchFeaturedPosts, saveFeaturedPost } from '@/redux/thunks/featuredPostThunks';
 import { PostType } from '@/types/Post';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import {
   Button,

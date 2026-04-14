@@ -1,45 +1,47 @@
-'use client';
+"use client";
 
+import { UserButton, useAuth } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import {
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
-import { Button, Navbar, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from 'flowbite-react';
-import { useTheme } from 'next-themes';
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
-import {
-  FaMoon,
-  FaSignInAlt,
-  FaSun
-} from 'react-icons/fa';
-import Logo from '../Logo';
+  Button,
+  Navbar,
+  NavbarCollapse,
+  NavbarLink,
+  NavbarToggle,
+  TextInput,
+} from "flowbite-react";
+import { useTheme } from "next-themes";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai";
+import { FaMoon, FaSignInAlt, FaSun } from "react-icons/fa";
+import Logo from "../Logo";
 
 export default function HeaderWithSearchAndTheme() {
   const path = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const searchParams = useSearchParams();
+  const { isSignedIn } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(searchParams.toString());
-    urlParams.set('searchTerm', searchTerm);
+    urlParams.set("searchTerm", searchTerm);
     router.push(`/search?${urlParams.toString()}`);
   };
 
   const handleMobileSearch = () => {
     router.push(`/search`);
-  }
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(searchParams.toString());
-    const searchTermFromUrl = urlParams.get('searchTerm');
+    const searchTermFromUrl = urlParams.get("searchTerm");
 
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
@@ -56,7 +58,7 @@ export default function HeaderWithSearchAndTheme() {
             type="text"
             placeholder="Search..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="pr-10 relative"
           />
           <button
@@ -69,7 +71,9 @@ export default function HeaderWithSearchAndTheme() {
       </form>
 
       <Button
-        className="w-12 h-10 lg:hidden" color="gray" pill
+        className="w-12 h-10 lg:hidden"
+        color="gray"
+        pill
         onClick={handleMobileSearch}
       >
         <AiOutlineSearch />
@@ -80,50 +84,48 @@ export default function HeaderWithSearchAndTheme() {
           className="w-12 h-10 hidden sm:inline"
           color="gray"
           pill
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
-          {theme === 'light' ? <FaSun /> : <FaMoon />}
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
 
         {/* auth sign in flows */}
 
-        <SignedIn>
+        {isSignedIn ? (
           <UserButton
             appearance={{
-              baseTheme: theme === 'light' ? undefined : dark,
+              baseTheme: theme === "light" ? undefined : dark,
             }}
             userProfileUrl="/dashboard?tab=profile"
           />
-        </SignedIn>
-
-        <SignedOut>
-          <Link href='sign-in'>
-            <Button gradientDuoTone='redToYellow' outline>
+        ) : (
+          <Link href="sign-in">
+            <Button gradientDuoTone="redToYellow" outline>
               <span className="hidden md:inline">Sign In</span>
               <span className="inline md:hidden">
                 <FaSignInAlt size={20} />
               </span>
             </Button>
           </Link>
-        </SignedOut>
+        )}
         <NavbarToggle />
       </div>
 
       <NavbarCollapse>
-        <Link href='/'>
-          <NavbarLink active={path === '/'} as={'div'}>
+        <Link href="/">
+          <NavbarLink active={path === "/"} as={"div"}>
             Home
           </NavbarLink>
         </Link>
 
-        <Link href='/about'>
-          <NavbarLink active={path === '/about'} as={'div'}>
+        <Link href="/about">
+          <NavbarLink active={path === "/about"} as={"div"}>
             About
           </NavbarLink>
         </Link>
 
-        <Link href='/search'>
-          <NavbarLink active={path === '/search'} as={'div'}>
+        <Link href="/search">
+          <NavbarLink active={path === "/search"} as={"div"}>
             Search
           </NavbarLink>
         </Link>
