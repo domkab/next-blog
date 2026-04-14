@@ -1,9 +1,9 @@
 name: CI/CD staging
 
 on:
-  push:
-    branches: [staging]
-  workflow_dispatch:
+  # push:
+  #   branches: [staging]
+  # workflow_dispatch:
 
 concurrency:
   group: next-blog-${{ github.ref }}
