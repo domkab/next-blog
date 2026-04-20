@@ -1,3 +1,17 @@
+export interface ImageMeta {
+  author?: string;
+  description?: string;
+  altText?: string;
+}
+
+export interface ImageData {
+  id: string;
+  url: string;
+  storagePath?: string;
+  provider?: "firebase";
+  meta?: ImageMeta;
+}
+
 export interface FormData {
   title: string;
   description: string;
@@ -7,20 +21,10 @@ export interface FormData {
   images: {
     main: {
       url: string;
-      meta?: {
-        author?: string
-        description?: string
-        altText?: string
-      };
+      storagePath?: string;
+      provider?: "firebase";
+      meta?: ImageMeta;
     };
-    inline: Array<{
-      id: string;
-      url: string;
-      meta?: {
-        author?: string
-        description?: string
-        altText?: string
-      };
-    }>;
+    inline: ImageData[];
   };
 }
