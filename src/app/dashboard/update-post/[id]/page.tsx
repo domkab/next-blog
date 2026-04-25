@@ -4,7 +4,6 @@ import CategorySelect from "@/app/components/Dashboard/Categories/CategorySelect
 import InlineImageEditor from "@/app/components/PostEditor/InlineImageEditor";
 import PostEditor from "@/app/components/PostEditor/PostEditor";
 import Image from "next/image";
-import { uploadPostImage, useAppDispatch, useAppSelector } from "@/redux";
 import { setFormData } from "@/redux/slices/postFormSlice";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
@@ -17,26 +16,36 @@ import "react-circular-progressbar/dist/styles.css";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { generateSlug } from "@/utils/generateSlug";
 import { DeleteMainImageButton } from "@/app/components/Dashboard/DeleteImage/DeleteMainImageButton";
-import { useRef } from "react";
+import { usePostFormHandlers } from "@/hooks/usePostFormHandlers";
 
 export default function UpdatePost() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
   const [isPostLoading, setIsPostLoading] = useState(true);
+  const {
+    dispatch,
+    file,
+    clearSelectedFile,
+    latestContentRef,
+    title,
+    description,
+    content,
+    category,
+    mainImage,
+    inlineImages,
+    imageUploadProgress,
+    imageUploadError,
+    handleTitleChange,
+    handleDescriptionChange,
+    handleCategoryChange,
+    handleMainImageMetaChange,
+    handleMainImageUpload,
+    handleInlineImageUpload,
+    handleFileChange,
+  } = usePostFormHandlers();
 
-  const dispatch = useAppDispatch();
-  const formData = useAppSelector(state => state.postForm);
-  const inlineImages = useAppSelector(state => state.postForm.images.inline);
-  const imageUploadProgress = useAppSelector(
-    state => state.postForm.imageUploadProgress,
-  );
-  const imageUploadError = useAppSelector(
-    state => state.postForm.imageUploadError,
-  );
-  const slug = generateSlug(formData.title);
-  const latestContentRef = useRef(formData.content || "");
+  const slug = generateSlug(title);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -48,13 +57,19 @@ export default function UpdatePost() {
     const latestContent = latestContentRef.current?.trim();
 
     const payload = {
-      ...formData,
+      title,
+      description,
       content:
-        latestContent && latestContent.length > 0
-          ? latestContent
-          : formData.content,
+        latestContent && latestContent.length > 0 ? latestContent : content,
+      slug,
+      category,
+      images: {
+        main: mainImage,
+        inline: inlineImages,
+      },
       userMongoId: user?.publicMetadata.userMongoId,
       postId,
+      isAdmin: user?.publicMetadata?.isAdmin,
     };
 
     try {
@@ -76,40 +91,6 @@ export default function UpdatePost() {
     } catch (error: unknown) {
       setPublishError(`Something went wrong: ${error}`);
     }
-  };
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setFormData({ title: e.target.value }));
-  };
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setFormData({ description: e.target.value }));
-  };
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setFormData({ category: e.target.value }));
-  };
-  const handleMainImageUpload = (file: File) => {
-    if (file) {
-      dispatch(uploadPostImage({ file, target: "main" }));
-    }
-  };
-  const handleInlineImageUpload = async (file: File): Promise<string> => {
-    try {
-      const resultAction = await dispatch(
-        uploadPostImage({ file, target: "inline" }),
-      );
-
-      if (uploadPostImage.fulfilled.match(resultAction)) {
-        const imageUrl = resultAction.payload.url;
-        return imageUrl;
-      } else {
-        throw new Error("Image upload failed");
-      }
-    } catch (err) {
-      throw new Error(`Inline image upload failed: ${err}`);
-    }
-  };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files?.[0] || null);
   };
 
   useEffect(() => {
@@ -181,15 +162,12 @@ export default function UpdatePost() {
             placeholder="Title"
             required
             id="title"
-            value={formData.title}
+            value={title}
             className="flex-1"
             onChange={handleTitleChange}
           />
 
-          <CategorySelect
-            value={formData.category}
-            onChange={handleCategoryChange}
-          />
+          <CategorySelect value={category} onChange={handleCategoryChange} />
         </div>
 
         <div className="description flex flex-col gap-4 sm:flex-row ">
@@ -198,7 +176,7 @@ export default function UpdatePost() {
             placeholder="Description"
             id="description"
             className="flex-1"
-            value={formData.description}
+            value={description}
             onChange={handleDescriptionChange}
             maxLength={187}
           />
@@ -241,16 +219,16 @@ export default function UpdatePost() {
 
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
 
-        {formData.images.main.url && (
+        {mainImage.url && (
           <>
             <div
               style={{ position: "relative", width: "100%", height: "400px" }}
             >
               <Image
-                src={getImageUrl(formData.images.main.url)}
+                src={getImageUrl(mainImage.url)}
                 alt={
-                  formData.images.main.meta?.altText ||
-                  formData.images.main.meta?.description ||
+                  mainImage.meta?.altText ||
+                  mainImage.meta?.description ||
                   "Uploaded image"
                 }
                 fill
@@ -267,6 +245,8 @@ export default function UpdatePost() {
                         images: {
                           main: {
                             url: "",
+                            storagePath: "",
+                            provider: undefined,
                             meta: {
                               author: "",
                               description: "",
@@ -290,26 +270,14 @@ export default function UpdatePost() {
                 >
                   Image Author
                 </label>
+
                 <TextInput
                   id="main-image-author"
                   type="text"
                   placeholder="Author"
-                  value={formData.images.main.meta?.author || ""}
+                  value={mainImage.meta?.author || ""}
                   onChange={e =>
-                    dispatch(
-                      setFormData({
-                        images: {
-                          ...formData.images,
-                          main: {
-                            ...formData.images.main,
-                            meta: {
-                              ...formData.images.main.meta,
-                              author: e.target.value,
-                            },
-                          },
-                        },
-                      }),
-                    )
+                    handleMainImageMetaChange("author", e.target.value)
                   }
                 />
               </div>
@@ -321,26 +289,14 @@ export default function UpdatePost() {
                 >
                   Image Description
                 </label>
+
                 <TextInput
                   id="main-image-description"
                   type="text"
                   placeholder="Description"
-                  value={formData.images.main.meta?.description || ""}
+                  value={mainImage.meta?.description || ""}
                   onChange={e =>
-                    dispatch(
-                      setFormData({
-                        images: {
-                          ...formData.images,
-                          main: {
-                            ...formData.images.main,
-                            meta: {
-                              ...formData.images.main.meta,
-                              description: e.target.value,
-                            },
-                          },
-                        },
-                      }),
-                    )
+                    handleMainImageMetaChange("description", e.target.value)
                   }
                 />
               </div>
@@ -352,26 +308,14 @@ export default function UpdatePost() {
                 >
                   Image Alt Text
                 </label>
+
                 <TextInput
                   id="main-image-alt-text"
                   type="text"
                   placeholder="Alt text"
-                  value={formData.images.main.meta?.altText || ""}
+                  value={mainImage.meta?.altText || ""}
                   onChange={e =>
-                    dispatch(
-                      setFormData({
-                        images: {
-                          ...formData.images,
-                          main: {
-                            ...formData.images.main,
-                            meta: {
-                              ...formData.images.main.meta,
-                              altText: e.target.value,
-                            },
-                          },
-                        },
-                      }),
-                    )
+                    handleMainImageMetaChange("altText", e.target.value)
                   }
                 />
               </div>
@@ -389,8 +333,7 @@ export default function UpdatePost() {
           ) : (
             <>
               <PostEditor
-                formData={formData}
-                setFormData={data => dispatch(setFormData(data))}
+                initialValue={content}
                 imageUploadProgress={imageUploadProgress}
                 handleUploadImage={handleInlineImageUpload}
                 onContentChange={html => {
