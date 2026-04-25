@@ -17,11 +17,16 @@ import QuillNoSSRWrapper from "./QuillNoSSRWrapper";
 import "react-quill-new/dist/quill.snow.css";
 import styles from "./PostEditor.module.scss";
 
+interface UploadImageResult {
+  url: string;
+  storagePath: string;
+  provider: "firebase";
+}
+
 interface PostEditorProps {
-  formData: PostFormState;
-  setFormData: (data: Partial<PostFormState>) => void;
+  initialValue: string;
   imageUploadProgress: string | null;
-  handleUploadImage: (file: File) => Promise<string>;
+  handleUploadImage: (file: File) => Promise<UploadImageResult>;
   onContentChange: (html: string) => void;
   postId: string;
 }
@@ -37,14 +42,13 @@ const FORMATS = [
 ];
 
 const PostEditor: React.FC<PostEditorProps> = ({
-  formData,
-  setFormData,
+  initialValue,
   imageUploadProgress,
   handleUploadImage,
   onContentChange,
   postId,
 }) => {
-  const [localValue, setLocalValue] = useState(formData.content ?? "");
+  const [localValue, setLocalValue] = useState(initialValue ?? "");
   const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
   const quillRef = useRef<ReactQuillType | null>(null);
   const dispatch = useDispatch();
@@ -62,33 +66,40 @@ const PostEditor: React.FC<PostEditorProps> = ({
       if (!file) return;
 
       try {
-        const imagePath = await handleUploadImage(file);
+        const uploadedImage = await handleUploadImage(file);
         const imageId = uuidv4();
 
         dispatch(
           addInlineImage({
             id: imageId,
-            url: imagePath,
+            url: uploadedImage.url,
+            storagePath: uploadedImage.storagePath,
+            provider: uploadedImage.provider,
             meta: { author: "", description: "", altText: "" },
           }),
         );
 
         const quill = quillRef.current?.getEditor();
         if (!quill) return;
-
         const range = quill.getSelection(true);
         if (!range) return;
 
-        quill.insertEmbed(range.index, "image", imagePath, "user");
+        quill.insertEmbed(range.index, "image", uploadedImage.url, "user");
         quill.formatText(range.index, 1, { imageId });
         quill.setSelection(range.index + 1);
 
-        setFormData({ content: quill.root.innerHTML });
+        const nextHtml = quill.root.innerHTML;
+        setLocalValue(nextHtml);
+        onContentChange(nextHtml);
       } catch (err) {
         console.error("Image upload failed", err);
       }
     };
-  }, [handleUploadImage, dispatch, setFormData]);
+  }, [handleUploadImage, dispatch]);
+
+  useEffect(() => {
+    setLocalValue(initialValue ?? "");
+  }, [initialValue, postId]);
 
   // added dynamic import to ensure CSR only.
   useEffect(() => {
@@ -157,4 +168,4 @@ const PostEditor: React.FC<PostEditorProps> = ({
   );
 };
 
-export default PostEditor;
+export default React.memo(PostEditor);
