@@ -26,7 +26,7 @@ export default function UpdatePost() {
   const {
     dispatch,
     file,
-    clearSelectedFile,
+    // clearSelectedFile,
     latestContentRef,
     title,
     description,
