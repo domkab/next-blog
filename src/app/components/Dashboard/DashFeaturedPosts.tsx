@@ -194,6 +194,7 @@ export default function FeaturedPostAdminPage() {
                 alt={getPostById(selectedPostId)?.title || "Post image"}
                 fill
                 className="object-cover rounded-md"
+                unoptimized
               />
             </div>
 
@@ -257,6 +258,7 @@ export default function FeaturedPostAdminPage() {
                       onClick={() => router.push(`/post/${post?.slug}`)}
                       fill
                       className="object-cover rounded-md"
+                      unoptimized
                     />
                   </div>
 
