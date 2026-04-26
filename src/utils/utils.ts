@@ -33,3 +33,12 @@ export function getReadTimeMinutes(html: string, wordsPerMinute = 200): number {
 
   return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
 }
+
+export const formatPostDate = (date: string | Date) => {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(date));
+};

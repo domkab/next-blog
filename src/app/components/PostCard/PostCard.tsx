@@ -7,6 +7,7 @@ import { labelFromSlug } from "@/utils/generateSlug";
 import { PostWithCategoryName } from "@/lib/services/postService";
 
 import styles from "./PostCard.module.scss";
+import { formatPostDate } from '@/utils/utils';
 
 type PostCardProps = {
   post: PostWithCategoryName;
@@ -43,7 +44,7 @@ export default function PostCard({ post }: PostCardProps) {
             </span>
 
             <span className={styles.postCard__date}>
-              {new Date(post.createdAt).toLocaleDateString()}
+              {formatPostDate(post.createdAt)}
             </span>
           </div>
 
