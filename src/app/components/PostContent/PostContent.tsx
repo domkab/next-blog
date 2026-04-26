@@ -25,6 +25,27 @@ const isInternalHref = (href: string) => {
   );
 };
 
+const normalizeImageUrl = (url?: string) => {
+  if (!url) return "";
+
+  try {
+    return decodeURIComponent(url).trim();
+  } catch {
+    return url.trim();
+  }
+};
+
+const getStoragePathFromUrl = (url?: string) => {
+  const normalizedUrl = normalizeImageUrl(url);
+
+  const marker = ".app/";
+  const markerIndex = normalizedUrl.indexOf(marker);
+
+  if (markerIndex === -1) return "";
+
+  return normalizedUrl.slice(markerIndex + marker.length);
+};
+
 const PostContent: React.FC<PostContentProps> = ({ post }) => {
   const options: HTMLReactParserOptions = {
     replace: (domNode, index) => {
@@ -77,9 +98,17 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
         if (imgNode) {
           const { src, alt } = imgNode.attribs;
 
-          // Now we treat `src` as a public local path
-          const path = decodeURIComponent(src);
-          const inlineImage = post.images.inline.find(i => i.url === path);
+          const imageSrc = src?.trim() || "";
+          const normalizedSrc = normalizeImageUrl(imageSrc);
+          const srcStoragePath = getStoragePathFromUrl(imageSrc);
+
+          const inlineImage = post.images.inline.find(image => {
+            if (image.storagePath && srcStoragePath) {
+              return image.storagePath === srcStoragePath;
+            }
+
+            return normalizeImageUrl(image.url) === normalizedSrc;
+          });
 
           const meta = (inlineImage?.meta || {}) as {
             author?: string;
@@ -94,14 +123,17 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
           return (
             <figure key={index} className={styles["post-content__figure"]}>
               <Image
-                src={getImageUrl(path)}
-                alt={meta?.altText || meta?.description || "inline image"}
+                src={getImageUrl(normalizedSrc)}
+                alt={
+                  meta?.altText || meta?.description || alt || "inline image"
+                }
                 width={800}
                 height={450}
                 unoptimized
                 priority
                 className={styles["post-content__image"]}
               />
+
               {hasCaption && (
                 <figcaption className={styles["post-content__caption"]}>
                   {meta.author && meta.description
@@ -146,6 +178,8 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
       }
     },
   };
+
+  //  move to backend in the future
 
   const cleanHtml = DOMPurify.sanitize(post.content, {
     USE_PROFILES: { html: true },

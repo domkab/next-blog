@@ -29,6 +29,8 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
         main: {
           url: body.images.main.url,
           meta: body.images.main.meta || {},
+          storagePath: body.images.main.storagePath,
+          provider: body.images.main.provider,
         },
         inline: body.images.inline || [],
       },

@@ -1,22 +1,31 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setImageUploadProgress, setImageUploadError, setFormData } from '../slices/postFormSlice';
-import { generateSlug } from '@/utils/generateSlug';
-import { RootState } from '../store';
-import { uploadImageViaApi } from '@/firebase/uploadImageViaApi';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  setImageUploadProgress,
+  setImageUploadError,
+  setFormData,
+} from "../slices/postFormSlice";
+import { generateSlug } from "@/utils/generateSlug";
+import { RootState } from "../store";
+import { uploadImageViaApi } from "@/firebase/uploadImageViaApi";
 
-interface UploadImageResponse {
+export interface UploadImageResult {
   url: string;
-  target: 'main' | 'inline';
+  storagePath: string;
+  provider: "firebase";
+}
+
+interface UploadImageResponse extends UploadImageResult {
+  target: "main" | "inline";
 }
 
 export const uploadPostImage = createAsyncThunk<
   UploadImageResponse,
-  { file: File; target: 'main' | 'inline' },
+  { file: File; target: "main" | "inline" },
   { state: RootState }
 >(
-  'postForm/uploadPostImage',
-  async ({ file, target }, { dispatch, getState }) => {
-    dispatch(setImageUploadProgress('0'));
+  "postForm/uploadPostImage",
+  async ({ file, target }, { dispatch, getState, rejectWithValue }) => {
+    dispatch(setImageUploadProgress("0"));
     dispatch(setImageUploadError(null));
 
     const state = getState();
@@ -29,7 +38,7 @@ export const uploadPostImage = createAsyncThunk<
     }
 
     try {
-      return new Promise<UploadImageResponse>((resolve, reject) => {
+      return await new Promise<UploadImageResponse>((resolve, reject) => {
         uploadImageViaApi(
           file,
           target,
@@ -38,20 +47,29 @@ export const uploadPostImage = createAsyncThunk<
             dispatch(setImageUploadProgress(progress));
           },
           (error: string) => {
-            dispatch(setImageUploadError(error));
-            reject(error);
-          },
-          (url: string) => {
             dispatch(setImageUploadProgress(null));
-            resolve({ url, target });
-          }
+            dispatch(setImageUploadError(error));
+            reject(new Error(error));
+          },
+          (result: UploadImageResult) => {
+            dispatch(setImageUploadProgress(null));
+
+            resolve({
+              ...result,
+              target,
+            });
+          },
         );
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+
+      dispatch(setImageUploadProgress(null));
       dispatch(setImageUploadError(errorMessage));
-      console.log('Error uploading image:', error);
-      throw error;
+      console.error("Error uploading image:", error);
+
+      return rejectWithValue(errorMessage);
     }
-  }
+  },
 );

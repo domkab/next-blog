@@ -4,49 +4,67 @@ import CategorySelect from "@/app/components/Dashboard/Categories/CategorySelect
 import InlineImageEditor from "@/app/components/PostEditor/InlineImageEditor";
 import PostEditor from "@/app/components/PostEditor/PostEditor";
 import Image from "next/image";
-import { uploadPostImage, useAppDispatch, useAppSelector } from "@/redux";
 import { setFormData, resetForm } from "@/redux/slices/postFormSlice";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { Alert, Button, FileInput, TextInput } from "flowbite-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { DeleteMainImageButton } from "@/app/components/Dashboard/DeleteImage/DeleteMainImageButton";
 import { generateSlug } from "@/utils/generateSlug";
-import { useRef } from "react";
+import { usePostFormHandlers } from "@/hooks/usePostFormHandlers";
+
+export interface UploadImageResult {
+  url: string;
+  storagePath: string;
+  provider: "firebase";
+}
 
 export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [isReady, setIsReady] = useState(false);
-
-  const dispatch = useAppDispatch();
-  const formData = useAppSelector(state => state.postForm);
-  const inlineImages = useAppSelector(state => state.postForm.images.inline);
-  const imageUploadProgress = useAppSelector(
-    state => state.postForm.imageUploadProgress,
-  );
-  const imageUploadError = useAppSelector(
-    state => state.postForm.imageUploadError,
-  );
-  const slug = generateSlug(formData.title);
-  const latestContentRef = useRef(formData.content || "");
+  const {
+    dispatch,
+    file,
+    clearSelectedFile,
+    latestContentRef,
+    title,
+    description,
+    content,
+    category,
+    mainImage,
+    inlineImages,
+    imageUploadProgress,
+    imageUploadError,
+    handleTitleChange,
+    handleDescriptionChange,
+    handleCategoryChange,
+    handleMainImageMetaChange,
+    handleMainImageUpload,
+    handleInlineImageUpload,
+    handleFileChange,
+  } = usePostFormHandlers();
+  const slug = generateSlug(title);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const latestContent = latestContentRef.current;
     const payload = {
-      ...formData,
+      title,
+      description,
       content:
-        latestContent && latestContent.length > 0
-          ? latestContent
-          : formData.content,
+        latestContent && latestContent.length > 0 ? latestContent : content,
+      slug,
+      category,
+      images: {
+        main: mainImage,
+        inline: inlineImages,
+      },
       userMongoId: user?.publicMetadata.userMongoId,
       isAdmin: user?.publicMetadata?.isAdmin,
     };
@@ -67,46 +85,9 @@ export default function CreatePostPage() {
       localStorage.setItem("publishSuccess", "Post published successfully!");
       setPublishSuccess("Post published successfully!");
       dispatch(resetForm());
-
-      // setTimeout(() => window.location.reload(), 2000);
     } catch (error: unknown) {
       setPublishError(`Something went wrong: ${error}`);
     }
-  };
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setFormData({ title: e.target.value }));
-  };
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setFormData({ description: e.target.value }));
-  };
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setFormData({ category: e.target.value }));
-  };
-  const handleMainImageUpload = (file: File) => {
-    if (file) {
-      dispatch(uploadPostImage({ file, target: "main" }));
-    }
-  };
-
-  const handleInlineImageUpload = async (file: File): Promise<string> => {
-    try {
-      const resultAction = await dispatch(
-        uploadPostImage({ file, target: "inline" }),
-      );
-
-      if (uploadPostImage.fulfilled.match(resultAction)) {
-        const imageUrl = resultAction.payload.url;
-        return imageUrl;
-      } else {
-        throw new Error("Image upload failed");
-      }
-    } catch (err) {
-      throw new Error(`Inline image upload failed: ${err}`);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files?.[0] || null);
   };
 
   // debug
@@ -114,18 +95,14 @@ export default function CreatePostPage() {
   //   console.log("form data in create:", formData);
   // }, [formData]);
 
-  useEffect(() => {
-    // setIsReady(false);
-
+  useLayoutEffect(() => {
     dispatch(resetForm());
+
     latestContentRef.current = "";
-    setFile(null);
+
+    clearSelectedFile();
     setPublishError(null);
     setPublishSuccess(null);
-
-    // allow next render after reset dispatch has been processed
-    // (one microtask / one frame is enough)
-    queueMicrotask(() => setIsReady(true));
 
     return () => {
       dispatch(resetForm());
@@ -141,7 +118,9 @@ export default function CreatePostPage() {
       </h1>
     );
   }
-  console.log("formData in create:", formData);
+
+  // pacheckinti cia kaip del debug
+  // console.log("formData in create:", formData);
 
   return (
     <div className="p-3 min-h-screen">
@@ -162,14 +141,11 @@ export default function CreatePostPage() {
             placeholder="Title"
             id="title"
             className="flex-1"
-            value={formData.title}
+            value={title}
             onChange={handleTitleChange}
           />
 
-          <CategorySelect
-            value={formData.category}
-            onChange={handleCategoryChange}
-          />
+          <CategorySelect value={category} onChange={handleCategoryChange} />
         </div>
 
         <div className="description flex flex-col gap-4 sm:flex-row ">
@@ -178,7 +154,7 @@ export default function CreatePostPage() {
             placeholder="Description"
             id="description"
             className="flex-1"
-            value={formData.description}
+            value={description}
             onChange={handleDescriptionChange}
             maxLength={187}
           />
@@ -220,17 +196,16 @@ export default function CreatePostPage() {
         </div>
 
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-
-        {formData.images.main.url && (
+        {mainImage.url && (
           <>
             <div
               style={{ position: "relative", width: "100%", height: "400px" }}
             >
               <Image
-                src={getImageUrl(formData.images.main.url)}
+                src={getImageUrl(mainImage.url)}
                 alt={
-                  formData.images.main.meta?.altText ||
-                  formData.images.main.meta?.description ||
+                  mainImage.meta?.altText ||
+                  mainImage.meta?.description ||
                   "Uploaded image"
                 }
                 fill
@@ -247,6 +222,8 @@ export default function CreatePostPage() {
                         images: {
                           main: {
                             url: "",
+                            storagePath: "",
+                            provider: undefined,
                             meta: {
                               author: "",
                               description: "",
@@ -270,26 +247,14 @@ export default function CreatePostPage() {
                 >
                   Image Author
                 </label>
+
                 <TextInput
                   id="main-image-author"
                   type="text"
                   placeholder="Author"
-                  value={formData.images.main.meta?.author || ""}
+                  value={mainImage.meta?.author || ""}
                   onChange={e =>
-                    dispatch(
-                      setFormData({
-                        images: {
-                          ...formData.images,
-                          main: {
-                            ...formData.images.main,
-                            meta: {
-                              ...formData.images.main.meta,
-                              author: e.target.value,
-                            },
-                          },
-                        },
-                      }),
-                    )
+                    handleMainImageMetaChange("author", e.target.value)
                   }
                 />
               </div>
@@ -301,26 +266,14 @@ export default function CreatePostPage() {
                 >
                   Image Description
                 </label>
+
                 <TextInput
                   id="main-image-description"
                   type="text"
                   placeholder="Description"
-                  value={formData.images.main.meta?.description || ""}
+                  value={mainImage.meta?.description || ""}
                   onChange={e =>
-                    dispatch(
-                      setFormData({
-                        images: {
-                          ...formData.images,
-                          main: {
-                            ...formData.images.main,
-                            meta: {
-                              ...formData.images.main.meta,
-                              description: e.target.value,
-                            },
-                          },
-                        },
-                      }),
-                    )
+                    handleMainImageMetaChange("description", e.target.value)
                   }
                 />
               </div>
@@ -332,26 +285,14 @@ export default function CreatePostPage() {
                 >
                   Image Alt Text
                 </label>
+
                 <TextInput
                   id="main-image-alt-text"
                   type="text"
                   placeholder="Alt text"
-                  value={formData.images.main.meta?.altText || ""}
+                  value={mainImage.meta?.altText || ""}
                   onChange={e =>
-                    dispatch(
-                      setFormData({
-                        images: {
-                          ...formData.images,
-                          main: {
-                            ...formData.images.main,
-                            meta: {
-                              ...formData.images.main.meta,
-                              altText: e.target.value,
-                            },
-                          },
-                        },
-                      }),
-                    )
+                    handleMainImageMetaChange("altText", e.target.value)
                   }
                 />
               </div>
@@ -359,32 +300,27 @@ export default function CreatePostPage() {
           </>
         )}
 
-        {!isReady ? (
-          <div className="flex items-center justify-center h-48">
-            <div className="w-24 h-24">
-              <CircularProgressbar value={66} text="Loading..." />
-            </div>
-          </div>
-        ) : (
-          <>
-            <PostEditor
-              formData={formData}
-              setFormData={data => dispatch(setFormData(data))}
-              imageUploadProgress={imageUploadProgress}
-              handleUploadImage={handleInlineImageUpload}
-              onContentChange={html => {
-                latestContentRef.current = html;
-              }}
-              postId="new-post"
-            />
+        <>
+          <PostEditor
+            initialValue=""
+            imageUploadProgress={imageUploadProgress}
+            handleUploadImage={handleInlineImageUpload}
+            onContentChange={html => {
+              latestContentRef.current = html;
+            }}
+            postId="new-post"
+          />
 
-            <InlineImageEditor />
+          <InlineImageEditor />
 
-            <Button type="submit" gradientDuoTone="purpleToPink">
-              Publish
-            </Button>
-          </>
-        )}
+          <Button
+            type="submit"
+            gradientDuoTone="purpleToPink"
+            disabled={!!imageUploadProgress}
+          >
+            Publish
+          </Button>
+        </>
       </form>
     </div>
   );
