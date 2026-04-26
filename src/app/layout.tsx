@@ -71,7 +71,11 @@ export default function RootLayout({
                   <Header />
                 </Suspense>
                 <NavigationLoader />
-                <PageViewTracker />
+
+                <Suspense fallback={null}>
+                  <PageViewTracker />
+                </Suspense>
+
                 <GA />
                 <CookieBannerToggle />
                 {children}
