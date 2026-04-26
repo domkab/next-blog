@@ -1,17 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import CookieBanner from './CookieBanner';
+import { useEffect, useState } from "react";
+import CookieBanner from "./CookieBanner";
+
+const hasCookie = (name: string) => {
+  return document.cookie
+    .split("; ")
+    .some(cookie => cookie.startsWith(`${name}=`));
+};
 
 export default function CookieBannerToggle() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (document.cookie.includes('needs_banner=1')) {
-      setShow(true);
-    };
+    setShow(!hasCookie("cookie_consent"));
   }, []);
 
   if (!show) return null;
   return <CookieBanner />;
-};
+}
