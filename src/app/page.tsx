@@ -43,9 +43,9 @@ export default async function Home() {
         </Link>
       </section>
 
-      <section className="" aria-label="Subscribe to Newsletter">
+      {/* <section className="" aria-label="Subscribe to Newsletter">
         <EmailSubscribeWModal />
-      </section>
+      </section> */}
     </main>
   );
 }
