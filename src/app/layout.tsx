@@ -84,7 +84,8 @@ export default async function RootLayout({
                   <Header />
                 </Suspense>
                 <NavigationLoader />
-                <GA />
+
+                {shouldTrack && <GA />}
 
                 <Suspense fallback={null}>
                   <PageViewTracker />
