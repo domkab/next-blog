@@ -43,6 +43,12 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === "true";
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
+  const shouldTrack = !pathname.startsWith("/dashboard");
+
+  const shouldShowCookieBanner =
+    headersList.get("x-should-show-cookie-banner") === "1";
 
   const bodyClassName = `
   ${inter.variable} 
@@ -52,27 +58,23 @@ export default async function RootLayout({
   antialiased${useThemeFlag ? "" : " background"}
   `;
 
-  const headersList = await headers();
-  const shouldShowCookieBanner =
-    headersList.get("x-should-show-cookie-banner") === "1";
-
-  console.log("shouldShowCookieBanner", shouldShowCookieBanner);
-
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={bodyClassName}>
           {/* umami analytics */}
-          <Script
-            src="https://cloud.umami.is/script.js"
-            data-website-id={
-              process.env.NODE_ENV === "production"
-                ? "034cf6a9-05f1-4a66-a1b2-9599289dcdb1"
-                : "d9b1cbb6-5b3c-4c8e-9a2b-9c0a1fbbd8b2"
-            }
-            strategy="afterInteractive"
-            defer
-          />
+          {shouldTrack && (
+            <Script
+              src="https://cloud.umami.is/script.js"
+              data-website-id={
+                process.env.NODE_ENV === "production"
+                  ? "034cf6a9-05f1-4a66-a1b2-9599289dcdb1"
+                  : "d9b1cbb6-5b3c-4c8e-9a2b-9c0a1fbbd8b2"
+              }
+              strategy="afterInteractive"
+              defer
+            />
+          )}
 
           <BodyFontManager />
           <ReduxProvider>
