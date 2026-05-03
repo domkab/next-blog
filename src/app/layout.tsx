@@ -14,6 +14,7 @@ import ThemeComponent from "./components/ThemeComponent";
 import { layoutMetadata } from "@/lib/metadata/layout";
 import BodyFontManager from "./components/BodyFontManager";
 import Script from "next/script";
+import { headers } from 'next/headers';
 
 export const metadata = layoutMetadata;
 
@@ -38,7 +39,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === "true";
@@ -50,6 +51,10 @@ export default function RootLayout({
   antialiased -webkit-font-smoothing
   antialiased${useThemeFlag ? "" : " background"}
   `;
+
+  const headersList = await headers();
+  const shouldShowCookieBanner =
+    headersList.get("x-should-show-cookie-banner") === "1";
 
   return (
     <ClerkProvider>
@@ -77,7 +82,7 @@ export default function RootLayout({
                 </Suspense>
 
                 <GA />
-                <CookieBannerToggle />
+                <CookieBannerToggle initialShow={shouldShowCookieBanner} />
                 {children}
                 <Footer />
               </div>

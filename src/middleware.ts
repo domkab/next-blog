@@ -9,30 +9,17 @@ const WINDOW_MS = 60_000;
 
 // ---------- middleware ----------
 const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
-  const {
-    ip,
-    // country, for debugging purposes
-    isEU,
-    isCalifornia,
-  } = await getIpAndCountry(req);
-
+  const { ip, isEU, isCalifornia } = await getIpAndCountry(req);
   logRequest(req, ip);
 
-  const res = NextResponse.next();
+  const hasConsent = req.cookies.has("cookie_consent");
+  const shouldShowCookieBanner = !hasConsent && (isEU || isCalifornia);
 
-  const needsBanner =
-    !req.cookies.has("cookie_consent") && (isEU || isCalifornia);
-
-  if (needsBanner) {
-    res.cookies.set("needs_banner", "1", {
-      path: "/",
-      maxAge: 300,
-      httpOnly: false,
-      sameSite: "lax",
-    });
-  } else {
-    res.cookies.delete("needs_banner");
-  }
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set(
+    "x-should-show-cookie-banner",
+    shouldShowCookieBanner ? "1" : "0",
+  );
 
   /* 4: simple rate-limit for GET /api/* */
   const isApiGet =
@@ -44,7 +31,11 @@ const middlewareHandler = clerkMiddleware(async (_auth, req: NextRequest) => {
     return new NextResponse("Rate limit exceeded", { status: 429 });
   }
 
-  return res;
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 });
 
 export default middlewareHandler;
