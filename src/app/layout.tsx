@@ -14,7 +14,7 @@ import ThemeComponent from "./components/ThemeComponent";
 import { layoutMetadata } from "@/lib/metadata/layout";
 import BodyFontManager from "./components/BodyFontManager";
 import Script from "next/script";
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
 export const metadata = layoutMetadata;
 
@@ -56,6 +56,8 @@ export default async function RootLayout({
   const shouldShowCookieBanner =
     headersList.get("x-should-show-cookie-banner") === "1";
 
+  console.log("shouldShowCookieBanner", shouldShowCookieBanner);
+
   return (
     <ClerkProvider>
       <html lang="en">
@@ -76,12 +78,12 @@ export default async function RootLayout({
                   <Header />
                 </Suspense>
                 <NavigationLoader />
+                <GA />
 
                 <Suspense fallback={null}>
                   <PageViewTracker />
                 </Suspense>
 
-                <GA />
                 <CookieBannerToggle initialShow={shouldShowCookieBanner} />
                 {children}
                 <Footer />
