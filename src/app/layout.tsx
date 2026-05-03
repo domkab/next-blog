@@ -2,7 +2,7 @@ import "./globals.css";
 import "./globals.scss";
 import ReduxProvider from "@/redux/ReduxProvider";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Poppins, Outfit, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -19,19 +19,19 @@ import TrackingExclusion from "./components/Tracking/TrackingExclusion";
 
 export const metadata = layoutMetadata;
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-poppins",
-});
+// const poppins = Poppins({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+//   display: "swap",
+//   variable: "--font-poppins",
+// });
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-outfit",
-});
+// const outfit = Outfit({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+//   display: "swap",
+//   variable: "--font-outfit",
+// });
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,8 +56,6 @@ export default async function RootLayout({
 
   const bodyClassName = `
   ${inter.variable} 
-  ${outfit.variable} 
-  ${poppins.variable}
   antialiased -webkit-font-smoothing
   antialiased${useThemeFlag ? "" : " background"}
   `;
