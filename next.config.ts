@@ -1,31 +1,30 @@
 import type { NextConfig } from "next";
-import path from 'path';
+import path from "path";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
-        pathname: '/v0/b/**'
+        protocol: "https",
+        hostname: "storage.googleapis.com",
       },
       {
-        protocol: 'https',
-        hostname: 'next-blog-acbbc.appspot.com',
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        pathname: "/v0/b/**",
       },
       {
-        protocol: 'https',
-        hostname: 'next-blog-acbbc.firebasestorage.app', // optional, legacy or manually generated
+        protocol: "https",
+        hostname: "next-blog-acbbc.appspot.com",
       },
       {
-        protocol: 'https',
-        hostname: 'pixeltechblog.com',
-        pathname: '/uploads/**',
+        protocol: "https",
+        hostname: "next-blog-acbbc.firebasestorage.app", // optional, legacy or manually generated
       },
-            {
-        protocol: 'http',
-        hostname: 'localhost',
-        pathname: '/uploads/**',
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
       },
     ],
   },
@@ -33,7 +32,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'src')],
+    includePaths: [path.join(__dirname, "src")],
   },
 };
 

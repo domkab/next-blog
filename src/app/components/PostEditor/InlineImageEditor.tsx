@@ -6,12 +6,12 @@ import type { RootState } from "@/redux/store";
 import {
   updateInlineImageMeta,
   removeInlineImage,
-  ImageMeta,
 } from "@/redux/slices/postFormSlice";
 import { Button, Label, TextInput } from "flowbite-react";
 import Image from "next/image";
 import axios from "axios";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { ImageMeta } from '@/types/FormData';
 
 const InlineImageEditor: React.FC = () => {
   const dispatch = useDispatch();
@@ -65,7 +65,10 @@ const InlineImageEditor: React.FC = () => {
 
     try {
       await axios.delete("/api/image/delete", {
-        data: { url: img.url },
+        data: {
+          storagePath: img.storagePath,
+          url: img.url,
+        },
         headers: { "Content-Type": "application/json" },
       });
 

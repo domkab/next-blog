@@ -4,24 +4,33 @@ import fs from "fs";
 import path from "path";
 import postModel from "./models/postModel";
 import FeaturedPost from "./models/featuredPostModel";
+import { getStorage } from 'firebase-admin/storage';
 
-export async function uploadToFirebase(localPath: string, destination: string) {
-  const bucket = adminStorage.bucket();
-  const fileRef = bucket.file(destination);
+interface UploadToFirebaseInput {
+  buffer: Buffer;
+  storagePath: string;
+  contentType: string;
+}
 
-  return new Promise((resolve, reject) => {
-    fs.createReadStream(localPath)
-      .pipe(
-        fileRef.createWriteStream({
-          resumable: false,
-          gzip: true,
-          public: true,
-          contentType: "image/webp",
-        }),
-      )
-      .on("error", reject)
-      .on("finish", resolve);
+export async function uploadToFirebase({
+  buffer,
+  storagePath,
+  contentType,
+}: UploadToFirebaseInput): Promise<string> {
+  const bucket = getStorage().bucket();
+  const file = bucket.file(storagePath);
+
+  await file.save(buffer, {
+    metadata: {
+      contentType,
+      cacheControl: "public, max-age=31536000, immutable", // ar reik tiek ????
+    },
+    resumable: false,
   });
+
+  await file.makePublic();
+
+  return file.publicUrl();
 }
 
 type SyncFromFirebaseResult = {
@@ -98,25 +107,6 @@ export async function syncFromFirebase(): Promise<SyncFromFirebaseResult> {
     failedPaths,
   };
 }
-
-// add route:
-
-// import { withAdminAuth } from '@/lib/auth/withAdminAuth';
-
-// export const POST = withAdminAuth(async () => {
-//   const { cleanupUnusedImagesFromFirebaseAndFilestore } = await import('@/lib/firebaseSync');
-//   const { connect } = await import('@/lib/mongodb/mongoose');
-
-//   await connect();
-
-//   try {
-//     const result = await cleanupUnusedImagesFromFirebaseAndFilestore();
-//     return new Response(`Deleted ${result.deletedCount} unused images.`, { status: 200 });
-//   } catch (error) {
-//     console.error('[CLEANUP_FAILED]', error);
-//     return new Response('Failed to clean up unused images.', { status: 500 });
-//   }
-// });
 
 export async function cleanupUnusedImagesFromFirebaseAndFilestore() {
   if (process.env.NODE_ENV !== "production") {

@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
       </h1>
 
       <div className="text-sm text-gray-500 dark:text-gray-400 mb-8 text-center">
-        Last updated: 29th of December, 2025
+        Last updated: 15th of April, 2026
       </div>
 
       <div className=" max-w-none">

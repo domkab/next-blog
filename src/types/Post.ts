@@ -8,6 +8,8 @@ export interface PostImage {
   id: string;
   url: string;
   meta?: ImageMeta;
+  storagePath?: string;
+  provider?: "firebase";
 }
 
 export enum PostCategory {

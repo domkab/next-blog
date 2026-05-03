@@ -5,6 +5,7 @@ import { getImageUrl } from "@/utils/getImageUrl";
 import clsx from "clsx";
 import styles from "./FeaturedPost.module.scss";
 import { labelFromSlug } from "@/utils/generateSlug";
+import { formatPostDate } from '@/utils/utils';
 
 export default async function FeaturedPost() {
   const featured = await getFeaturedPosts();
@@ -68,7 +69,7 @@ export default async function FeaturedPost() {
                 <span>{post.categoryName ?? labelFromSlug(post.category)}</span>
               )}
 
-              <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+              <span>{formatPostDate(post.createdAt)}</span>
             </div>
 
             <span

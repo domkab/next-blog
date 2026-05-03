@@ -1,58 +1,54 @@
 import "./globals.css";
 import "./globals.scss";
-import ReduxProvider from '@/redux/ReduxProvider';
-import { ClerkProvider } from '@clerk/nextjs';
-import {
-  Poppins,
-  Outfit,
-  Inter
-} from "next/font/google";
-import { Suspense } from 'react';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import NavigationLoader from './components/Navigation/NavigationLoader';
-import GA from './components/Tracking/GA';
-import PageViewTracker from './components/Tracking/PageViewTracker';
-import CookieBannerToggle from './components/Tracking/CookieBannerToggle';
-import ThemeComponent from './components/ThemeComponent';
-import { layoutMetadata } from '@/lib/metadata/layout';
-import BodyFontManager from './components/BodyFontManager';
-import Script from 'next/script';
+import ReduxProvider from "@/redux/ReduxProvider";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Poppins, Outfit, Inter } from "next/font/google";
+import { Suspense } from "react";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import NavigationLoader from "./components/Navigation/NavigationLoader";
+import GA from "./components/Tracking/GA";
+import PageViewTracker from "./components/Tracking/PageViewTracker";
+import CookieBannerToggle from "./components/Tracking/CookieBannerToggle";
+import ThemeComponent from "./components/ThemeComponent";
+import { layoutMetadata } from "@/lib/metadata/layout";
+import BodyFontManager from "./components/BodyFontManager";
+import Script from "next/script";
 
 export const metadata = layoutMetadata;
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-poppins',
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-poppins",
 });
 
 const outfit = Outfit({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-outfit',
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-outfit",
 });
 
 const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-inter',
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === 'true';
+  const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === "true";
 
   const bodyClassName = `
   ${inter.variable} 
   ${outfit.variable} 
   ${poppins.variable}
   antialiased -webkit-font-smoothing
-  antialiased${useThemeFlag ? '' : ' background'}
+  antialiased${useThemeFlag ? "" : " background"}
   `;
 
   return (
@@ -61,8 +57,8 @@ export default function RootLayout({
         <body className={bodyClassName}>
           {/* umami analytics */}
           <Script
-            src="https://analytics.gargofx.com/script.js"
-            data-website-id="5ee64313-9ea0-421e-9cf5-44936d0ef79e"
+            src="https://cloud.umami.is/script.js"
+            data-website-id="7f1fecee-7e96-4e41-820d-06caa253a0a8"
             strategy="afterInteractive"
             defer
           />
@@ -75,7 +71,11 @@ export default function RootLayout({
                   <Header />
                 </Suspense>
                 <NavigationLoader />
-                <PageViewTracker />
+
+                <Suspense fallback={null}>
+                  <PageViewTracker />
+                </Suspense>
+
                 <GA />
                 <CookieBannerToggle />
                 {children}
