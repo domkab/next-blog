@@ -72,6 +72,15 @@ async function lookup(ip: string): Promise<IPGeoData | null> {
   }
 }
 
+const getClientIp = (req: NextRequest) => {
+  const raw =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+
+  return raw.startsWith("::ffff:") ? raw.slice(7) : raw;
+};
+
 /* ──────────────────────────────────────────────────────────────── */
 /*  MAIN helper                                                    */
 /* ──────────────────────────────────────────────────────────────── */
@@ -83,57 +92,36 @@ export async function getIpAndCountry(req: NextRequest): Promise<{
   isCalifornia: boolean;
 }> {
   /* 1 — extract client IP */
-  const raw =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
-    // @ts-expect-error – present in dev runtime
-    req.ip ??
-    "::1";
-
-  const ip = raw.startsWith("::ffff:") ? raw.slice(7) : raw;
+  const ip = getClientIp(req);
+  const mockCountry = req.nextUrl.searchParams.get("mockGeo");
+  const mockRegion = req.nextUrl.searchParams.get("mockRegion"); // e.g. CA
 
   /* 2 — development overrides ---------------------------------- */
-  if (process.env.NODE_ENV === "development") {
-    const mockCountry = req.nextUrl.searchParams.get("mockGeo");
-    const mockRegion = req.nextUrl.searchParams.get("mockRegion"); // e.g. CA
+  if (process.env.NODE_ENV === "development" && mockCountry) {
+    const country = mockCountry.toUpperCase();
+    const region = mockRegion?.toUpperCase();
 
-    if (mockCountry) {
-      const code = mockCountry.toUpperCase();
-      const region = mockRegion?.toUpperCase();
-
-      return {
-        ip,
-        country: code,
-        region,
-        isEU: EU_CODES.has(code),
-        isCalifornia: code === "US" && region === "CA",
-      };
-    }
-
-    const isLocal =
-      ip === "::1" ||
-      ip.startsWith("127.") ||
-      ip.startsWith("192.168.") ||
-      ip.startsWith("10.");
-
-    if (isLocal) {
-      return {
-        ip,
-        country: "LT",
-        region: undefined,
-        isEU: true,
-        isCalifornia: false,
-      };
-    }
+    return {
+      ip,
+      country,
+      region,
+      isEU: EU_CODES.has(country),
+      isCalifornia: country === "US" && region === "CA",
+    };
   }
 
   /* 3 — real lookup -------------------------------------------- */
-  const geo = await lookup(ip);
+  const country =
+    req.headers.get("x-vercel-ip-country")?.toUpperCase() ?? "UNKNOWN";
 
-  const country = geo?.country_code ?? "UNKNOWN";
-  const region = geo?.region_code;
-  const isEU = geo?.is_eu ?? EU_CODES.has(country);
-  const isCalifornia = country === "US" && region === "CA";
+  const region =
+    req.headers.get("x-vercel-ip-country-region")?.toUpperCase() ?? undefined;
 
-  return { ip, country, region, isEU, isCalifornia };
+  return {
+    ip,
+    country,
+    region,
+    isEU: EU_CODES.has(country),
+    isCalifornia: country === "US" && region === "CA",
+  };
 }
