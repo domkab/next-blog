@@ -65,7 +65,11 @@ export default async function RootLayout({
           {/* umami analytics */}
           <Script
             src="https://cloud.umami.is/script.js"
-            data-website-id="7f1fecee-7e96-4e41-820d-06caa253a0a8"
+            data-website-id={
+              process.env.NODE_ENV === "production"
+                ? "034cf6a9-05f1-4a66-a1b2-9599289dcdb1"
+                : "d9b1cbb6-5b3c-4c8e-9a2b-9c0a1fbbd8b2"
+            }
             strategy="afterInteractive"
             defer
           />
