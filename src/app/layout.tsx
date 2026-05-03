@@ -14,7 +14,8 @@ import ThemeComponent from "./components/ThemeComponent";
 import { layoutMetadata } from "@/lib/metadata/layout";
 import BodyFontManager from "./components/BodyFontManager";
 import Script from "next/script";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
+import TrackingExclusion from "./components/Tracking/TrackingExclusion";
 
 export const metadata = layoutMetadata;
 
@@ -45,7 +46,10 @@ export default async function RootLayout({
   const useThemeFlag = process.env.NEXT_PUBLIC_USE_THEME === "true";
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "";
-  const shouldTrack = !pathname.startsWith("/dashboard");
+  const cookieStore = await cookies();
+  const ignoreTracking = cookieStore.get("umami_ignore");
+
+  const shouldTrack = !pathname.startsWith("/dashboard") && !ignoreTracking;
 
   const shouldShowCookieBanner =
     headersList.get("x-should-show-cookie-banner") === "1";
@@ -62,6 +66,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={bodyClassName}>
+          <TrackingExclusion />
           {/* umami analytics */}
           {shouldTrack && (
             <Script
@@ -86,10 +91,11 @@ export default async function RootLayout({
                 <NavigationLoader />
 
                 {shouldTrack && <GA />}
-
-                <Suspense fallback={null}>
-                  <PageViewTracker />
-                </Suspense>
+                {shouldTrack && (
+                  <Suspense fallback={null}>
+                    <PageViewTracker />
+                  </Suspense>
+                )}
 
                 <CookieBannerToggle initialShow={shouldShowCookieBanner} />
                 {children}
