@@ -3,7 +3,11 @@
 import CookieConsent from "react-cookie-consent";
 import styles from "./CookieBanner.module.scss";
 
-export default function CookieBanner() {
+interface CookieBannerProps {
+  onClose: () => void;
+}
+
+export default function CookieBanner({ onClose }: CookieBannerProps) {
   return (
     <CookieConsent
       location="bottom"
@@ -18,26 +22,22 @@ export default function CookieBanner() {
       declineButtonClasses={styles["cookie-banner__button--secondary"]}
       expires={365}
       onAccept={() => {
-        document.cookie =
-          "cookie_consent=full; Max-Age=31536000; path=/; SameSite=Lax";
-
         window.gtag?.("consent", "update", {
           ad_storage: "granted",
           analytics_storage: "granted",
           ad_user_data: "granted",
           ad_personalization: "granted",
         });
+        onClose();
       }}
       onDecline={() => {
-        document.cookie =
-          "cookie_consent=necessary; Max-Age=31536000; path=/; SameSite=Lax";
-
         window.gtag?.("consent", "update", {
           ad_storage: "denied",
           analytics_storage: "denied",
           ad_user_data: "denied",
           ad_personalization: "denied",
         });
+        onClose();
       }}
     >
       <div className={styles["cookie-banner__text"]}>
