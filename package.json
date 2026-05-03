@@ -44,7 +44,7 @@
     "scss": "^0.2.4",
     "sharp": "^0.34.5",
     "svix": "^1.76.1",
-    "uuid": "^11.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
