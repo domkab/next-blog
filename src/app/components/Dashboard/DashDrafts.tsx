@@ -34,11 +34,12 @@ export default function DashPosts() {
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchDraftPosts = async () => {
       try {
-        const { data } = await axios.post(`/api/post/get`, {
+        const { data } = await axios.post("/api/post/get", {
           userId: user?.publicMetadata?.userMongoId,
-          isAdmin: user?.publicMetadata?.isAdmin, // render all posts if admin
+          isAdmin: user?.publicMetadata?.isAdmin,
+          status: "draft",
         });
 
         setUserPosts(data.posts);
@@ -46,7 +47,8 @@ export default function DashPosts() {
         console.error(error);
       }
     };
-    fetchPosts();
+
+    fetchDraftPosts();
   }, [user?.publicMetadata?.isAdmin, user?.publicMetadata?.userMongoId]);
 
   const handleDeletePost = async () => {

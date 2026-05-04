@@ -39,6 +39,7 @@ export default function DashPosts() {
         const { data } = await axios.post(`/api/post/get`, {
           userId: user?.publicMetadata?.userMongoId,
           isAdmin: user?.publicMetadata?.isAdmin, // render all posts if admin
+          status: "published"
         });
 
         setUserPosts(data.posts);
