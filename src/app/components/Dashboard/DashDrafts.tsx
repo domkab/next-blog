@@ -251,9 +251,9 @@ export default function DashPosts() {
         </>
       ) : (
         <div className="flex flex-col items-center justify-center h-full w-full py-7">
-          <p>You have no posts yet!</p>
+          <p>You have no drafts yet!</p>
           <Link href="/dashboard/create-post">
-            <Button className="mb-5">Create Post</Button>
+            <Button className="mb-5">Create Draft</Button>
           </Link>
         </div>
       )}
@@ -268,7 +268,7 @@ export default function DashPosts() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this draft?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={() => handleDeletePost()}>

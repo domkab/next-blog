@@ -41,7 +41,7 @@ export async function getRecentPosts(
   await connect();
   const sort = order === "asc" ? 1 : -1;
 
-  const posts = (await Post.find()
+  const posts = (await Post.find({ status: "published" })
     .sort({ updatedAt: sort })
     .limit(limit)
     .lean()) as PostType[];
