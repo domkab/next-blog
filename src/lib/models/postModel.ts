@@ -39,6 +39,11 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["draft", "published", "scheduled"],
+      default: "draft",
+    },
     content: {
       type: String,
       required: true,
@@ -88,6 +93,14 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    publishedAt: {
+      type: Date,
+      required: false,
+    },
+    scheduledFor: {
+      type: Date,
+      required: false,
     },
   },
   { timestamps: true },

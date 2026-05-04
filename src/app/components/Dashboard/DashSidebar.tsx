@@ -10,6 +10,7 @@ import {
   HiUser,
   HiArrowSmRight,
   HiDocumentText,
+  HiDocument,
   HiOutlineUserGroup,
   HiChartPie,
   HiStar,
@@ -70,7 +71,7 @@ export default function DashSidebar() {
               <Link href="/dashboard?tab=drafts">
                 <SidebarItem
                   active={tab === "drafts"}
-                  icon={HiDocumentText}
+                  icon={HiDocument}
                   as="div"
                 >
                   Drafts
