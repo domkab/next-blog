@@ -107,20 +107,16 @@ export async function getFeaturedPosts(): Promise<
 
 // later this service can be improved when we will have more posts and more complex needs for the project
 
-export async function getAllPosts(): Promise<PostWithCategoryName[]> {
+export async function getAllPostsForSitemap() {
   await connect();
-  const posts = (await Post.find(
+  const posts = await Post.find(
     { status: "published" },
     {
-      title: 1,
       slug: 1,
-      description: 1,
-      content: 1,
-      category: 1,
-      images: 1,
-      publishedAt: 1,
+      updatedAt: 1, // or publishedAt
+      _id: 0,
     },
-  ).lean()) as PostType[];
+  ).lean();
 
-  return withCategoryNames(posts);
+  return posts;
 }
