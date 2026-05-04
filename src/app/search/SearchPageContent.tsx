@@ -40,7 +40,8 @@ export default function SearchPageContent() {
             limit: 9,
             order: sortFromUrl,
             category: categoryFromUrl,
-            searchTerm: searchTermFromUrl
+            searchTerm: searchTermFromUrl,
+            status: 'published',
           }
         );
 
