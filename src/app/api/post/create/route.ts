@@ -38,6 +38,7 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
       },
       slug,
       status: body.status || "draft",
+      publishedAt: body.publishedAt,
     });
 
     await newPost.save();
