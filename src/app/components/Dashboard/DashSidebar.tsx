@@ -67,13 +67,13 @@ export default function DashSidebar() {
                 </SidebarItem>
               </Link>
 
-              <Link href="/dashboard?tab=posts">
+              <Link href="/dashboard?tab=drafts">
                 <SidebarItem
-                  active={tab === "posts"}
+                  active={tab === "drafts"}
                   icon={HiDocumentText}
                   as="div"
                 >
-                  Posts
+                  Drafts
                 </SidebarItem>
               </Link>
 
