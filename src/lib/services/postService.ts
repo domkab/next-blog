@@ -109,7 +109,18 @@ export async function getFeaturedPosts(): Promise<
 
 export async function getAllPosts(): Promise<PostWithCategoryName[]> {
   await connect();
-  const posts = (await Post.find().lean()) as PostType[];
+  const posts = (await Post.find(
+    { status: "published" },
+    {
+      title: 1,
+      slug: 1,
+      description: 1,
+      content: 1,
+      category: 1,
+      images: 1,
+      publishedAt: 1,
+    },
+  ).lean()) as PostType[];
 
   return withCategoryNames(posts);
 }
