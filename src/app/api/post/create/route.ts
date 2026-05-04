@@ -1,3 +1,4 @@
+import DOMPurify from "isomorphic-dompurify";
 import { withAdminAuth } from "@/lib/auth/withAdminAuth";
 import Post from "@/lib/models/postModel";
 import { connect } from "@/lib/mongodb/mongoose";
@@ -9,8 +10,6 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
 
   try {
     console.log("req data:", body);
-    console.log("inline images", body.images.inline);
-
     const slug = body.title
       .split(" ")
       .join("-")
@@ -18,12 +17,15 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
       .replace(/[^a-zA-Z0-9-]/g, "");
 
     const cleanedContent = normalizePostContent(body.content);
+    const cleanHtml = DOMPurify.sanitize(cleanedContent, {
+      USE_PROFILES: { html: true },
+    });
 
     const newPost = await Post.create({
       userId: user.publicMetadata.userMongoId,
       title: body.title,
       description: body.description,
-      content: cleanedContent,
+      content: cleanHtml,
       category: body.category,
       images: {
         main: {
@@ -35,6 +37,7 @@ export const POST = withAdminAuth<PostCreateInput>(async (user, body) => {
         inline: body.images.inline || [],
       },
       slug,
+      status: body.status || "draft",
     });
 
     await newPost.save();
