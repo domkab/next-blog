@@ -5,13 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import DashSidebar from "./DashSidebar";
 import DashProfile from "./DashProfile";
 import DashPosts from "./DashPosts";
+import DashDrafts from "./DashDrafts";
 import DashUsers from "./DashUsers";
 import DashboardComponent from "./DashboardComponent";
 import DashFeaturedPosts from "./DashFeaturedPosts";
 import DashCategories from "./Categories/DashCategories";
 import DashImageSettings from "./DashImageSettings";
 import { useUser } from "@clerk/nextjs";
-import DashDrafts from "./DashDrafts";
 
 export default function DashboardContent() {
   const searchParams = useSearchParams();
