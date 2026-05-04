@@ -1,6 +1,11 @@
-'use client';
+"use client";
 
-import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react';
+import {
+  Sidebar,
+  SidebarItem,
+  SidebarItemGroup,
+  SidebarItems,
+} from "flowbite-react";
 import {
   HiUser,
   HiArrowSmRight,
@@ -8,25 +13,25 @@ import {
   HiOutlineUserGroup,
   HiChartPie,
   HiStar,
-} from 'react-icons/hi';
-import { FiFolder, FiImage } from 'react-icons/fi';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { SignOutButton, useUser } from '@clerk/nextjs';
-import Link from 'next/link';
+} from "react-icons/hi";
+import { FiFolder, FiImage } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { SignOutButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 type PublicMetadata = {
   isAdmin?: boolean;
 };
 
 export default function DashSidebar() {
-  const [tab, setTab] = useState<string>('');
+  const [tab, setTab] = useState<string>("");
   const searchParams = useSearchParams();
   const { user, isSignedIn } = useUser();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(searchParams);
-    const tabFromUrl = urlParams.get('tab');
+    const tabFromUrl = urlParams.get("tab");
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
@@ -43,37 +48,71 @@ export default function DashSidebar() {
           {isAdmin && (
             <>
               <Link href="/dashboard?tab=dash">
-                <SidebarItem active={tab === 'dash' || !tab} icon={HiChartPie} as="div">
+                <SidebarItem
+                  active={tab === "dash" || !tab}
+                  icon={HiChartPie}
+                  as="div"
+                >
                   Dashboard
                 </SidebarItem>
               </Link>
 
               <Link href="/dashboard?tab=posts">
-                <SidebarItem active={tab === 'posts'} icon={HiDocumentText} as="div">
+                <SidebarItem
+                  active={tab === "posts"}
+                  icon={HiDocumentText}
+                  as="div"
+                >
+                  Posts
+                </SidebarItem>
+              </Link>
+
+              <Link href="/dashboard?tab=posts">
+                <SidebarItem
+                  active={tab === "posts"}
+                  icon={HiDocumentText}
+                  as="div"
+                >
                   Posts
                 </SidebarItem>
               </Link>
 
               <Link href="/dashboard?tab=featured-posts">
-                <SidebarItem active={tab === 'featured-posts'} icon={HiStar} as="div">
+                <SidebarItem
+                  active={tab === "featured-posts"}
+                  icon={HiStar}
+                  as="div"
+                >
                   Featured Posts
                 </SidebarItem>
               </Link>
 
               <Link href="/dashboard?tab=categories">
-                <SidebarItem active={tab === 'categories'} icon={FiFolder} as="div">
+                <SidebarItem
+                  active={tab === "categories"}
+                  icon={FiFolder}
+                  as="div"
+                >
                   Categories
                 </SidebarItem>
               </Link>
 
               <Link href="/dashboard?tab=image-settings">
-                <SidebarItem active={tab === 'image-settings'} icon={FiImage} as="div">
+                <SidebarItem
+                  active={tab === "image-settings"}
+                  icon={FiImage}
+                  as="div"
+                >
                   Image Settings
                 </SidebarItem>
               </Link>
 
               <Link href="/dashboard?tab=users">
-                <SidebarItem active={tab === 'users'} icon={HiOutlineUserGroup} as="div">
+                <SidebarItem
+                  active={tab === "users"}
+                  icon={HiOutlineUserGroup}
+                  as="div"
+                >
                   Users
                 </SidebarItem>
               </Link>
@@ -82,9 +121,9 @@ export default function DashSidebar() {
 
           <Link href="/dashboard?tab=profile">
             <SidebarItem
-              active={tab === 'profile'}
+              active={tab === "profile"}
               icon={HiUser}
-              label={isAdmin ? 'Admin' : 'User'}
+              label={isAdmin ? "Admin" : "User"}
               labelColor="dark"
               as="div"
             >
