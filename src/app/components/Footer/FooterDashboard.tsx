@@ -17,9 +17,11 @@ export default function FooterCom() {
       container
       className={clsx(styles.footer, "border-t-8 border-teal-500")}
     >
-      <div className="w-full max-w-5xl mx-auto">
+      <div
+        className={clsx(styles.footer__container, "w-full max-w-5xl mx-auto")}
+      >
         <div className="grid md:grid-cols-3 gap-12 ">
-          <div className="mb-8">
+          <div>
             <Logo />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 sm:gap-6">

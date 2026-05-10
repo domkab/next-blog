@@ -23,6 +23,7 @@ export default function UpdatePost() {
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
   const [isPostLoading, setIsPostLoading] = useState(true);
+  const [status, setStatus] = useState<"draft" | "published">("draft");
   const {
     dispatch,
     file,
@@ -70,7 +71,10 @@ export default function UpdatePost() {
       userMongoId: user?.publicMetadata.userMongoId,
       postId,
       isAdmin: user?.publicMetadata?.isAdmin,
+      status,
     };
+
+    console.log(payload);
 
     try {
       const { data, status } = await axios.put("/api/post/update", payload, {
@@ -344,9 +348,27 @@ export default function UpdatePost() {
 
               <InlineImageEditor />
 
-              <Button type="submit" gradientDuoTone="purpleToPink">
-                Update
-              </Button>
+              <div className="flex gap-4 justify-center">
+                <Button
+                  type="submit"
+                  className="min-w-52 w-full"
+                  gradientDuoTone="purpleToPink"
+                  onClick={() => setStatus("published")}
+                  disabled={!!imageUploadProgress}
+                >
+                  Publish
+                </Button>
+
+                <Button
+                  type="submit"
+                  gradientDuoTone="tealToLime"
+                  className="min-w-52 w-full"
+                  onClick={() => setStatus("draft")}
+                  disabled={!!imageUploadProgress}
+                >
+                  Save Draft
+                </Button>
+              </div>
             </>
           )}
         </>

@@ -32,6 +32,8 @@ export interface PostType {
   };
   category: string;
   slug: string;
+  status: "draft" | "published" | "scheduled";
+  publishedAt?: string;
   createdAt: string;
   updatedAt: string;
   __v?: number;
@@ -47,6 +49,8 @@ export interface PostCreateInput {
     main: PostImage;
     inline?: PostImage[];
   };
+  status: "draft" | "published" | "scheduled";
+  publishedAt?: string;
 }
 
 export interface PostUpdateInput {
@@ -60,6 +64,8 @@ export interface PostUpdateInput {
     main: PostImage;
     inline?: PostImage[];
   };
+  status: "draft" | "published" | "scheduled";
+  publishedAt?: string;
 }
 
 export interface FeaturedPostType {

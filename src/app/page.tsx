@@ -1,10 +1,10 @@
 import Link from "next/link";
 import RecentPosts from "./components/RecentPosts/RecentPosts";
 import FeaturedPost from "./components/FeaturedPost/FeaturedPost";
-import { EmailSubscribeWModal } from "./components/CallToAction/EmailSubscribeWModal";
 import clsx from "clsx";
 import styles from "@/app/page.module.scss";
-import { Metadata } from 'next';
+import { Metadata } from "next";
+// import { EmailSubscribeWModal } from "./components/CallToAction/EmailSubscribeWModal";
 // import FeaturedPostConsistent from './components/FeaturedPost/FeaturedPostConsistent';
 
 export const metadata: Metadata = {

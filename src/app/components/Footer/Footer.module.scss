@@ -6,6 +6,12 @@
   @include onTablet {
     padding: 4rem 1rem 2.5rem 1rem;
   }
+
+  &__container {
+    @include onTablet {
+      padding: 0 1rem;
+    }
+  }
 }
 
 .footer a {

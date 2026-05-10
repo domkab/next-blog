@@ -5,7 +5,6 @@ import parse, {
   Text as DomText,
   domToReact,
 } from "html-react-parser";
-import DOMPurify from "isomorphic-dompurify";
 import Image from "next/image";
 import { PostType } from "@/types/Post";
 import styles from "./PostContent.module.scss";
@@ -181,13 +180,13 @@ const PostContent: React.FC<PostContentProps> = ({ post }) => {
 
   //  move to backend in the future
 
-  const cleanHtml = DOMPurify.sanitize(post.content, {
-    USE_PROFILES: { html: true },
-  });
+  // const cleanHtml = DOMPurify.sanitize(post.content, {
+  //   USE_PROFILES: { html: true },
+  // });
 
   return (
     <article className={styles["post-content"]}>
-      {parse(cleanHtml, options)}
+      {parse(post.content, options)}
     </article>
   );
 };
