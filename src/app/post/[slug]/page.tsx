@@ -5,7 +5,10 @@ import RecentPosts from "@/app/components/RecentPosts/RecentPosts";
 import PostContent from "@/app/components/PostContent/PostContent";
 import styles from "./PostPage.module.scss";
 import NotFound from "@/app/not-found";
-import { getPostBySlug } from "@/lib/services/postService";
+import {
+  getAllPostsForSitemap,
+  getPostBySlug,
+} from "@/lib/services/postService";
 import Image from "next/image";
 import { EmailSubscribeWModal } from "@/app/components/CallToAction/EmailSubscribeWModal";
 import { getImageUrl } from "@/utils/getImageUrl";
@@ -14,6 +17,8 @@ import { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { getReadTimeMinutes, normalizePostContent } from "@/utils/utils";
 import PostJsonLd from "./PostJsonLd";
+
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -79,6 +84,13 @@ export async function generateMetadata({
       ...(heroUrl ? { images: [heroUrl] } : {}),
     },
   };
+}
+
+export async function generateStaticParams() {
+  const posts = await getAllPostsForSitemap();
+  return posts.map(post => ({
+    slug: post.slug,
+  }));
 }
 
 export default async function PostPage({
