@@ -3,7 +3,7 @@ import { PostType } from "@/types/Post";
 import Post from "../models/postModel";
 import { Types } from "mongoose";
 import FeaturedPost from "../models/featuredPostModel";
-import { PostWithCategoryName, withCategoryNames } from './postServiceUtils';
+import { PostWithCategoryName, withCategoryNames } from "./postServiceUtils";
 
 export async function getRecentPosts(
   limit = 9,
@@ -20,11 +20,25 @@ export async function getRecentPosts(
   return withCategoryNames(posts);
 }
 
+type PostStatus = "draft" | "published" | "scheduled";
+
+type GetPostBySlugOptions = {
+  status?: PostStatus;
+};
+
 export async function getPostBySlug(
   slug: string,
+  options?: GetPostBySlugOptions,
 ): Promise<PostWithCategoryName | null> {
   await connect();
-  const post = await Post.findOne({ slug }).lean();
+
+  const query: Record<string, unknown> = { slug };
+  if (options?.status) {
+    query.status = options.status;
+  }
+
+  const post = await Post.findOne(query).lean();
+  if (!post) return null;
 
   const [withCategoryName] = await withCategoryNames([post]);
   return withCategoryName;

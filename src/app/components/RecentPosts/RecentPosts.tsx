@@ -1,10 +1,10 @@
 import PostCard from "../PostCard/PostCard";
 import {
   getRecentPosts,
-  PostWithCategoryName,
 } from "@/lib/services/postService";
 import styles from "./RecentPosts.module.scss";
 import { clsx } from "clsx";
+import { PostWithCategoryName } from '@/lib/services/postServiceUtils';
 
 interface recentPageProps {
   limit: number;

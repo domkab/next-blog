@@ -1,13 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
-
 import { getImageUrl } from "@/utils/getImageUrl";
 import { labelFromSlug } from "@/utils/generateSlug";
-import { PostWithCategoryName } from "@/lib/services/postService";
-
 import styles from "./PostCard.module.scss";
 import { formatPostDate } from '@/utils/utils';
+import { PostWithCategoryName } from '@/lib/services/postServiceUtils';
 
 type PostCardProps = {
   post: PostWithCategoryName;

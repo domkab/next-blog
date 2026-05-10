@@ -9,7 +9,7 @@ import styles from './SearchPage.module.scss';
 import clsx from 'clsx';
 import SimpleOverlayLoader from '../components/SimpleOverlayLoader/SimpleOverlayLoader';
 import { useCategories } from '@/hooks/useCategories';
-import { PostWithCategoryName } from '@/lib/services/postService';
+import { PostWithCategoryName } from '@/lib/services/postServiceUtils';
 
 export default function SearchPageContent() {
   const { categories, loading: categoriesLoading } = useCategories();

@@ -1,9 +1,9 @@
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import JsonLd from "@/app/components/seo/JsonLd";
 import { getImageUrl } from "@/utils/getImageUrl";
-import { PostWithCategoryName } from "@/lib/services/postService";
 import { normalizePostContent } from "@/utils/utils";
 import { buildBreadcrumb } from "@/lib/metadata/structured-data";
+import { PostWithCategoryName } from '@/lib/services/postServiceUtils';
 
 const SITE_ID = `${SITE_URL}#website`;
 const ORG_ID = `${SITE_URL}#organization`;

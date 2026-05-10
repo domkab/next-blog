@@ -205,7 +205,7 @@ export default function DashPosts() {
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Link href={`/post/${post.slug}`}>
+                    <Link href={`/dashboard/draft/${post.slug}`}>
                       <Image
                         src={getImageUrl(post.images.main.url)}
                         alt={post.title}
@@ -219,7 +219,7 @@ export default function DashPosts() {
                   <TableCell>
                     <Link
                       className="font-medium text-gray-900 dark:text-white"
-                      href={`/post/${post.slug}`}
+                      href={`/dashboard/draft/${post.slug}`}
                     >
                       {post.title}
                     </Link>

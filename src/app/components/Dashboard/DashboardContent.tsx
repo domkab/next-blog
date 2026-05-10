@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import DashSidebar from "./DashSidebar";
 import DashProfile from "./DashProfile";
 import DashPosts from "./DashPosts";
-import DashDrafts from "./DashDrafts";
+import DashDrafts from "./Drafts/DashDrafts";
 import DashUsers from "./DashUsers";
 import DashboardComponent from "./DashboardComponent";
 import DashFeaturedPosts from "./DashFeaturedPosts";
