@@ -95,7 +95,7 @@ export default function UpdatePost() {
       if (postStatus === "draft") {
         setPublishSuccess("Draft saved successfully!");
 
-        router.push(`/dashboard/drafts/${postId}`);
+        router.push(`/dashboard/update-post/${postId}?status=draft`);
       } else {
         setPublishSuccess("Post published successfully!");
 
