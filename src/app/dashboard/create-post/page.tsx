@@ -27,6 +27,9 @@ export default function CreatePostPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [publishError, setPublishError] = useState<string | null>(null);
   const [publishSuccess, setPublishSuccess] = useState<string | null>(null);
+  const [status, setStatus] = useState<"draft" | "published" | "scheduled">(
+    "draft",
+  );
   const {
     dispatch,
     file,
@@ -65,6 +68,7 @@ export default function CreatePostPage() {
         main: mainImage,
         inline: inlineImages,
       },
+      status: status,
       userMongoId: user?.publicMetadata.userMongoId,
       isAdmin: user?.publicMetadata?.isAdmin,
     };
@@ -313,13 +317,27 @@ export default function CreatePostPage() {
 
           <InlineImageEditor />
 
-          <Button
-            type="submit"
-            gradientDuoTone="purpleToPink"
-            disabled={!!imageUploadProgress}
-          >
-            Publish
-          </Button>
+          <div className="flex gap-4 justify-center">
+            <Button
+              type="submit"
+              className="min-w-52 w-full"
+              gradientDuoTone="purpleToPink"
+              onClick={() => setStatus("published")}
+              disabled={!!imageUploadProgress}
+            >
+              Publish
+            </Button>
+
+            <Button
+              type="submit"
+              gradientDuoTone="tealToLime"
+              className="min-w-52 w-full"
+              onClick={() => setStatus("draft")}
+              disabled={!!imageUploadProgress}
+            >
+              Save Draft
+            </Button>
+          </div>
         </>
       </form>
     </div>

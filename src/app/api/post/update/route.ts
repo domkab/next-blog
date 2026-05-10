@@ -27,6 +27,8 @@ export const PUT = withAdminAuth<PostUpdateInput>(async (user, body) => {
             },
             inline: body.images.inline || [],
           },
+          status: body.status,
+          publishedAt: body.publishedAt,
         },
       },
       { new: true },

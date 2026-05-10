@@ -34,12 +34,12 @@ export default function DashPosts() {
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchDraftPosts = async () => {
       try {
-        const { data } = await axios.post(`/api/post/get`, {
+        const { data } = await axios.post("/api/post/get", {
           userId: user?.publicMetadata?.userMongoId,
-          isAdmin: user?.publicMetadata?.isAdmin, // render all posts if admin
-          status: "published"
+          isAdmin: user?.publicMetadata?.isAdmin,
+          status: "draft",
         });
 
         setUserPosts(data.posts);
@@ -47,7 +47,8 @@ export default function DashPosts() {
         console.error(error);
       }
     };
-    fetchPosts();
+
+    fetchDraftPosts();
   }, [user?.publicMetadata?.isAdmin, user?.publicMetadata?.userMongoId]);
 
   const handleDeletePost = async () => {
@@ -204,7 +205,7 @@ export default function DashPosts() {
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Link href={`/post/${post.slug}`}>
+                    <Link href={`/dashboard/draft/${post.slug}`}>
                       <Image
                         src={getImageUrl(post.images.main.url)}
                         alt={post.title}
@@ -218,7 +219,7 @@ export default function DashPosts() {
                   <TableCell>
                     <Link
                       className="font-medium text-gray-900 dark:text-white"
-                      href={`/post/${post.slug}`}
+                      href={`/dashboard/draft/${post.slug}`}
                     >
                       {post.title}
                     </Link>
@@ -250,9 +251,9 @@ export default function DashPosts() {
         </>
       ) : (
         <div className="flex flex-col items-center justify-center h-full w-full py-7">
-          <p>You have no posts yet!</p>
+          <p>You have no drafts yet!</p>
           <Link href="/dashboard/create-post">
-            <Button className="mb-5">Create Post</Button>
+            <Button className="mb-5">Create Draft</Button>
           </Link>
         </div>
       )}
@@ -267,7 +268,7 @@ export default function DashPosts() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this draft?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={() => handleDeletePost()}>

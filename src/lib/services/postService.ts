@@ -3,36 +3,7 @@ import { PostType } from "@/types/Post";
 import Post from "../models/postModel";
 import { Types } from "mongoose";
 import FeaturedPost from "../models/featuredPostModel";
-import Category from "@/lib/models/CategoryModel";
-
-export type PostWithCategoryName = PostType & {
-  categoryName: string | null;
-};
-
-async function withCategoryNames(
-  posts: PostType[],
-): Promise<PostWithCategoryName[]> {
-  const slugs = Array.from(
-    new Set(posts.map(p => p?.category).filter(Boolean) as string[]),
-  );
-
-  if (slugs.length === 0) {
-    return posts.map(p => ({ ...p, categoryName: null }));
-  }
-
-  const categories = await Category.find({ slug: { $in: slugs } })
-    .select({ slug: 1, name: 1, _id: 0 })
-    .lean();
-
-  const categoryMap = new Map<string, string>(
-    categories.map(c => [c.slug, c.name]),
-  );
-
-  return posts.map(p => ({
-    ...p,
-    categoryName: p.category ? categoryMap.get(p.category) ?? null : null,
-  }));
-}
+import { PostWithCategoryName, withCategoryNames } from "./postServiceUtils";
 
 export async function getRecentPosts(
   limit = 9,
@@ -41,7 +12,7 @@ export async function getRecentPosts(
   await connect();
   const sort = order === "asc" ? 1 : -1;
 
-  const posts = (await Post.find()
+  const posts = (await Post.find({ status: "published" })
     .sort({ updatedAt: sort })
     .limit(limit)
     .lean()) as PostType[];
@@ -49,11 +20,25 @@ export async function getRecentPosts(
   return withCategoryNames(posts);
 }
 
+type PostStatus = "draft" | "published" | "scheduled";
+
+type GetPostBySlugOptions = {
+  status?: PostStatus;
+};
+
 export async function getPostBySlug(
   slug: string,
+  options?: GetPostBySlugOptions,
 ): Promise<PostWithCategoryName | null> {
   await connect();
-  const post = await Post.findOne({ slug }).lean();
+
+  const query: Record<string, unknown> = { slug };
+  if (options?.status) {
+    query.status = options.status;
+  }
+
+  const post = await Post.findOne(query).lean();
+  if (!post) return null;
 
   const [withCategoryName] = await withCategoryNames([post]);
   return withCategoryName;
@@ -107,9 +92,16 @@ export async function getFeaturedPosts(): Promise<
 
 // later this service can be improved when we will have more posts and more complex needs for the project
 
-export async function getAllPosts(): Promise<PostWithCategoryName[]> {
+export async function getAllPostsForSitemap() {
   await connect();
-  const posts = (await Post.find().lean()) as PostType[];
+  const posts = await Post.find(
+    { status: "published" },
+    {
+      slug: 1,
+      updatedAt: 1, // or publishedAt
+      _id: 0,
+    },
+  ).lean();
 
-  return withCategoryNames(posts);
+  return posts;
 }
