@@ -147,7 +147,7 @@ export default async function PostPage({
       </div>
       <div className={styles.post__extras}>
         <RecentPosts limit={3} />
-        <EmailSubscribeWModal />
+        {/* <EmailSubscribeWModal /> */}
       </div>
     </main>
   );
