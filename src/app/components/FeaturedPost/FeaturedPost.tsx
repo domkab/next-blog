@@ -16,7 +16,7 @@ export default async function FeaturedPost() {
   const { post, overrideImage, overrideSummary } = first;
 
   return (
-    <div className={clsx(styles.featuredPost, "mx-auto max-w-7xl")}>
+    <div className={clsx(styles.featuredPost, "mx-auto max-w-5xl")}>
       <LinkTracker
         href={`/post/${post.slug}`}
         eventName="featured_post_click"
