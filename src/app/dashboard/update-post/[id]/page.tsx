@@ -53,6 +53,7 @@ export default function UpdatePost() {
   const postId = pathname.split("/").pop() || "";
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const postStatus = status === "published" ? "published" : "draft";
     e.preventDefault();
 
     const latestContent = latestContentRef.current?.trim();
@@ -71,7 +72,7 @@ export default function UpdatePost() {
       userMongoId: user?.publicMetadata.userMongoId,
       postId,
       isAdmin: user?.publicMetadata?.isAdmin,
-      status,
+      status: postStatus,
     };
 
     console.log(payload);
@@ -91,7 +92,15 @@ export default function UpdatePost() {
       localStorage.setItem("publishSuccess", "Post published successfully!");
       setPublishSuccess("Post published successfully!");
 
-      router.push(`/post/${data.slug}`);
+      if (postStatus === "draft") {
+        setPublishSuccess("Draft saved successfully!");
+
+        router.push(`/dashboard/update-post/${postId}?status=draft`);
+      } else {
+        setPublishSuccess("Post published successfully!");
+
+        router.push(`/post/${data.slug}`);
+      }
     } catch (error: unknown) {
       setPublishError(`Something went wrong: ${error}`);
     }
